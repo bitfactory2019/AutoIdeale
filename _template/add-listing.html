@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Ansonika">
+  <title>AUTOIDEALE | Vendi la tua auto online.</title>
+	
+  <!-- Favicons-->
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+  <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+  <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+  <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+	
+  <!-- Bootstrap core CSS-->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Main styles -->
+  <link href="css/admin.css" rel="stylesheet">
+  <!-- Icon fonts-->
+  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Plugin styles -->
+  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <link href="vendor/dropzone.css" rel="stylesheet">
+  <link href="css/date_picker.css" rel="stylesheet">
+  <!-- Your custom styles -->
+  <link href="css/custom.css" rel="stylesheet">
+  <!-- WYSIWYG Editor -->
+  <link rel="stylesheet" href="js/editor/summernote-bs4.css">
+	
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top" id="mainNav">
+    <a class="navbar-brand" href="index.html"><img src="img/logo.svg" data-retina="true" alt="" width="165" height="36"></a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="index.html">
+            <i class="fa fa-fw fa-dashboard"></i>
+            <span class="nav-link-text">Dashboard</span>
+          </a>
+        </li>
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Messages">
+          <a class="nav-link" href="messages.html">
+            <i class="fa fa-fw fa-envelope-open"></i>
+            <span class="nav-link-text">Messaggi</span>
+          </a>
+        </li>
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="My listings">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMylistings" data-parent="#mylistings">
+            <i class="fa fa-fw fa-list"></i>
+            <span class="nav-link-text">Le mie Auto</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseMylistings">
+            <li>
+              <a href="listings.html">In attesa di approvazione <span class="badge badge-pill badge-primary">6</span></a>
+            </li>
+			<li>
+              <a href="listings.html">Attivi <span class="badge badge-pill badge-success">6</span></a>
+            </li>
+			<li>
+              <a href="listings.html">Vendute <span class="badge badge-pill badge-danger">6</span></a>
+            </li>
+          </ul>
+        </li>
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
+          <a class="nav-link" href="reviews.html">
+            <i class="fa fa-fw fa-star"></i>
+            <span class="nav-link-text">Recensioni</span>
+          </a>
+        </li>
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add listing">
+          <a class="nav-link" href="add-listing.html">
+            <i class="fa fa-fw fa-plus-circle"></i>
+            <span class="nav-link-text">Aggiungi Auto</span>
+          </a>
+        </li>
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
+          <a class="nav-link" href="user-profile.html">
+            <i class="fa fa-fw fa-user"></i>
+            <span class="nav-link-text">Profilo</span>
+          </a>
+        </li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-envelope"></i>
+            <span class="d-lg-none">Messaggi
+              <span class="badge badge-pill badge-primary">12</span>
+            </span>
+            <span class="indicator text-primary d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+            <h6 class="dropdown-header">Nuovo Messaggio:</h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>Mario Rossi</strong>
+              <span class="small float-right text-muted">11:21</span>
+              <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end of the box so they don't overflow over to the sides!</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>Giuseppe Bello</strong>
+              <span class="small float-right text-muted">10:03</span>
+              <div class="dropdown-message small">I was wondering if you could meet for an appointment at 3:00 instead of 4:00. Thanks!</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>Francesca Catone</strong>
+              <span class="small float-right text-muted">9:34 AM</span>
+              <div class="dropdown-message small">I've sent the final files over to you for review. When you're able to sign off of them let me know and we can discuss distribution.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item small" href="#">Vedi tutto</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-bell"></i>
+            <span class="d-lg-none">Notifiche
+              <span class="badge badge-pill badge-warning">6</span>
+            </span>
+            <span class="indicator text-warning d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+            <h6 class="dropdown-header">Nuove Notifiche:</h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-success">
+                <strong>
+                  <i class="fa fa-long-arrow-up fa-fw"></i>Aggiornamento di stato</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-danger">
+                <strong>
+                  <i class="fa fa-long-arrow-down fa-fw"></i>Aggiornamento di stato</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-success">
+                <strong>
+                  <i class="fa fa-long-arrow-up fa-fw"></i>Aggiornamento di stato</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item small" href="#">Vedi tutto</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <form class="form-inline my-2 my-lg-0 mr-lg-2">
+            <div class="input-group">
+              <input class="form-control search-top" type="text" placeholder="Cerca...">
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+          </form>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- /Navigation-->
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Aggiungi Auto</li>
+      </ol>
+		<div class="box_general padding_bottom">
+			<div class="header_box version_2">
+				<h2><i class="fa fa-file"></i>Informazioni</h2>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label><i class="pe-7s-pen"></i>Titolo</label>
+						<input type="text" class="form-control" placeholder="Inserisci titolo">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Anno</label>
+						<div class="styled-select">
+						<select class="wide">	
+										<option>2000</option>
+										<option>2001</option>
+										<option>2002</option>
+										<option>2003</option>
+										<option>2004</option>
+										<option>2005</option>
+                                        <option>2006</option>
+                                        <option>2007</option>
+                                        <option>2008</option>
+                                        <option>2009</option>
+                                        <option>2010</option>
+                                        <option>2011</option>
+                                        <option>2012</option>
+                                        <option>2013</option>
+                                        <option>2014</option>
+                                        <option>2015</option>
+                                        <option>2016</option>
+                                        <option>2017</option>
+                                        <option>2018</option>
+                                        <option>2019</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /row-->
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Marca auto</label>
+						<input type="text" class="form-control" placeholder="Casa Automobilistica">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+                    <label>Carburante</label>
+                    	<div class="styled-select">
+						<select class="wide">
+										<option>Benzina</option>
+										<option>Gpl</option>
+										<option>Diesel</option>
+										<option>Elettrica</option>
+                                        <option>Metano</option>
+                                        <option>Ibrida</option>
+									</select>
+                        </div>
+					</div>
+				</div>
+			</div>
+            <!-- /row-->
+            <div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+                    <label>Km</label>
+                    	<div class="styled-select">
+						<select class="wide">
+										<option>Km 0</option>
+										<option>4.999 - 9.999 km</option>
+										<option>10.000 - 19.999 km</option>
+										<option>20.000 - 29.999 km</option>
+                                        <option>30.000 - 39.999 km</option>
+                                        <option>40.000 - 49.999 km</option>
+                                        <option>50.000 - 59.999 km</option>
+                                        <option>60.000 - 69.999 km</option>
+                                        <option>70.000 - 79.999 km</option>
+                                        <option>80.000 - 89.999 km</option>
+                                        <option>90.000 - 99.999 km</option>
+                                        <option>100.000 - 109.999 km</option>
+                                        <option>110.000 - 119.999 km</option>
+                                        <option>120.000 - 129.999 km</option>
+                                        <option>130.000 - 139.999 km</option>
+                                        <option>140.000 - 149.999 km</option>
+                                        <option>150.000 - 159.999 km</option>
+                                        <option>160.000 - 169.999 km</option>
+                                        <option>170.000 - 179.999 km</option>
+                                        <option>180.000 - 189.999 km</option>
+                                        <option>190.000 - 199.999 km</option>
+                                        <option>200.000 - 209.999 km</option>
+                                        <option>210.000 - 219.999 km</option>
+                                        <option>220.000 - 229.999 km</option>
+                                        <option>230.000 - 239.999 km</option>
+                                        <option>240.000 - 249.999 km</option>
+                                        <option>250.000 - 259.999 km</option>
+                                        <option>260.000 - 269.999 km</option>
+                                        <option>270.000 - 279.999 km</option>
+                                        <option>280.000 - 289.999 km</option>
+                                        <option>290.000 - 299.999 km</option>
+                                        <option>300.000 +</option>
+							</select>
+					</div>
+				</div>
+                </div>
+				<div class="col-md-6">
+					<div class="form-group">
+                    <label>Modello</label>
+                    	<div class="styled-select">
+							<select class="wide">
+										<option>Utilitaria</option>
+										<option>Berlina</option>
+										<option>Monovolume</option>
+										<option>Station Wagon</option>
+                                        <option>Suv</option>
+                                        <option>Cabrio</option>
+                                        <option>Coupè</option>
+                                        <option>City Car</option>
+							</select>
+                        </div>
+					</div>
+				</div>
+			</div>
+            <!-- /row-->
+            <div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+                    <label>Tipo di veicolo</label>
+                    	<div class="styled-select">
+						<select class="wide">
+								<option>Usato</option>
+								<option>Aziendale</option>
+                                <option>Epoca</option>
+						</select>
+					</div>
+				</div>
+                </div>
+				<div class="col-md-6">
+					<div class="form-group">
+                    <label>Colore</label>
+                    	<div class="styled-select">
+							<select class="wide">
+										<option>Nera</option>
+										<option>Bianca</option>
+										<option>Grigia</option>
+										<option>Beige</option>
+                                        <option>Verde</option>
+                                        <option>Blu</option>
+                                        <option>Rosso</option>
+                                        <option>Bordeaux</option>
+							</select>
+                        </div>
+					</div>
+				</div>
+			</div>
+			<!-- /row-->
+            <div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+                    <label>Cambio</label>
+                    	<div class="styled-select">
+						<select class="wide">
+								<option>Manuale</option>
+								<option>Automatico</option>
+                                <option>Sequenziale</option>
+                                <option>Altro</option>
+						</select>
+					</div>
+				</div>
+                </div>
+				<div class="col-md-6">
+					<div class="form-group">
+                    <label>Classe Emissioni</label>
+                    	<div class="styled-select">
+							<select class="wide">
+										<option>Euro 6</option>
+										<option>Euro 5</option>
+										<option>Euro 4</option>
+										<option>Euro 3</option>
+                                        <option>Euro 2</option>
+                                        <option>Euro 1</option>
+                                        <option>Pre-Euro</option>
+							</select>
+                        </div>
+					</div>
+				</div>
+			</div>
+			<!-- /row-->
+            <div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+                    <label>Porte</label>
+                    	<div class="styled-select">
+						<select class="wide">
+								<option>2/3</option>
+								<option>4/5</option>
+                                <option>6/7</option>
+						</select>
+					</div>
+				</div>
+                </div>
+				<div class="col-md-6">
+					<div class="form-group">
+                    <label>Posti</label>
+                    	<div class="styled-select">
+							<select class="wide">
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>8 +</option>
+							</select>
+                        </div>
+					</div>
+				</div>
+			</div>
+			<!-- /row-->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label>Descrizione</label>
+						<div class="editor"></div>
+					</div>
+				</div>
+			</div>
+			<!-- /row-->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label>Foto</label>
+						<form action="/file-upload" class="dropzone"></form>
+					</div>
+				</div>
+			</div>
+			<!-- /row-->
+		</div>
+		<!-- /box_general-->
+		
+		<div class="box_general padding_bottom">
+			<div class="header_box version_2">
+				<h2><i class="fa fa-map-marker"></i>Informazione di contatto</h2>
+			</div>
+            <div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Nome</label>
+						<input type="text" class="form-control" placeholder="Inserisci Nome">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Cognome</label>
+						<input type="text" class="form-control" placeholder="Inserisci Cognome">
+					</div>
+				</div>
+			</div>
+			<!-- /row-->
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Città</label>
+						<input type="text" class="form-control" placeholder="Nome città">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Indirizzo</label>
+						<input type="text" class="form-control" placeholder="Via e numero civico">
+					</div>
+				</div>
+			</div>
+			<!-- /row-->
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Provincia</label>
+						<input type="text" class="form-control">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Cap</label>
+						<input type="text" class="form-control">
+					</div>
+				</div>
+			</div>
+			<!-- /row-->
+            <div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Telefono</label>
+						<input type="text" class="form-control">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Sito web</label>
+						<input type="text" class="form-control">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>E-mail</label>
+						<input type="text" class="form-control">
+					</div>
+				</div>
+			</div>
+			<!-- /row-->
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Link di Facebook</label>
+						<input type="text" class="form-control">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Link di Twitter</label>
+						<input type="text" class="form-control">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Link di Instagram</label>
+						<input type="text" class="form-control">
+					</div>
+				</div>
+			</div>
+			<!-- /row-->
+		</div>
+		<!-- /box_general-->
+		</div>
+		<!-- /box_general-->
+		
+		<div class="box_general padding_bottom">
+			<div class="header_box version_2">
+				<h2><i class="pe-7s-cash"></i>Prezzo</h2>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<table id="pricing-list-container" style="width:100%;">
+						<tr class="pricing-list-item">
+							<td>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="Prezzo">
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+					</div>
+			</div>
+			<!-- /row-->
+		</div>
+		<!-- /box_general-->
+		<p><a href="#0" class="btn_1 medium">Salva</a></p>
+	  </div>
+	  <!-- /.container-fluid-->
+   	</div>
+    <!-- /.container-wrapper-->
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Copyright © Autoideale 2019</small>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+	<script src="vendor/jquery.selectbox-0.2.js"></script>
+	<script src="vendor/retina-replace.min.js"></script>
+	<script src="vendor/jquery.magnific-popup.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/admin.js"></script>
+	<!-- Custom scripts for this page-->
+	<script src="vendor/dropzone.min.js"></script>
+	<script src="vendor/bootstrap-datepicker.js"></script>
+	<script>$('input.date-pick').datepicker();</script>
+	<!-- WYSIWYG Editor -->
+	<script src="js/editor/summernote-bs4.min.js"></script>
+	<script>
+      $('.editor').summernote({
+		fontSizes: ['10', '14'],
+		toolbar: [
+			// [groupName, [list of button]]
+			['style', ['bold', 'italic', 'underline', 'clear']],
+			['font', ['strikethrough']],
+			['fontsize', ['fontsize']],
+			['para', ['ul', 'ol', 'paragraph']]
+		  ],
+        placeholder: 'Write here ....',
+        tabsize: 2,
+        height: 200
+      });
+    </script>
+	
+</body>
+</html>
