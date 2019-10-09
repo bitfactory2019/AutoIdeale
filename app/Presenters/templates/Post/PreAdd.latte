@@ -1,0 +1,43 @@
+{layout '../@layout.latte'}
+
+{block header}
+    {include '../includes/header.latte'}
+{/block}
+
+{block subheader}
+	<div class="sub_header_in sticky_header">
+		<div class="container">
+			<h1>Inserisci Annuncio</h1>
+		</div>
+	</div>
+{/block}
+
+{block content}
+    <div class="container margin_60_35">
+        <div class="main_title_2">
+            <span><em></em></span>
+            <h2>Vendi Auto</h2>
+            <p>Inserisci un annuncio e vendi la tua auto.</p>
+        </div>
+        <div class="row">
+        <div class="col-lg-2 col-md-2">
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <a class="box_topic" href="http://www.medianetspace.com/autoideale/admin_section/add-listing.html">
+                    <span><i class="pe-7s-users"></i></span>
+                    <h3>Sei un privato?</h3>
+                    <p></p>
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <a class="box_topic" href="http://www.medianetspace.com/autoideale/admin_section/add-listing-azienda.html">
+                    <i class="pe-7s-portfolio"></i>
+                    <h3>Sei un'Azienda?</h3>
+                    <p></p>
+                </a>
+            </div>
+        </div>
+            <!-- /list_articles -->
+    </div>
+    <!-- /container -->
+{/block}
