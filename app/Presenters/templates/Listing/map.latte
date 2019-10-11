@@ -1,0 +1,27 @@
+{layout '../@layout.latte'}
+
+{block header}
+    {include '../includes/header.latte'}
+{/block}
+
+{block subheader}{/block}
+
+{block content}
+    <div class="container-fluid full-height">
+		{include './_list.latte', 'width' => 5}
+
+        <div class="col-lg-7 map-right">
+            <div id="map_right_listing"></div>
+            <!-- map-->
+        </div>
+    </div>
+    <!-- /container-fluid -->
+{/block}
+
+{block scripts}
+	<!-- Map -->
+	<script src="http://maps.googleapis.com/maps/api/js"></script>
+	<script src="js/markerclusterer.js"></script>
+	<script src="js/listing_map.js"></script>
+	<script src="js/infobox.js"></script> 
+{/block}
