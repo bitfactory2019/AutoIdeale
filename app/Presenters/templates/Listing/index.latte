@@ -9,7 +9,7 @@
 {block content}
     <div class="container-fluid full-height">
 		<div class="row row-height">
-			<div class="col-lg-7">
+			<div class="col-lg-5">
 			    <div id="results_map_view">
 		            <div class="container-fluid">
 			            <div class="row">
@@ -490,33 +490,24 @@
                 </div>
             </div>
             <!-- /strip list_view -->
-                
-            <div class="strip list_view">
-                <div class="row no-gutters">
-                    <div class="col-lg-5">
-                        <figure>
-                            <a n:href="Listing:detail"><img src="img/location_5.jpg" class="img-fluid" alt=""><div class="read_more"><span>Read more</span></div></a>
-                            <small>Hotel</small>
-                        </figure>
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="wrapper">
-                            <a href="#0" class="wish_bt"></a>
-                            <h3><a n:href="Listing:detail">Mariott Hotel</a></h3>
-                            <small>213 Malden Road, New Malden</small>
-                            <p></p>
-                            <a class="address" href="https://www.google.com/maps/dir//Assistance+%E2%80%93+H%C3%B4pitaux+De+Paris,+3+Avenue+Victoria,+75004+Paris,+Francia/@48.8606548,2.3348734,14z/data=!4m15!1m6!3m5!1s0x47e66e1de36f4147:0xb6615b4092e0351f!2sAssistance+Publique+-+H%C3%B4pitaux+de+Paris+(AP-HP)+-+Si%C3%A8ge!8m2!3d48.8568376!4d2.3504305!4m7!1m0!1m5!1m1!1s0x47e67031f8c20147:0xa6a9af76b1e2d899!2m2!1d2.3504327!2d48.8568361">Get directions</a>
-                        </div>
-                        <ul>
-                            <li><span class="loc_open">Now Open</span></li>
-                            <li><div class="score"><span>Good<em>350 Reviews</em></span><strong>7.5</strong></div></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- /map-right-->
+
+			<div class="col-lg-7 map-right">
+				<div id="map_right_listing"></div>
+				<!-- map-->
+			</div>
+			<!-- /map-right-->
         </div>
         <!-- /row-->
     </div>
     <!-- /container-fluid -->
+{/block}
+
+{block scripts}
+    {include parent}
+
+	<!-- Map -->
+	<script src="http://maps.googleapis.com/maps/api/js"></script>
+	<script src="js/markerclusterer.js"></script>
+	<script src="js/listing_map.js"></script>
+	<script src="js/infobox.js"></script> 
 {/block}
