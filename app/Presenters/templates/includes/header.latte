@@ -1,4 +1,6 @@
-<header class="header_in is_sticky menu_fixed">
+{default sticky = true}
+
+<header n:class="header_in, $sticky ? is_sticky, $sticky ? menu_fixed">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-12">

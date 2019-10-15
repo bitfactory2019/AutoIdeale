@@ -1,0 +1,50 @@
+{layout '../@layout.latte'}
+
+{block header}
+    {include '../includes/header.latte' 'sticky' => false}
+{/block}
+
+{block subheader}{/block}
+
+{block content}
+    {include '../includes/post/gallery.latte'}
+    
+    {include '../includes/post/description.latte'}
+
+    <div class="container margin_60_35">
+            <div class="row">
+                <div class="col-lg-8">
+                    {include '../includes/post/details.latte'}
+                    {include '../includes/post/reviews.latte'}
+                </div>
+                <!-- /col -->
+                
+                {include '../includes/post/aside.latte'}
+            </div>
+            <!-- /row -->
+    </div>
+    <!-- /container -->
+{/block}
+
+{block scripts}
+    {include parent}
+
+	<!-- Map -->
+	<script src="http://maps.googleapis.com/maps/api/js"></script>
+	<script src="js/map_single_restaurant.js"></script>
+	<script src="js/infobox.js"></script>
+	
+	<!-- INPUT QUANTITY  -->
+	<script src="js/input_qty.js"></script>
+	
+	<!-- DATEPICKER  -->
+	<script>
+        $('input[name="dates"]').daterangepicker({
+            "singleDatePicker": true,
+            "parentEl": '#input-dates',
+            "opens": "left"
+        }, function(start, end, label) {
+            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+        });
+    </script>
+{/block}
