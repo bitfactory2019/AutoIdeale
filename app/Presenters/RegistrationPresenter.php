@@ -43,10 +43,6 @@ final class RegistrationPresenter extends \Nette\Application\UI\Presenter
             ]);
         };
 
-        $form->onSuccess[] = function() {
-            //$this->redirect('Frontend:default');
-        };
-
         return $form;
     }
 
@@ -56,23 +52,29 @@ final class RegistrationPresenter extends \Nette\Application\UI\Presenter
 
         $form->addEmail('email', 'Email')->setRequired('Inserisci l\'email');
         $form->addPassword('password', 'Password')->setRequired('Inserisci la password');
-        $form->addCheckbox('remember');
-
         $form->addSubmit('signin', 'Login');
 
         $form->onSuccess[] = function() use ($form) {
             $values = $form->getValues();
-            var_dump($values);
-            return;
 
-            $this->db->table('users')->insert([
-                'email' => $values->email,
-                'password_hash' => \Nette\Security\Passwords::hash($values->pwd),
-            ]);
-        };
+            $user = $this->db->table('users')
+                     ->where('email', $values->email)
+                     ->where('password', \md5($values->password))
+                     ->where('enabled', true)
+                     ->fetch();
 
-        $form->onSuccess[] = function() {
-            //$this->redirect('Frontend:default');
+            if (empty($user)) {
+                $this->flashMessage("Utente non riconosciuto", "danger");
+            }
+            else {
+                $this->flashMessage("Bentornato {$user->name} {$user->surname}", "success");
+
+                $this->getSession("admin")->offsetSet("logged", true);
+                $this->getSession("admin")->offsetSet("user", $user);
+                $this->getSession("admin")->offsetSet("remember", $values->remember ?? false);
+
+                $this->redirect('Admin:Dashboard:index');
+            }
         };
 
         return $form;

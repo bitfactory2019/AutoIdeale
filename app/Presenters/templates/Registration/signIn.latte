@@ -1,6 +1,12 @@
 {layout './@layout.latte'}
 
 {block content}
+	{foreach $flashes as $flash}
+		<div class="alert alert-{$flash->type}" role="alert">
+			{$flash->message}
+		</div>
+	{/foreach}
+
 	{form signInForm}
 		<div class="access_social">
 			<a href="#0" class="social_bt facebook">Login con Facebook</a>
@@ -21,7 +27,7 @@
 		<div class="clearfix add_bottom_30">
 			<div class="checkboxes float-left">
 				<label class="container_check">Ricordami
-					{input remember}
+					<input type="checkbox" name="remember">
 					<span class="checkmark"></span>
 				</label>
 			</div>

@@ -1,7 +1,10 @@
 parameters:
 
-
 database:
-	dsn: 'mysql:host=127.0.0.1;dbname=test'
-	user:
+	dsn: 'mysql:host=localhost;dbname=autoideale'
+	user: 'root'
 	password:
+
+session:
+	autoStart: true # default is 'smart'
+	debugger: true
