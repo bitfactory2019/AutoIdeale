@@ -70,7 +70,7 @@ final class RegistrationPresenter extends \Nette\Application\UI\Presenter
                 $this->flashMessage("Bentornato {$user->name} {$user->surname}", "success");
 
                 $this->getSession("admin")->offsetSet("logged", true);
-                $this->getSession("admin")->offsetSet("user", $user);
+                $this->getSession("admin")->offsetSet("user", $user->toArray());
                 $this->getSession("admin")->offsetSet("remember", $values->remember ?? false);
 
                 $this->redirect('Admin:Dashboard:index');
