@@ -3,6 +3,10 @@
     <li class="breadcrumb-item">
         <a href="#">Dashboard</a>
     </li>
-    <li class="breadcrumb-item active">La mia Dashboard</li>
+    {foreach $breadcrumbs ?? [] as $item}
+        <li class="breadcrumb-item active">
+            <a n:tag-if="$item[url]" n:href="$item[url]">{$item[label]}</a>
+        </li>
+    {/foreach}
 </ol>
 <!-- Icon Cards-->

@@ -1,5 +1,11 @@
 {layout '../@layout.latte'}
 
+{block breadcrumbs}
+    {include '../includes/breadcrumbs.latte', breadcrumbs => [
+        [url => '', label => 'La mia Dashboard']
+    ]}
+{/block}
+
 {block content}
     <div class="row">
         <div class="col-xl-3 col-sm-6 mb-3">

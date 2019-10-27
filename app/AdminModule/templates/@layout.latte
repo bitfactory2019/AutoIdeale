@@ -11,7 +11,9 @@
 
         <div class="content-wrapper">
             <div class="container-fluid">
-                {include 'includes/breadcrumbs.latte'}
+                {block breadcrumbs}
+                    {include 'includes/breadcrumbs.latte'}
+                {/block}
 
                 {block content}{/block}
             </div>
