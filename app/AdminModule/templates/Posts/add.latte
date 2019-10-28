@@ -8,236 +8,235 @@
 
 {block content}
     {form addForm}
-
-    <div class="box_general padding_bottom">
-        <div class="header_box version_2">
-            <h2><i class="fa fa-file"></i>Informazioni</h2>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    {label title /}
-                    {input title}
-                </div>
+        <div class="box_general padding_bottom">
+            <div class="header_box version_2">
+                <h2><i class="fa fa-file"></i>Informazioni</h2>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    {label year /}
-                    <div class="styled-select">
-                        {input year}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label title /}
+                        {input title}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label year /}
+                        <div class="styled-select">
+                            {input year}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- /row-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    {label brand /}
-                    {input brand}
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    {label fuel_type /}
-                    <div class="styled-select">
-                        {input fuel_type}
-                    </div>
-                </div>
-            </div>
-        </div>
             <!-- /row-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    {label kilometers /}
-                    <div class="styled-select">
-                        {input kilometers}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label brand /}
+                        {input brand}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label fuel_type /}
+                        <div class="styled-select">
+                            {input fuel_type}
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    {label model /}
-                    <div class="styled-select">
-                        {input model}
+                <!-- /row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label kilometers /}
+                        <div class="styled-select">
+                            {input kilometers}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label model /}
+                        <div class="styled-select">
+                            {input model}
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- /row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label vehicle_type /}
+                        <div class="styled-select">
+                            {input vehicle_type}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                    {label color /}
+                        <div class="styled-select">
+                            {input color}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label shift_type /}
+                        <div class="styled-select">
+                            {input shift_type}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label euro_class /}
+                        <div class="styled-select">
+                            {input euro_class}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label doors /}    
+                        <div class="styled-select">
+                            {input doors}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label seats /}
+                        <div class="styled-select">
+                            {input seats}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /row-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Descrizione</label>
+                        <div class="editor"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /row-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {label images /}
+                        {input images}
+                        <!--<form action="/file-upload" class="dropzone"></form>-->
+                    </div>
+                </div>
+            </div>
+            <!-- /row-->
         </div>
-        <!-- /row-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    {label vehicle_type /}
-                    <div class="styled-select">
-                        {input vehicle_type}
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                {label color /}
-                    <div class="styled-select">
-                        {input color}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /row-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    {label shift_type /}
-                    <div class="styled-select">
-                        {input shift_type}
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    {label euro_class /}
-                    <div class="styled-select">
-                        {input euro_class}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /row-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    {label doors /}    
-                    <div class="styled-select">
-                        {input doors}
-					</div>
-				</div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    {label seats /}
-                    <div class="styled-select">
-                        {input seats}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /row-->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>Descrizione</label>
-                    <div class="editor"></div>
-                </div>
-            </div>
-        </div>
-        <!-- /row-->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    {label files /}
-                    {input files}
-                    <!--<form action="/file-upload" class="dropzone"></form>-->
-                </div>
-            </div>
-        </div>
-        <!-- /row-->
-    </div>
-    <!-- /box_general-->
+        <!-- /box_general-->
 		
-		<div class="box_general padding_bottom">
-			<div class="header_box version_2">
-				<h2><i class="fa fa-map-marker"></i>Informazione di contatto</h2>
-			</div>
+        <div class="box_general padding_bottom">
+            <div class="header_box version_2">
+                <h2><i class="fa fa-map-marker"></i>Informazione di contatto</h2>
+            </div>
             <div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Nome</label>
-						<input type="text" class="form-control" placeholder="Inserisci Nome">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Cognome</label>
-						<input type="text" class="form-control" placeholder="Inserisci Cognome">
-					</div>
-				</div>
-			</div>
-			<!-- /row-->
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Città</label>
-						<input type="text" class="form-control" placeholder="Nome città">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Indirizzo</label>
-						<input type="text" class="form-control" placeholder="Via e numero civico">
-					</div>
-				</div>
-			</div>
-			<!-- /row-->
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Provincia</label>
-						<input type="text" class="form-control">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Cap</label>
-						<input type="text" class="form-control">
-					</div>
-				</div>
-			</div>
-			<!-- /row-->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label name /}
+                        {input name}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label surname /}
+                        {input surname}
+                    </div>
+                </div>
+            </div>
+            <!-- /row-->
             <div class="row">
-				<div class="col-md-4">
-					<div class="form-group">
-						<label>Telefono</label>
-						<input type="text" class="form-control">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label>Sito web</label>
-						<input type="text" class="form-control">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label>E-mail</label>
-						<input type="text" class="form-control">
-					</div>
-				</div>
-			</div>
-			<!-- /row-->
-			<div class="row">
-				<div class="col-md-4">
-					<div class="form-group">
-						<label>Link di Facebook</label>
-						<input type="text" class="form-control">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label>Link di Twitter</label>
-						<input type="text" class="form-control">
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						<label>Link di Instagram</label>
-						<input type="text" class="form-control">
-					</div>
-				</div>
-			</div>
-			<!-- /row-->
-		</div>
-		<!-- /box_general-->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label city /}
+                        {input city}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label address /}
+                        {input address}
+                    </div>
+                </div>
+            </div>
+            <!-- /row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label county /}
+                        {input county}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label cap /}
+                        {input cap}
+                    </div>
+                </div>
+            </div>
+            <!-- /row-->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {label telephone /}
+                        {input telephone}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {label website /}
+                        {input website}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {label email /}
+                        {input email}
+                    </div>
+                </div>
+            </div>
+            <!-- /row-->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {label facebook /}
+                        {input facebook}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {label twitter /}
+                        {input twitter}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {label instagram /}
+                        {input instagram}
+                    </div>
+                </div>
+            </div>
+            <!-- /row-->
+        </div>
+        <!-- /box_general-->
 		
 		<div class="box_general padding_bottom">
 			<div class="header_box version_2">
@@ -251,7 +250,7 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Prezzo">
+                                            {input price}
 										</div>
 									</div>
 								</div>
@@ -263,9 +262,8 @@
 			<!-- /row-->
 		</div>
 		<!-- /box_general-->
-		<p><a href="#0" class="btn_1 medium">Salva</a></p>
-	  </div>
-	  <!-- /.container-fluid-->
+
+        <p>{input save class => "btn_1 medium"}</p>
     {/form}
 {/block}
 
@@ -280,6 +278,9 @@
 	<!-- WYSIWYG Editor -->
 	<script src="js/editor/summernote-bs4.min.js"></script>
 	<script>
+    /*$("#my-dropzone").dropzone({
+        //url: "/file/post", // If not using a form element
+    });*/
       $('.editor').summernote({
 		fontSizes: ['10', '14'],
 		toolbar: [
@@ -289,7 +290,7 @@
 			['fontsize', ['fontsize']],
 			['para', ['ul', 'ol', 'paragraph']]
 		  ],
-        placeholder: 'Write here ....',
+        placeholder: 'Inserisci una descrizione breve...',
         tabsize: 2,
         height: 200
       });

@@ -14,54 +14,118 @@ final class PostsPresenter extends _BasePresenter
         $form = new UI\Form;
 
         $form->addText('title', 'Titolo')
+             ->setRequired('Inserisci il titolo dell\'annuncio')
              ->setHtmlAttribute('placeholder', 'Inserisci titolo')
              ->setHtmlAttribute('class', 'form-control');
         
         $form->addSelect('year', 'Anno')
+             ->setRequired('Scegli l\'anno')
              ->setItems(\range(2000, \date('Y')), false)
              ->setHtmlAttribute('class', 'wide');
 
         $form->addText('brand', 'Marca auto')
+             ->setRequired('Scegli la casa automobilistica')
              ->setHtmlAttribute('placeholder', 'Casa Automobilistica')
              ->setHtmlAttribute('class', 'form-control');
 
         $form->addSelect('fuel_type', 'Carburante')
-            ->setItems($this->utils->getDbOptions('fuel_types'))
-            ->setHtmlAttribute('class', 'wide');
+             ->setRequired('Scegli il tipo di carburante')
+             ->setItems($this->utils->getDbOptions('fuel_types'))
+             ->setHtmlAttribute('class', 'wide');
 
         $form->addSelect('kilometers', 'Km')
-            ->setItems($this->utils->getKilometersOptions())
-            ->setHtmlAttribute('class', 'wide');
+             ->setRequired('Indica il chilometraggio attuale')
+             ->setItems($this->utils->getKilometersOptions())
+             ->setHtmlAttribute('class', 'wide');
 
         $form->addSelect('model', 'Modello')
-            ->setItems($this->utils->getDbOptions('models'))
-            ->setHtmlAttribute('class', 'wide');
+             ->setRequired('Indica il modello di auto')
+             ->setItems($this->utils->getDbOptions('models'))
+             ->setHtmlAttribute('class', 'wide');
 
         $form->addSelect('vehicle_type', 'Tipo di veicolo')
-            ->setItems($this->utils->getDbOptions('vehicle_types'))
-            ->setHtmlAttribute('class', 'wide');
+             ->setRequired('Scegli il tipo di veicolo')
+             ->setItems($this->utils->getDbOptions('vehicle_types'))
+             ->setHtmlAttribute('class', 'wide');
 
         $form->addSelect('color', 'Colore')
-            ->setItems($this->utils->getDbOptions('colors'))
-            ->setHtmlAttribute('class', 'wide');
+             ->setRequired('Indica il colore dell\'auto')
+             ->setItems($this->utils->getDbOptions('colors'))
+             ->setHtmlAttribute('class', 'wide');
 
         $form->addSelect('shift_type', 'Cambio')
-            ->setItems($this->utils->getDbOptions('shift_types'))
-            ->setHtmlAttribute('class', 'wide');
+             ->setRequired('Scegli il tipo di cambio')
+             ->setItems($this->utils->getDbOptions('shift_types'))
+             ->setHtmlAttribute('class', 'wide');
 
         $form->addSelect('euro_class', 'Classe Emissioni')
-            ->setItems($this->utils->getDbOptions('euro_class'))
-            ->setHtmlAttribute('class', 'wide');
+             ->setRequired('Scegli la classe di emissioni dei gas di scarico')
+             ->setItems($this->utils->getDbOptions('euro_class'))
+             ->setHtmlAttribute('class', 'wide');
 
         $form->addSelect('doors', 'Porte')
-            ->setItems($this->utils->getDbOptions('doors'))
-            ->setHtmlAttribute('class', 'wide');
+             ->setRequired('Scegli il numero di porte della tua auto')
+             ->setItems($this->utils->getDbOptions('doors'))
+             ->setHtmlAttribute('class', 'wide');
 
         $form->addSelect('seats', 'Posti')
-            ->setItems($this->utils->getSeatsOptions())
-            ->setHtmlAttribute('class', 'wide');
+             ->setRequired('Scegli il numero di posti')
+             ->setItems($this->utils->getSeatsOptions())
+             ->setHtmlAttribute('class', 'wide');
 
-        $form->addMultiUpload('files', 'Files');
+        $form->addMultiUpload('images', 'Foto');
+
+        $form->addText('name', 'Nome')
+             ->setRequired('Inserisci il tuo nome')
+             ->setHtmlAttribute('placeholder', 'Inserisci Nome')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('surname', 'Cognome')
+             ->setRequired('Inserisci il tuo cognome')
+             ->setHtmlAttribute('placeholder', 'Inserisci Cognome')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('city', 'Città')
+             ->setRequired('Inserisci la tua città')
+             ->setHtmlAttribute('placeholder', 'Inserisci Città')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('address', 'Indirizzo')
+             ->setRequired('Inserisci il tuo indirizzo')
+             ->setHtmlAttribute('placeholder', 'Via e numero civico')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('county', 'Provincia')
+             ->setRequired('Inserisci la tua provincia')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('cap', 'Cap')
+             ->setRequired('Inserisci il tuo CAP')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('telephone', 'Telefono')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('website', 'Sito web')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('email', 'E-mail')
+             ->setRequired('Inserisci la tua e-mail')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('facebook', 'Link di Facebook')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('twitter', 'Link di Twitter')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('instagram', 'Link di Instagram')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('price')
+             ->setRequired('Inserisci il prezzo di vendita')
+             ->setHtmlAttribute('placeholder', 'Prezzo')
+             ->setHtmlAttribute('class', 'form-control');
 
         $form->addSubmit('save', 'Salva');
         $form->onSuccess[] = [$this, 'addPostSuccess'];
