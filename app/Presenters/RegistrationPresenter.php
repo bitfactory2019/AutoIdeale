@@ -9,10 +9,12 @@ use Nette;
 final class RegistrationPresenter extends \Nette\Application\UI\Presenter
 {
     private $db;
+    private $dbWrapper;
 
     public function __construct(\Nette\Database\Context $database)
     {
         $this->db = $database;
+        $this->dbWrapper = new \App\Utils\DbWrapper($database);
     }
 
     protected function createComponentSignUpForm()
@@ -57,11 +59,7 @@ final class RegistrationPresenter extends \Nette\Application\UI\Presenter
         $form->onSuccess[] = function() use ($form) {
             $values = $form->getValues();
 
-            $user = $this->db->table('users')
-                     ->where('email', $values->email)
-                     ->where('password', \md5($values->password))
-                     ->where('enabled', true)
-                     ->fetch();
+            $user = $this->dbWrapper->getUserLogin($values);
 
             if (empty($user)) {
                 $this->flashMessage("Utente non riconosciuto", "danger");
@@ -72,6 +70,8 @@ final class RegistrationPresenter extends \Nette\Application\UI\Presenter
                 $this->getSession("admin")->offsetSet("logged", true);
                 $this->getSession("admin")->offsetSet("user", $user->toArray());
                 $this->getSession("admin")->offsetSet("remember", $values->remember ?? false);
+
+                $this->dbWrapper->saveUserLogin($user->id);
 
                 $this->redirect('Admin:Dashboard:index');
             }

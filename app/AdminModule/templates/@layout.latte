@@ -15,7 +15,13 @@
                     {include 'includes/breadcrumbs.latte'}
                 {/block}
 
-                {block content}{/block}
+                {block content}
+                    {foreach $flashes as $flash}
+                        <div class="alert alert-{$flash->type}" role="alert">
+                            {$flash->message}
+                        </div>
+                    {/foreach}
+                {/block}
             </div>
         </div>
 

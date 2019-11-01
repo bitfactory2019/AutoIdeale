@@ -7,6 +7,8 @@
 {/block}
 
 {block content}
+    {include parent}
+
     {form addForm}
         <div class="box_general padding_bottom">
             <div class="header_box version_2">
@@ -38,9 +40,9 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        {label fuel_type /}
+                        {label fuel_type_id /}
                         <div class="styled-select">
-                            {input fuel_type}
+                            {input fuel_type_id}
                         </div>
                     </div>
                 </div>
@@ -49,36 +51,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        {label kilometers /}
+                        {label kilometers_id /}
                         <div class="styled-select">
-                            {input kilometers}
+                            {input kilometers_id}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        {label model /}
+                        {label model_id /}
                         <div class="styled-select">
-                            {input model}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /row-->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {label vehicle_type /}
-                        <div class="styled-select">
-                            {input vehicle_type}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                    {label color /}
-                        <div class="styled-select">
-                            {input color}
+                            {input model_id}
                         </div>
                     </div>
                 </div>
@@ -87,17 +70,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        {label shift_type /}
+                        {label vehicle_type_id /}
                         <div class="styled-select">
-                            {input shift_type}
+                            {input vehicle_type_id}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        {label euro_class /}
+                    {label color_id /}
                         <div class="styled-select">
-                            {input euro_class}
+                            {input color_id}
                         </div>
                     </div>
                 </div>
@@ -106,17 +89,36 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        {label doors /}    
+                        {label shift_type_id /}
                         <div class="styled-select">
-                            {input doors}
+                            {input shift_type_id}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        {label seats /}
+                        {label euro_class_id /}
                         <div class="styled-select">
-                            {input seats}
+                            {input euro_class_id}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label doors_id /}    
+                        <div class="styled-select">
+                            {input doors_id}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {label seats_id /}
+                        <div class="styled-select">
+                            {input seats_id}
                         </div>
                     </div>
                 </div>
@@ -125,8 +127,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Descrizione</label>
+                        {label description /}
+                        {input description}
+                        <!--<label>Descrizione</label>
                         <div class="editor"></div>
+                        <textarea class="editor" name="description"></textarea>-->
                     </div>
                 </div>
             </div>
