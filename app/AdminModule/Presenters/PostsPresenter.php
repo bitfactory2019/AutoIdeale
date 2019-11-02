@@ -9,8 +9,18 @@ use App\Utils;
 
 final class PostsPresenter extends _BasePresenter
 {
-    protected function createComponentAddForm(): UI\Form
-    {
+     public function renderWaiting()
+     {
+          $this->template->posts = $this->dbWrapper->getPosts($this->getAdminUser()['id'], false);
+     }
+
+     public function renderApproved()
+     {
+          $this->template->posts = $this->dbWrapper->getPosts($this->getAdminUser()['id']);
+     }
+
+     protected function createComponentAddForm(): UI\Form
+     {
           $form = new UI\Form;
 
           $form->addText('title', 'Titolo')
@@ -150,5 +160,5 @@ final class PostsPresenter extends _BasePresenter
           };
 
           return $form;
-    }
+     }
 }

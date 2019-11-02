@@ -71,4 +71,13 @@ class DbWrapper
             return false;
         }
     }
+
+    public function getPosts($userId, $approved = true)
+    {
+        return $this->db->table('posts')
+            ->where('users_id', $userId)
+            ->where('approved', $approved)
+            ->order('creation_time DESC')
+            ->fetchPairs('id');
+    }
 }
