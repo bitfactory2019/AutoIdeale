@@ -1,39 +1,45 @@
 {layout './@layout.latte'}
 
 {block content}
+	{foreach $flashes as $flash}
+		<div class="alert alert-{$flash->type}" role="alert">
+			{$flash->message}
+		</div>
+	{/foreach}
+
 	{form signUpForm}
-			<div class="form-group">
-				{label name /}
-				{input name class => "form-control"}
-				<i class="ti-user"></i>
-			</div>
-			<div class="form-group">
-				{label surname /}
-				{input surname class => "form-control"}
-				<i class="ti-user"></i>
-			</div>
-			<div class="form-group">
-				{label email /}
-				{input email class => "form-control"}
-				<i class="icon_mail_alt"></i>
-			</div>
-			<div class="form-group">
-				{label password /}
-				{input password class => "form-control"}
-				<i class="icon_lock_alt"></i>
-			</div>
-			<div class="form-group">
-				{label password2 /}
-				{input password2 class => "form-control"}
-				<i class="icon_lock_alt"></i>
-			</div>
-			<div id="pass-info" class="clearfix"></div>
+		<div class="form-group">
+			{label name /}
+			{input name class => "form-control"}
+			<i class="ti-user"></i>
+		</div>
+		<div class="form-group">
+			{label surname /}
+			{input surname class => "form-control"}
+			<i class="ti-user"></i>
+		</div>
+		<div class="form-group">
+			{label email /}
+			{input email class => "form-control"}
+			<i class="icon_mail_alt"></i>
+		</div>
+		<div class="form-group">
+			{label password /}
+			{input password class => "form-control"}
+			<i class="icon_lock_alt"></i>
+		</div>
+		<div class="form-group">
+			{label password2 /}
+			{input password2 class => "form-control"}
+			<i class="icon_lock_alt"></i>
+		</div>
+		<div id="pass-info" class="clearfix"></div>
 
-			{input signup class => "btn_1 rounded full-width add_top_30"}
+		{input signup class => "btn_1 rounded full-width add_top_30"}
 
-			<div class="text-center add_top_10">
-				Hai già un account?
-				<strong><a n:href="Registration:sign-in">Accedi</a></strong>
-			</div>
+		<div class="text-center add_top_10">
+			Hai già un account?
+			<strong><a n:href="Registration:sign-in">Accedi</a></strong>
+		</div>
 	{/form}
 {/block}

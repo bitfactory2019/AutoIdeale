@@ -27,13 +27,21 @@ final class RegistrationPresenter extends _BasePresenter
 
         $form->onSuccess[] = function() use ($form) {
             $values = $form->getValues();
-            var_dump($values);
-            return;
 
-            $this->db->table('users')->insert([
-                'email' => $values->email,
-                'password_hash' => \Nette\Security\Passwords::hash($values->pwd),
-            ]);
+            $user = $this->dbWrapper->getUserByEmail($values->email);
+
+            if ($user) {
+                $this->flashMessage("L'email inserita è già registrata.", "danger");
+                $this->flashMessage("Prova il recupero dei dati di accesso.", "danger");
+            }
+            else {
+                $this->dbWrapper->addUser($values);
+
+                $this->flashMessage("La registrazione è avvenuta con successo!", "success");
+                $this->flashMessage("Un amministratore attiverà il tuo account appena possibile.", "success");
+
+                $this->redirect("Registration:signIn");
+            }
         };
 
         return $form;

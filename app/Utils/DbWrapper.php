@@ -13,6 +13,33 @@ class DbWrapper
         $this->db = $this->presenter->getDbService();
     }
 
+    public function getUserByEmail($email)
+    {
+        return $this->db->table('users')
+            ->where('email', $email)
+            ->fetch();
+    }
+
+    public function addUser($values)
+    {
+        try {
+            $user = $this->db->table('users')->insert([
+                'groups_id' => 2,
+                'name' => $values->name,
+                'surname' => $values->surname,
+                'email' => $values->email,
+                'password' => \md5($values->password),
+                'enabled' => false,
+                'creation_time' => \time()
+            ]);
+
+            return $user->getPrimary();
+        }
+        catch (\PDOException $e) {
+            return false;
+        }
+    }
+
     public function getUserLogin($values)
     {
         return $this->db->table('users')
