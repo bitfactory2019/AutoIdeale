@@ -26,7 +26,7 @@ class DbWrapper
     {
         $this->db->table('users_logins')->insert([
             'user_id' => $userId,
-            'ip_address' => $this->presenter->getRemoteAddress(),
+            'ip_address' => $this->presenter->getHttpRequest()->getRemoteAddress(),
             'login_time' => \time()
         ]);
     }
