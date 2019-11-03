@@ -6,17 +6,8 @@ namespace App\Presenters;
 
 use Nette;
 
-final class RegistrationPresenter extends \Nette\Application\UI\Presenter
+final class RegistrationPresenter extends _BasePresenter
 {
-    private $db;
-    private $dbWrapper;
-
-    public function __construct(\Nette\Database\Context $database)
-    {
-        $this->db = $database;
-        $this->dbWrapper = new \App\Utils\DbWrapper($database);
-    }
-
     protected function createComponentSignUpForm()
     {
         $form = new \Nette\Application\UI\Form();
