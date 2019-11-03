@@ -4,11 +4,13 @@ namespace App;
 
 class Utils
 {
+    private $presenter;
     private $db;
 
-    public function __construct(\Nette\Database\Context $database)
+    public function __construct(\Nette\Application\UI\Presenter $presenter)
     {
-        $this->db = $database;
+        $this->presenter = $presenter;
+        $this->db = $this->presenter->getDbService();
     }
 
     public function arrayKeyValue($array, $key, $value)

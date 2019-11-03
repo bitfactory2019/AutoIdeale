@@ -4,11 +4,13 @@ namespace App\Utils;
 
 class DbWrapper
 {
+    private $presenter;
     private $db;
 
-    public function __construct(\Nette\Database\Context $database)
+    public function __construct(\Nette\Application\UI\Presenter $presenter)
     {
-        $this->db = $database;
+        $this->presenter = $presenter;
+        $this->db = $this->presenter->getDbService();
     }
 
     public function getUserLogin($values)
@@ -24,7 +26,7 @@ class DbWrapper
     {
         $this->db->table('users_logins')->insert([
             'user_id' => $userId,
-            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'ip_address' => $this->presenter->getRemoteAddress(),
             'login_time' => \time()
         ]);
     }
@@ -33,13 +35,13 @@ class DbWrapper
     {
         try {
             $post = $this->db->table('posts')->insert([
-                'user_id' => $userId,
-                'fuel_type_id' => $values->fuel_type_id,
+                'users_id' => $userId,
+                'fuel_types_id' => $values->fuel_type_id,
                 'kilometers_id' => $values->kilometers_id,
-                'model_id' => $values->model_id,
-                'vehicle_type_id' => $values->vehicle_type_id,
-                'color_id' => $values->color_id,
-                'shift_type_id' => $values->shift_type_id,
+                'models_id' => $values->model_id,
+                'vehicle_types_id' => $values->vehicle_type_id,
+                'colors_id' => $values->color_id,
+                'shift_types_id' => $values->shift_type_id,
                 'euro_class_id' => $values->euro_class_id,
                 'doors_id' => $values->doors_id,
                 'seats_id' => $values->seats_id,
@@ -64,12 +66,27 @@ class DbWrapper
                 'creation_time' => \time()
             ]);
 
-            $id = $post->getPrimary();
-            return true;
+            return $post->getPrimary();
         }
         catch (\PDOException $e) {
             return false;
         }
+    }
+
+    public function addPostFiles($postId, $files)
+    {
+        $insertFiles = [];
+
+        foreach ($files as $file) {
+            $insertFiles[] = [
+                'post_id' => $postId,
+                'name' => $file['name'],
+                'url' => $file['url'],
+                'path' => $file['path']
+            ];
+        }
+
+        $this->db->table('posts_images')->insert($insertFiles);
     }
 
     public function getPosts($userId, $approved = true)

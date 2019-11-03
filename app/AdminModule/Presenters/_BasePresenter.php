@@ -10,13 +10,20 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
 {
     protected $db;
     protected $dbWrapper;
+    protected $filesWrapper;
     protected $utils;
 
     public function __construct(\Nette\Database\Context $database)
     {
         $this->db = $database;
-        $this->dbWrapper = new \App\Utils\DbWrapper($database);
-        $this->utils = new \App\Utils($database);
+        $this->dbWrapper = new \App\Utils\DbWrapper($this);
+        $this->filesWrapper = new \App\Utils\FilesWrapper($this);
+        $this->utils = new \App\Utils($this);
+    }
+
+    public function getDbService(): \Nette\Database\Context
+    {
+        return $this->db;
     }
 
     protected function startup()

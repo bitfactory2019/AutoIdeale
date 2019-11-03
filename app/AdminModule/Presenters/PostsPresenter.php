@@ -143,19 +143,19 @@ final class PostsPresenter extends _BasePresenter
           $form->addSubmit('save', 'Salva'); 
           
           $form->onSuccess[] = function() use ($form) {
-               $values = $form->getValues();
-               //dump($values);
+               $postId = $this->dbWrapper->addNewPost($this->getAdminUser()['id'], $form->getValues());
+               $postFiles = $this->filesWrapper->uploadPostFiles(
+                    $postId,
+                    $this->getHttpRequest()->getFile('images')
+               );
+               $this->dbWrapper->addPostFiles($postId, $postFiles);               
 
-               $result = $this->dbWrapper->addNewPost($this->getAdminUser()['id'], $values);
-
-               if ($result === true) {
-                    $this->flashMessage("Post salvato con successo, sarà approvato dall'amministrazione", "success");
-                    $this->redirect('Dashboard:Index');
+               if ($postId === false) {
+                    $this->flashMessage("Post non salvato, riprova.", "danger");
                }
                else {
-                    $this->flashMessage("Post non salvato, riprova.", "danger");
-
-                    //$this->redirect('Admin:Dashboard:index');
+                    $this->flashMessage("Post salvato con successo, sarà approvato dall'amministrazione", "success");
+                    $this->redirect('Dashboard:Index');
                }
           };
 
