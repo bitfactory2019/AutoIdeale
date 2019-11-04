@@ -27,7 +27,8 @@ class Bootstrap
 		$configurator->addConfig(__DIR__ . '/config/local.neon');
 
 		$configurator->addParameters([
-			'postsImagesDir' => '\\images\\posts\\'
+			'postsImagesDir' => '\\images\\posts\\',
+			'templateEmailsDir' => '%appDir%\\Presenters\\templates\\Emails\\'
 		]);
 
 		return $configurator;

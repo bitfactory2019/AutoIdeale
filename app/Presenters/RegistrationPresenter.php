@@ -36,6 +36,7 @@ final class RegistrationPresenter extends _BasePresenter
             }
             else {
                 $this->dbWrapper->addUser($values);
+                $this->emailWrapper->sendNewUser($values);
 
                 $this->flashMessage("La registrazione è avvenuta con successo!", "success");
                 $this->flashMessage("Un amministratore attiverà il tuo account appena possibile.", "success");
