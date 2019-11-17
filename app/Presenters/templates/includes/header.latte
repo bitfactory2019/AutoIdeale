@@ -1,7 +1,8 @@
-{default sticky = true}
+{default sticky = false}
+{default map = false}
 
-<header n:class="header_in, $sticky ? is_sticky, $sticky ? menu_fixed">
-    <div class="container">
+<header n:class="header_in, $sticky ? is_sticky, $sticky ? menu_fixed, $map ? map_view">
+    <div n:class="$map ? container-fluid : container">
         <div class="row">
             <div class="col-lg-3 col-12">
                 <div id="logo">
