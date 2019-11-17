@@ -121,10 +121,22 @@ class DbWrapper
 
     public function getPosts($userId, $approved = true)
     {
-        return $this->db->table('posts')
+        $posts = [];
+
+        $rows = $this->db->table('posts')
             ->where('users_id', $userId)
             ->where('approved', $approved)
             ->order('creation_time DESC')
             ->fetchPairs('id');
+
+        foreach ($rows as $row) {
+            $posts[] = [
+                "data" => $row,
+                "thumbnail" => $row->related('posts_images.post_id')->limit(1)->fetch(),
+                "images" => $row->related('posts_images.post_id')
+            ]; 
+        }
+
+        return $posts;
     }
 }
