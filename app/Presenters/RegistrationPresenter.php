@@ -35,13 +35,19 @@ final class RegistrationPresenter extends _BasePresenter
                 $this->flashMessage("Prova il recupero dei dati di accesso.", "danger");
             }
             else {
-                $this->dbWrapper->addUser($values);
-                $this->emailWrapper->sendNewUser($values);
+                $userId = $this->dbWrapper->addUser($values);
 
-                $this->flashMessage("La registrazione è avvenuta con successo!", "success");
-                $this->flashMessage("Un amministratore attiverà il tuo account appena possibile.", "success");
-
-                $this->redirect("Registration:signIn");
+                if ($userId === false) {
+                    $this->flashMessage("Si è verificato un errore con la registrazione, contatta l'assistenza.", "danger");
+                }
+                else {
+                    //$this->emailWrapper->sendNewUser($values);
+    
+                    $this->flashMessage("La registrazione è avvenuta con successo!", "success");
+                    $this->flashMessage("Un amministratore attiverà il tuo account appena possibile.", "success");
+    
+                    $this->redirect("Registration:signIn");
+                }
             }
         };
 

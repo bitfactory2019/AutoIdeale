@@ -2,6 +2,8 @@
 
 namespace App\Utils;
 
+use Nette\Diagnostic\Debugger;
+
 class DbWrapper
 {
     private $presenter;
@@ -36,6 +38,7 @@ class DbWrapper
             return $user->getPrimary();
         }
         catch (\PDOException $e) {
+            Debugger::dump($e);
             return false;
         }
     }
