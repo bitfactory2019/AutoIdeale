@@ -24,9 +24,15 @@ class Utils
         return $a;
     }
 
-    public function getDbOptions($table)
+    public function getDbOptions($table, $where = [])
     {
-        return $this->arrayKeyValue($this->db->table($table), 'id', 'name');
+        $results = $this->db->table($table);
+
+        foreach ($where as $field => $value) {
+            $results->where($field, $value);
+        }
+
+        return $this->arrayKeyValue($results, 'id', 'name');
     }
 
     public function getKilometersOptions()
