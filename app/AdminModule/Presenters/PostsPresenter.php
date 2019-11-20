@@ -9,12 +9,7 @@ use App\Utils;
 
 final class PostsPresenter extends _BasePresenter
 {
-     public function renderWaiting()
-     {
-          $this->template->posts = $this->dbWrapper->getPosts($this->getAdminUser()['id'], false);
-     }
-
-     public function renderApproved()
+     public function renderListing()
      {
           $this->template->posts = $this->dbWrapper->getPosts($this->getAdminUser()['id']);
      }

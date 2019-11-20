@@ -121,13 +121,12 @@ class DbWrapper
         $this->db->table('posts_images')->insert($insertFiles);
     }
 
-    public function getPosts($userId, $approved = true)
+    public function getPosts($userId)
     {
         $posts = [];
 
         $rows = $this->db->table('posts')
             ->where('users_id', $userId)
-            ->where('approved', $approved)
             ->order('creation_time DESC')
             ->fetchPairs('id');
 
