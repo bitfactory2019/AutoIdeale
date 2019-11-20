@@ -15,6 +15,10 @@ class FilesWrapper
 
     public function uploadPostFiles($post_id, $files)
     {
+        if (empty($files[0])) {
+            return [];
+        }
+
         $postFiles = [];
 
         // DIMENSIONI DA GENERARE

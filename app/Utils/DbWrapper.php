@@ -66,6 +66,8 @@ class DbWrapper
         try {
             $post = $this->db->table('posts')->insert([
                 'users_id' => $userId,
+                'brands_id' => $values->brands_id,
+                'brands_models_id' => $values->brands_models_id,
                 'fuel_types_id' => $values->fuel_type_id,
                 'kilometers_id' => $values->kilometers_id,
                 'models_id' => $values->model_id,
@@ -92,7 +94,7 @@ class DbWrapper
                 'twitter' => $values->twitter,
                 'instagram' => $values->instagram,
                 'price' => $values->price,
-                'approved' => false,
+                'approved' => true,
                 'creation_time' => \time()
             ]);
 

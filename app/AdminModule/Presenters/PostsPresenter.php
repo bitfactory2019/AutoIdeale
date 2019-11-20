@@ -33,6 +33,18 @@ final class PostsPresenter extends _BasePresenter
                ->setItems(\range(2000, \date('Y')), false)
                ->setHtmlAttribute('class', 'wide');
 
+          $form->addSelect('brands_id', 'Marca auto')
+               ->setRequired('Scegli la casa automobilistica')
+               ->setItems($this->utils->getDbOptions('brands'))
+               ->setPrompt('-- Casa Automobilistica --')
+               ->setHtmlAttribute('class', 'wide');
+
+          $form->addSelect('brands_models_id', 'Modello auto')
+               //->setRequired('Scegli il modello di auto')
+               ->setPrompt('-- Scegli prima la Casa Automobilistica --')
+               ->setItems([1 => "OK"])
+               ->setHtmlAttribute('class', 'wide');
+
           $form->addText('brand', 'Marca auto')
                ->setRequired('Scegli la casa automobilistica')
                ->setHtmlAttribute('placeholder', 'Casa Automobilistica')
@@ -142,23 +154,47 @@ final class PostsPresenter extends _BasePresenter
 
           $form->addSubmit('save', 'Salva'); 
           
-          $form->onSuccess[] = function() use ($form) {
-               $postId = $this->dbWrapper->addNewPost($this->getAdminUser()['id'], $form->getValues());
+          $form->onSuccess[] = [$this, 'addFormSubmitted'];
+          
+          return $form;
+     }
+
+     public function addFormSubmitted(UI\Form $form, \stdClass $values): void
+     {
+          $postId = $this->dbWrapper->addNewPost($this->getAdminUser()['id'], $values);
+
+          if ($postId === false) {
+               $this->flashMessage("Post non salvato, riprova.", "danger");
+          }
+          else {
                $postFiles = $this->filesWrapper->uploadPostFiles(
                     $postId,
                     $this->getHttpRequest()->getFile('images')
                );
-               $this->dbWrapper->addPostFiles($postId, $postFiles);               
-
-               if ($postId === false) {
-                    $this->flashMessage("Post non salvato, riprova.", "danger");
+     
+               if (!empty($postFiles)) {
+                    $this->dbWrapper->addPostFiles($postId, $postFiles);
                }
-               else {
-                    $this->flashMessage("Post salvato con successo, sarà approvato dall'amministrazione", "success");
-                    $this->redirect('Dashboard:Index');
-               }
-          };
 
-          return $form;
+               $this->flashMessage("Post salvato con successo!", "success");
+               $this->redirect('Dashboard:Index');
+          }
+     }
+
+     public function handleLoadBrands($brandId)
+     {
+          if ($brandId) {
+               $this['addForm']['brands_models_id']
+                    ->setPrompt("-- Scegli un modello --")
+                    ->setItems($this->utils->getDbOptions("brands_models", ["brands_id" => $brandId]));
+          }
+          else {
+               $this['addForm']['brands_models_id']
+                    ->setPrompt('-- Scegli prima la Casa Automobilistica --')
+                    ->setItems([]);
+          }
+
+          $this->redrawControl('wrapper');
+          $this->redrawControl('brands_models');
      }
 }
