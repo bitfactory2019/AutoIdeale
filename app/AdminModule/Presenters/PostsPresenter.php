@@ -40,11 +40,6 @@ final class PostsPresenter extends _BasePresenter
                ->setItems([1 => "OK"])
                ->setHtmlAttribute('class', 'wide');
 
-          $form->addText('brand', 'Marca auto')
-               ->setRequired('Scegli la casa automobilistica')
-               ->setHtmlAttribute('placeholder', 'Casa Automobilistica')
-               ->setHtmlAttribute('class', 'form-control');
-
           $form->addSelect('fuel_type_id', 'Carburante')
                ->setRequired('Scegli il tipo di carburante')
                ->setItems($this->utils->getDbOptions('fuel_types'))
