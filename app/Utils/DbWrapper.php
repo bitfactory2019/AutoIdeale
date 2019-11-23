@@ -68,12 +68,12 @@ class DbWrapper
                 'users_id' => $userId,
                 'brands_id' => $values->brands_id,
                 'brands_models_id' => $values->brands_models_id,
-                'fuel_types_id' => $values->fuel_type_id,
+                'fuel_types_id' => $values->fuel_types_id,
                 'kilometers_id' => $values->kilometers_id,
-                'models_id' => $values->model_id,
-                'vehicle_types_id' => $values->vehicle_type_id,
-                'colors_id' => $values->color_id,
-                'shift_types_id' => $values->shift_type_id,
+                'models_id' => $values->models_id,
+                'vehicle_types_id' => $values->vehicle_types_id,
+                'colors_id' => $values->colors_id,
+                'shift_types_id' => $values->shift_types_id,
                 'euro_class_id' => $values->euro_class_id,
                 'doors_id' => $values->doors_id,
                 'seats_id' => $values->seats_id,
@@ -108,6 +108,36 @@ class DbWrapper
         $this->db->table('posts_images')->insert($insertFiles);
     }
 
+    public function editPost($postId, $values)
+    {
+        try {
+            $post = $this->db->table('posts')
+                ->where('id', $postId)
+                ->update([
+                    'brands_id' => $values->brands_id,
+                    'brands_models_id' => $values->brands_models_id,
+                    'fuel_types_id' => $values->fuel_types_id,
+                    'kilometers_id' => $values->kilometers_id,
+                    'models_id' => $values->models_id,
+                    'vehicle_types_id' => $values->vehicle_types_id,
+                    'colors_id' => $values->colors_id,
+                    'shift_types_id' => $values->shift_types_id,
+                    'euro_class_id' => $values->euro_class_id,
+                    'doors_id' => $values->doors_id,
+                    'seats_id' => $values->seats_id,
+                    'year' => $values->year,
+                    'title' => $values->title,
+                    'description' => $values->description,
+                    'price' => $values->price
+                ]);
+
+            return true;
+        }
+        catch (\PDOException $e) {
+            return false;
+        }
+    }
+
     public function getPosts($userId)
     {
         $posts = [];
@@ -126,5 +156,20 @@ class DbWrapper
         }
 
         return $posts;
+    }
+
+    public function getPost($id)
+    {
+        $row = $this->db->table('posts')
+            ->where('id', $id)
+            ->fetch();
+
+        return [
+            "data" => $row,
+            "thumbnail" => $row->related('posts_images.post_id')->limit(1)->fetch(),
+            "images" => $row->related('posts_images.post_id')
+        ]; 
+        
+        return $post;
     }
 }
