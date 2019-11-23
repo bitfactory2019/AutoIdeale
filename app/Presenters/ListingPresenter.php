@@ -8,4 +8,8 @@ use Nette;
 
 final class ListingPresenter extends _BasePresenter
 {
+    public function renderDetail($postId)
+    {
+        
+    }
 }

@@ -170,4 +170,29 @@ class DbWrapper
 
         return $brands;
     }
+
+    public function getShowcase($postsNo = false)
+    {
+        $posts = [];
+
+        $rows_dbo = $this->db->table('posts')
+            ->order('creation_time DESC');
+
+        if ($postsNo !== false) {
+            $rows_dbo->limit($postsNo);
+        }
+
+        $rows = $rows_dbo->fetchPairs('id');
+
+        foreach ($rows as $row) {
+            $posts[] = [
+                "data" => $row,
+                "thumbnail" => $row->related('posts_images.post_id')->limit(1)->fetch(),
+                "isNew" => $row->creation_time > strtotime("3 days ago"),
+                "isNotAvailable" => !$row->approved
+            ]; 
+        }
+
+        return $posts;
+    }
 }
