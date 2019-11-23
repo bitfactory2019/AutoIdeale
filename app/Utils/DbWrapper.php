@@ -140,4 +140,34 @@ class DbWrapper
 
         return $posts;
     }
+
+    public function getRandomBrands($brandsNo = false, $modelsNo = false)
+    {
+        $brands = [];
+
+        $brands_dbo = $this->db->table('brands')
+            ->order('RAND()');
+
+        if ($brandsNo !== false) {
+            $brands_dbo->limit($brandsNo);
+        }
+
+        $rows = $brands_dbo->fetchPairs('id');
+
+        foreach ($rows as $row) {
+            $models = $row->related('brands_models')
+                ->order('RAND()');
+
+            if ($modelsNo !== false) {
+                $models->limit($modelsNo);
+            }
+
+            $brands[] = [
+                "data" => $row,
+                "models" => $models->fetchPairs('id')
+            ]; 
+        }
+
+        return $brands;
+    }
 }
