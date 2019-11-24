@@ -14,22 +14,20 @@
     <div class="container margin_60_35">
         <div class="row">
             {include '../includes/search/filtersAside.latte'}
-            
 
-				<div class="col-lg-9">
-					<div class="row">
-                        {include '../includes/search/resultItem.latte'}
-                        {include '../includes/search/resultItem.latte'}
-                        {include '../includes/search/resultItem.latte'}
-                        {include '../includes/search/resultItem.latte'}
-                        {include '../includes/search/resultItem.latte'}
-                        {include '../includes/search/resultItem.latte'}
-					</div>
-					<!-- /row -->
+            <div class="col-lg-9">
+                <div class="row">
+                    {foreach $searchResults['page'] as $post}
+                        {include '../includes/search/resultItem.latte', 'post' => $post}
+                    {/foreach}
+                </div>
+                <!-- /row -->
 
-					<p class="text-center"><a href="#0" class="btn_1 rounded add_top_30">Carica</a></p>
-				</div>
-				<!-- /col -->
+                {if count($searchResults['posts']) > $searchResults['limit']}
+                    <p class="text-center"><a href="#0" class="btn_1 rounded add_top_30">Carica</a></p>
+                {/if}
+            </div>
+            <!-- /col -->
         </div>
     </div>
 {/block}
