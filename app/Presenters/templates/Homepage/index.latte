@@ -11,8 +11,8 @@
     {/snippetArea}
 
     {include '../includes/homepage-slide.latte'}
-    {include '../includes/homepage-brands.latte'}
+    {include '../includes/homepage-brands.latte', brands => $brands}
 
-    {include '../includes/showcase.latte'}
+    {include '../includes/showcase.latte', posts => $showcase}
     {include '../includes/guidelines.latte'}
 {/block}

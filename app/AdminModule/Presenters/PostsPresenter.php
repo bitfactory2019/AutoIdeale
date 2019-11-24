@@ -45,6 +45,7 @@ final class PostsPresenter extends _BasePresenter
           $form->addSelect('brands_models_id', 'Modello auto')
                //->setRequired('Scegli il modello di auto')
                ->setPrompt('-- Scegli prima la Casa Automobilistica --')
+<<<<<<< HEAD
                ->setItems($this->utils->getDbOptions(
                     'brands_models',
                     !empty($this->template->post) ? ["brands_id" => $this->template->post["data"]->brands_id] : []
@@ -53,6 +54,12 @@ final class PostsPresenter extends _BasePresenter
                ->setDefaultValue($this->template->post["data"]->brands_models_id ?? null);
 
           $form->addSelect('fuel_types_id', 'Carburante')
+=======
+               ->setItems([1 => "OK"])
+               ->setHtmlAttribute('class', 'wide');
+
+          $form->addSelect('fuel_type_id', 'Carburante')
+>>>>>>> ad14b9879377916823ce0e078ccf8ddf00153f16
                ->setRequired('Scegli il tipo di carburante')
                ->setItems($this->utils->getDbOptions('fuel_types'))
                ->setHtmlAttribute('class', 'wide')
@@ -132,7 +139,11 @@ final class PostsPresenter extends _BasePresenter
 
      public function submitAddPost(UI\Form $form, \stdClass $values): void
      {
+<<<<<<< HEAD
           // hack necessario per select dinamico
+=======
+          // hack per select caricato dinamicamente
+>>>>>>> ad14b9879377916823ce0e078ccf8ddf00153f16
           $values->brands_models_id = $_POST["brands_models_id"];
 
           $postId = $this->dbWrapper->addNewPost($this->getAdminUser()['id'], $values);

@@ -211,4 +211,59 @@ class DbWrapper
 
         return $posts;
     }
+
+    public function getRandomBrands($brandsNo = false, $modelsNo = false)
+    {
+        $brands = [];
+
+        $brands_dbo = $this->db->table('brands')
+            ->order('RAND()');
+
+        if ($brandsNo !== false) {
+            $brands_dbo->limit($brandsNo);
+        }
+
+        $rows = $brands_dbo->fetchPairs('id');
+
+        foreach ($rows as $row) {
+            $models = $row->related('brands_models')
+                ->order('RAND()');
+
+            if ($modelsNo !== false) {
+                $models->limit($modelsNo);
+            }
+
+            $brands[] = [
+                "data" => $row,
+                "models" => $models->fetchPairs('id')
+            ]; 
+        }
+
+        return $brands;
+    }
+
+    public function getShowcase($postsNo = false)
+    {
+        $posts = [];
+
+        $rows_dbo = $this->db->table('posts')
+            ->order('creation_time DESC');
+
+        if ($postsNo !== false) {
+            $rows_dbo->limit($postsNo);
+        }
+
+        $rows = $rows_dbo->fetchPairs('id');
+
+        foreach ($rows as $row) {
+            $posts[] = [
+                "data" => $row,
+                "thumbnail" => $row->related('posts_images.post_id')->limit(1)->fetch(),
+                "isNew" => $row->creation_time > strtotime("3 days ago"),
+                "isNotAvailable" => !$row->approved
+            ]; 
+        }
+
+        return $posts;
+    }
 }
