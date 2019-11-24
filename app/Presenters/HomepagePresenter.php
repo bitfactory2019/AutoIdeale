@@ -9,7 +9,12 @@ use Nette\Application\UI;
 
 final class HomepagePresenter extends _BasePresenter
 {
-<<<<<<< HEAD
+    public function renderIndex()
+    {
+        $this->template->brands = $this->dbWrapper->getRandomBrands(6, 4);
+        $this->template->showcase = $this->dbWrapper->getShowcase(6);
+    }
+
     public function createComponentSearchForm(): UI\Form
     {
         $form = new UI\Form;
@@ -78,11 +83,5 @@ final class HomepagePresenter extends _BasePresenter
 
         $this->redrawControl('searchWrapper');
         $this->redrawControl('brands_models');
-=======
-    public function renderIndex()
-    {
-        $this->template->brands = $this->dbWrapper->getRandomBrands(6, 4);
-        $this->template->showcase = $this->dbWrapper->getShowcase(6);
->>>>>>> ad14b9879377916823ce0e078ccf8ddf00153f16
     }
 }
