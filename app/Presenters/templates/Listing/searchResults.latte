@@ -1,0 +1,56 @@
+{layout '../@layout.latte'}
+
+{block header}
+    {include '../includes/header.latte'}
+{/block}
+
+{block subheader}{/block}
+
+{block content}
+    {include '../includes/search/searchTop.latte'}
+    {include '../includes/search/filtersTop.latte'}
+    {include '../includes/search/collapseMap.latte'}
+    
+    <div class="container margin_60_35">
+        <div class="row">
+            {include '../includes/search/filtersAside.latte'}
+            
+
+				<div class="col-lg-9">
+					<div class="row">
+                        {include '../includes/search/resultItem.latte'}
+                        {include '../includes/search/resultItem.latte'}
+                        {include '../includes/search/resultItem.latte'}
+                        {include '../includes/search/resultItem.latte'}
+                        {include '../includes/search/resultItem.latte'}
+                        {include '../includes/search/resultItem.latte'}
+					</div>
+					<!-- /row -->
+
+					<p class="text-center"><a href="#0" class="btn_1 rounded add_top_30">Carica</a></p>
+				</div>
+				<!-- /col -->
+        </div>
+    </div>
+{/block}
+
+{block scripts}
+	<!-- Map -->
+	<script src="http://maps.googleapis.com/maps/api/js"></script>
+	<script src="js/markerclusterer.js"></script>
+	<script src="js/listing_map.js"></script>
+	<script src="js/infobox.js"></script> 
+
+    <script>
+        $('input[type="range"]').rangeslider({
+            polyfill: false,
+            onInit: function () {
+                this.output = $(".distance span").html(this.$element.val());
+            },
+            onSlide: function (position, value) {
+                this.output.html(value);
+                this.$element.val(value);
+            }
+        });
+    </script>
+{/block}
