@@ -139,11 +139,7 @@ final class PostsPresenter extends _BasePresenter
 
      public function submitAddPost(UI\Form $form, \stdClass $values): void
      {
-<<<<<<< HEAD
           // hack necessario per select dinamico
-=======
-          // hack per select caricato dinamicamente
->>>>>>> ad14b9879377916823ce0e078ccf8ddf00153f16
           $values->brands_models_id = $_POST["brands_models_id"];
 
           $postId = $this->dbWrapper->addNewPost($this->getAdminUser()['id'], $values);
