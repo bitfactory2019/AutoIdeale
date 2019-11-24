@@ -159,7 +159,9 @@ class DbWrapper
         return [
             "data" => $post,
             "thumbnail" => $post->related('posts_images.post_id')->limit(1)->fetch(),
-            "images" => $post->related('posts_images.post_id')
+            "images" => $post->related('posts_images.post_id'),
+            "isNew" => $post->creation_time > strtotime("3 days ago"),
+            "isNotAvailable" => !$post->approved
         ];
     }
 
@@ -169,13 +171,7 @@ class DbWrapper
             ->where('id', $id)
             ->fetch();
 
-        return [
-            "data" => $row,
-            "thumbnail" => $row->related('posts_images.post_id')->limit(1)->fetch(),
-            "images" => $row->related('posts_images.post_id')
-        ]; 
-        
-        return $post;
+        return $this->_formatPostResult($row);
     }
 
     public function searchPosts()
@@ -256,12 +252,7 @@ class DbWrapper
         $rows = $rows_dbo->fetchPairs('id');
 
         foreach ($rows as $row) {
-            $posts[] = [
-                "data" => $row,
-                "thumbnail" => $row->related('posts_images.post_id')->limit(1)->fetch(),
-                "isNew" => $row->creation_time > strtotime("3 days ago"),
-                "isNotAvailable" => !$row->approved
-            ]; 
+            $posts[] = $this->_formatPostResult($row);
         }
 
         return $posts;
