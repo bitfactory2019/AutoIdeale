@@ -12,4 +12,9 @@ final class ListingPresenter extends _BasePresenter
     {
         $this->template->searchResults = $this->dbWrapper->searchPosts();
     }
+
+    public function renderDetail($postId)
+    {
+
+    }
 }
