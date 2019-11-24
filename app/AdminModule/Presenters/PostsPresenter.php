@@ -132,6 +132,9 @@ final class PostsPresenter extends _BasePresenter
 
      public function submitAddPost(UI\Form $form, \stdClass $values): void
      {
+          // hack necessario per select dinamico
+          $values->brands_models_id = $_POST["brands_models_id"];
+
           $postId = $this->dbWrapper->addNewPost($this->getAdminUser()['id'], $values);
 
           if ($postId === false) {
@@ -154,6 +157,9 @@ final class PostsPresenter extends _BasePresenter
 
      public function submitEditPost(UI\Form $form, \stdClass $values): void
      {
+          // hack necessario per select dinamico
+          $values->brands_models_id = $_POST["brands_models_id"];
+
           $result = $this->dbWrapper->editPost($this->template->post["data"]->id, $values);
 
           if ($result === false) {
