@@ -6,7 +6,10 @@
 {block subheader}{/block}
 
 {block content}
-    {include '../includes/search-homepage.latte'}
+    {snippetArea searchWrapper}
+        {include '../includes/search-homepage.latte'}
+    {/snippetArea}
+
     {include '../includes/homepage-slide.latte'}
     {include '../includes/homepage-brands.latte'}
 

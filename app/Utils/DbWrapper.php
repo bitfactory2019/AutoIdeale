@@ -148,14 +148,19 @@ class DbWrapper
             ->fetchPairs('id');
 
         foreach ($rows as $row) {
-            $posts[] = [
-                "data" => $row,
-                "thumbnail" => $row->related('posts_images.post_id')->limit(1)->fetch(),
-                "images" => $row->related('posts_images.post_id')
-            ]; 
+            $posts[] = $this->_formatPostResult($row); 
         }
 
         return $posts;
+    }
+
+    private function _formatPostResult($post)
+    {
+        return [
+            "data" => $post,
+            "thumbnail" => $post->related('posts_images.post_id')->limit(1)->fetch(),
+            "images" => $post->related('posts_images.post_id')
+        ];
     }
 
     public function getPost($id)
@@ -171,5 +176,39 @@ class DbWrapper
         ]; 
         
         return $post;
+    }
+
+    public function searchPosts()
+    {
+        $search = $this->presenter->getSession('frontend')->offsetGet('search');
+
+        $posts = [];
+
+        $search_dbo = $this->db->table('posts')
+            ->order('creation_time DESC');
+
+        if (!empty($search->brands_id)) {
+            $search_dbo->where('brands_id', $search->brands_id);
+        }
+
+        if (!empty($search->brands_models_id)) {
+            $search_dbo->where('brands_models_id', $search->brands_models_id);
+        }
+
+        if (!empty($search->year)) {
+            $search_dbo->where('year', $search->year);
+        }
+
+        if (!empty($search->price)) {
+            $search_dbo->where('price <= ?', $search->price);
+        }
+
+        $rows = $search_dbo->fetchPairs('id');
+
+        foreach ($rows as $row) {
+            $posts[] = $this->_formatPostResult($row); 
+        }
+
+        return $posts;
     }
 }
