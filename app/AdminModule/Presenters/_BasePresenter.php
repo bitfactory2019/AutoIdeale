@@ -35,6 +35,8 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
 
             return;
         }
+
+        $this->template->posts = $this->dbWrapper->getPosts($this->getAdminUser()['id']);
     }
 
     protected function getAdminUser()
