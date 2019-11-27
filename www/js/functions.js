@@ -166,7 +166,7 @@
     }
 	
 	// Jquery select
-	$('.custom-search-input-2 select, .custom-select-form select').niceSelect();
+	//$('.custom-search-input-2 select, .custom-select-form select').niceSelect();
 	
 	// Like Icon
     $('.wish_bt').on('click', function(e){

@@ -21,24 +21,30 @@
             </div>
         </div>
         <div class="list_general">
-            <ul>
-                {foreach $posts as $post}
-                {dump $post}
-                    <li>
-                        {if $post[thumbnail]}
-                            <figure n:tag-if="$post[thumbnail]"><img src="{$post[thumbnail]->url}" alt=""></figure>
-                        {/if}
+            {if $posts}
+                <ul>
+                    {foreach $posts as $post}
+                        <li>
+                            {if $post[thumbnail]}
+                                <figure n:tag-if="$post[thumbnail]"><img src="{$post[thumbnail]->url}" alt=""></figure>
+                            {/if}
 
-                        <small>{$post[data]->brand}</small>
-                        <h4>{$post[data]->title}</h4>
-                        <p>{$post[data]->description|striptags|truncate:100}</p>
-                        <p><a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> Guarda</a></p>
-                        <ul class="buttons">
-                            <li><a href="#0" class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i> Cancella</a></li>
-                        </ul>
-                    </li>
-                {/foreach}
-            </ul>
+                            <small>{$post[data]->brand}</small>
+                            <h4>{$post[data]->title}</h4>
+                            <p>{$post[data]->description|striptags|truncate:100}</p>
+                            <p>
+                                <a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> Guarda</a>
+                                <a n:href="Posts:edit $post[data][id]" class="btn_1 gray"><i class="fa fa-fw fa-edit"></i> Modifica</a>
+                            </p>
+                            <ul class="buttons">
+                                <li><a href="#0" class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i> Cancella</a></li>
+                            </ul>
+                        </li>
+                    {/foreach}
+                </ul>
+            {else}
+                Nessun annuncio inserito
+            {/if}
         </div>
     </div>
     <!-- /box_general-->

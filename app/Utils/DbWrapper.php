@@ -68,31 +68,18 @@ class DbWrapper
                 'users_id' => $userId,
                 'brands_id' => $values->brands_id,
                 'brands_models_id' => $values->brands_models_id,
-                'fuel_types_id' => $values->fuel_type_id,
+                'fuel_types_id' => $values->fuel_types_id,
                 'kilometers_id' => $values->kilometers_id,
-                'models_id' => $values->model_id,
-                'vehicle_types_id' => $values->vehicle_type_id,
-                'colors_id' => $values->color_id,
-                'shift_types_id' => $values->shift_type_id,
+                'models_id' => $values->models_id,
+                'vehicle_types_id' => $values->vehicle_types_id,
+                'colors_id' => $values->colors_id,
+                'shift_types_id' => $values->shift_types_id,
                 'euro_class_id' => $values->euro_class_id,
                 'doors_id' => $values->doors_id,
                 'seats_id' => $values->seats_id,
                 'year' => $values->year,
-                'brand' => $values->brand,
                 'title' => $values->title,
                 'description' => $values->description,
-                'name' => $values->name,
-                'surname' => $values->surname,
-                'city' => $values->city,
-                'address' => $values->address,
-                'county' => $values->county,
-                'cap' => $values->cap,
-                'telephone' => $values->telephone,
-                'website' => $values->website,
-                'email' => $values->email,
-                'facebook' => $values->facebook,
-                'twitter' => $values->twitter,
-                'instagram' => $values->instagram,
                 'price' => $values->price,
                 'approved' => true,
                 'creation_time' => \time()
@@ -121,6 +108,36 @@ class DbWrapper
         $this->db->table('posts_images')->insert($insertFiles);
     }
 
+    public function editPost($postId, $values)
+    {
+        try {
+            $post = $this->db->table('posts')
+                ->where('id', $postId)
+                ->update([
+                    'brands_id' => $values->brands_id,
+                    'brands_models_id' => $values->brands_models_id,
+                    'fuel_types_id' => $values->fuel_types_id,
+                    'kilometers_id' => $values->kilometers_id,
+                    'models_id' => $values->models_id,
+                    'vehicle_types_id' => $values->vehicle_types_id,
+                    'colors_id' => $values->colors_id,
+                    'shift_types_id' => $values->shift_types_id,
+                    'euro_class_id' => $values->euro_class_id,
+                    'doors_id' => $values->doors_id,
+                    'seats_id' => $values->seats_id,
+                    'year' => $values->year,
+                    'title' => $values->title,
+                    'description' => $values->description,
+                    'price' => $values->price
+                ]);
+
+            return true;
+        }
+        catch (\PDOException $e) {
+            return false;
+        }
+    }
+
     public function getPosts($userId)
     {
         $posts = [];
@@ -131,11 +148,61 @@ class DbWrapper
             ->fetchPairs('id');
 
         foreach ($rows as $row) {
-            $posts[] = [
-                "data" => $row,
-                "thumbnail" => $row->related('posts_images.post_id')->limit(1)->fetch(),
-                "images" => $row->related('posts_images.post_id')
-            ]; 
+            $posts[] = $this->_formatPostResult($row); 
+        }
+
+        return $posts;
+    }
+
+    private function _formatPostResult($post)
+    {
+        return [
+            "data" => $post,
+            "thumbnail" => $post->related('posts_images.post_id')->limit(1)->fetch(),
+            "images" => $post->related('posts_images.post_id'),
+            "isNew" => $post->creation_time > strtotime("3 days ago"),
+            "isNotAvailable" => !$post->approved
+        ];
+    }
+
+    public function getPost($id)
+    {
+        $row = $this->db->table('posts')
+            ->where('id', $id)
+            ->fetch();
+
+        return $this->_formatPostResult($row);
+    }
+
+    public function searchPosts()
+    {
+        $search = $this->presenter->getSession('frontend')->offsetGet('search');
+
+        $posts = [];
+
+        $search_dbo = $this->db->table('posts')
+            ->order('creation_time DESC');
+
+        if (!empty($search->brands_id)) {
+            $search_dbo->where('brands_id', $search->brands_id);
+        }
+
+        if (!empty($search->brands_models_id)) {
+            $search_dbo->where('brands_models_id', $search->brands_models_id);
+        }
+
+        if (!empty($search->year)) {
+            $search_dbo->where('year', $search->year);
+        }
+
+        if (!empty($search->price)) {
+            $search_dbo->where('price <= ?', $search->price);
+        }
+
+        $rows = $search_dbo->fetchPairs('id');
+
+        foreach ($rows as $row) {
+            $posts[] = $this->_formatPostResult($row); 
         }
 
         return $posts;
@@ -185,12 +252,7 @@ class DbWrapper
         $rows = $rows_dbo->fetchPairs('id');
 
         foreach ($rows as $row) {
-            $posts[] = [
-                "data" => $row,
-                "thumbnail" => $row->related('posts_images.post_id')->limit(1)->fetch(),
-                "isNew" => $row->creation_time > strtotime("3 days ago"),
-                "isNotAvailable" => !$row->approved
-            ]; 
+            $posts[] = $this->_formatPostResult($row);
         }
 
         return $posts;

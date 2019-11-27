@@ -2,6 +2,10 @@
 /* Your custom styles below */
 /*============================================================================================*/
 
+.custom-search-input-2 .row .form-group  select {
+    display: block;
+}
+
 .homepage-brands {
     width: 100%;
 }

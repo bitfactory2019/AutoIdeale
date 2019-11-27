@@ -11,7 +11,7 @@
                     <figure>
                         <a n:href="Listing:detail $post[data]->id" class="wish_bt"></a>
                         <a n:href="Listing:detail $post[data]->id">
-                            <img src="{$post[thumbnail]->url}" class="img-fluid" alt="" width="400" height="266">
+                            <img n:if="$post[thumbnail]" src="{$post[thumbnail]->url}" class="img-fluid" alt="" width="400" height="266">
                             <div class="read_more">
                                 <span>Scopri di più</span>
                             </div>
