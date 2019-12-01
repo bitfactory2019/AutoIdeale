@@ -19,7 +19,7 @@ final class ListingPresenter extends _BasePresenter
         ];
 
         $results['posts'] = $this->dbWrapper->searchPosts();
-        $results['pageTot'] = \count($results['posts']) / $limit;
+        $results['pageTot'] = \ceil(\count($results['posts']) / $limit);
 
         $rowFrom = ($page - 1) * $limit;
         $rowTo = $page * $limit;
