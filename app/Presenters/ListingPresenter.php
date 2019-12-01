@@ -30,6 +30,23 @@ final class ListingPresenter extends _BasePresenter
         }
 
         $this->template->searchResults = $results;
+
+        if (!$this->isAjax()) {
+            $this->template->view = $this->getSession('frontend')->offsetGet('search')->view ?? 'grid';
+        }
+    }
+
+    public function handleChangeView($view)
+    {
+        $search = $this->getSession('frontend')->offsetGet('search');
+        $search->view = $view;
+        $this->getSession('frontend')->offsetSet('search', $search);
+
+        $this->template->view = $view;
+
+        $this->redrawControl('filtersTop');
+        $this->redrawControl('filters-top');
+        $this->redrawControl('results');
     }
 
     public function renderDetail($postId)

@@ -1,4 +1,4 @@
-<div class="filters_listing version_2  sticky_horizontal">
+<div id="filters-top" class="filters_listing version_2  sticky_horizontal">
     <div class="container">
         <ul class="clearfix">
             <li>
@@ -12,10 +12,12 @@
                 </div>
             </li>
             <li>
-                <div class="layout_view">
-                    <a href="#0" class="active"><i class="icon-th"></i></a>
-                    <a href="listing-2.html"><i class="icon-th-list"></i></a>
+                <div n:snippet="filters-top" class="layout_view">
+                    <a href="#0" n:class="change-view, $view == 'grid' ? active" data-search-results-view="grid"><i class="icon-th"></i></a>
+                    <a href="#0" n:class="change-view, $view == 'list' ? active" data-search-results-view="list"><i class="icon-th-list"></i></a>
+                    <!--
                     <a href="list-map.html"><i class="icon-map"></i></a>
+                    -->
                 </div>
             </li>
             <li>
@@ -25,3 +27,17 @@
     </div>
     <!-- /container -->
 </div>
+
+<script>
+    $('#filters-top').delegate('.change-view', 'click', function (e) {
+        e.preventDefault();
+        
+        $.nette.ajax({
+            type: 'GET',
+            url: {link changeView!},
+            data: {
+                'view': $(this).data('search-results-view'),
+            }
+        });
+    });
+</script>
