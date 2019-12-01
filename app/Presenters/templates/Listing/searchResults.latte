@@ -7,7 +7,9 @@
 {block subheader}{/block}
 
 {block content}
-    {include '../includes/search/searchTop.latte'}
+    {snippetArea searchWrapper}
+        {include '../includes/search/searchTop.latte'}
+    {/snippetArea}
 
     {snippetArea filtersTop}
         {include '../includes/search/filtersTop.latte'}

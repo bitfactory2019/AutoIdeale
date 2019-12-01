@@ -5,9 +5,15 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use Nette;
+use Nette\Application\UI;
 
 final class ListingPresenter extends _BasePresenter
 {
+    public function createComponentSearchForm(): UI\Form
+    {
+        return $this->formComponent->createComponentSearchForm();
+    }
+
     public function renderSearchResults($page = 1, $limit = 10)
     {
         $results = [
@@ -30,10 +36,9 @@ final class ListingPresenter extends _BasePresenter
         }
 
         $this->template->searchResults = $results;
+        $this->template->search = $this->getSession('frontend')->offsetGet('search');
 
-        if (!$this->isAjax()) {
-            $this->template->view = $this->getSession('frontend')->offsetGet('search')->view ?? 'grid';
-        }
+        $this->template->view = $this->getSession('frontend')->offsetGet('search')->view ?? 'grid';
     }
 
     public function handleChangeView($view)

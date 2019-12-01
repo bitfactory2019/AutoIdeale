@@ -2,8 +2,13 @@
 /* Your custom styles below */
 /*============================================================================================*/
 
-.custom-search-input-2 .row .form-group  select {
+.custom-search-input-2 select.form-control {
     display: block;
+}
+
+.custom-search-input-2.inner input[type='submit'] {
+    height: 43px;
+    right: 0px;
 }
 
 .homepage-brands {

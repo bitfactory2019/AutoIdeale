@@ -1,39 +1,39 @@
 <div id="results">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-4 col-10">
-                <h4><strong>145</strong> result for All listing</h4>
+            <div class="col-lg-2 col-md-4 col-10">
+                <h4><strong>{\count($searchResults['posts'])}</strong> risultati trovati</h4>
             </div>
-            <div class="col-lg-9 col-md-8 col-2">
+            <div class="col-lg-10 col-md-8 col-2">
                 <a href="#0" class="search_mob btn_search_mobile"></a> <!-- /open search panel -->
-                <div class="row no-gutters custom-search-input-2 inner">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <input class="form-control" type="text" placeholder="Cerca...">
-                            <i class="icon_search"></i>
+                
+                {form searchForm}
+                    <div class="row no-gutters custom-search-input-2 inner">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                {input place}
+                                <i class="icon_pin_alt"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            {input brands_id}
+                        </div>
+                        <div class="col-lg-3">
+                            {snippet brands_models}
+                                {input brands_models_id}
+                            {/snippet}
+                        </div>
+                        <div class="col-lg-1">
+                            {input year}
+                        </div>
+                        <div class="col-lg-2">
+                            {input price}
+                        </div>
+                        <div class="col-lg-1">
+                            {input search}
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <input class="form-control" type="text" placeholder="Dove sei?">
-                            <i class="icon_pin_alt"></i>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <select class="wide">
-                            <option>Case Automobilistiche</option>	
-                            <option>Audi</option>
-                            <option>Bmw</option>
-                            <option>Renault</option>
-                            <option>Fiat</option>
-                            <option>Ford</option>
-                            <option>Kia</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-1">
-                        <input type="submit" value="Cerca">
-                    </div>
-                </div>
+                    {/form}
             </div>
         </div>
         <!-- /row -->
@@ -63,3 +63,17 @@
     </div>
     <!-- /container -->
 </div>
+
+<script>
+    $('#' + {$control['searchForm']['brands_id']->htmlId}).off('change').on('change', function () {
+        $("#brands-models-loading").show();
+
+        $.nette.ajax({
+            type: 'GET',
+            url: {link LoadBrands!},
+            data: {
+                'brandId': $(this).val(),
+            }
+        });
+    });
+</script>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use Nette;
+use App\Components;
 
 abstract class _BasePresenter extends Nette\Application\UI\Presenter
 {
@@ -12,6 +13,7 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     protected $dbWrapper;
     protected $emailWrapper;
     protected $utils;
+    protected $formComponent;
 
     public function __construct(\Nette\Database\Context $database)
     {
@@ -19,11 +21,17 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         $this->dbWrapper = new \App\Utils\DbWrapper($this);
         $this->emailWrapper = new \App\Utils\EmailWrapper($this);
         $this->utils = new \App\Utils($this);
+        $this->formComponent = new Components\FormComponent($this);
     }
 
     public function getDbService(): \Nette\Database\Context
     {
         return $this->db;
+    }
+
+    public function getUtils(): \App\Utils
+    {
+        return $this->utils;
     }
 
     protected function createComponentSignInForm()
@@ -56,5 +64,22 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         };
 
         return $form;
+    }
+
+    public function handleLoadBrands($brandId)
+    {
+        if ($brandId) {
+            $this['searchForm']['brands_models_id']
+                ->setPrompt('-- Modello --')
+                ->setItems($this->utils->getDbOptions("brands_models", ["brands_id" => $brandId]));
+        }
+        else {
+            $this['searchForm']['brands_models_id']
+                ->setPrompt('-- Modello --')
+                ->setItems([]);
+        }
+
+        $this->redrawControl('searchWrapper');
+        $this->redrawControl('brands_models');
     }
 }
