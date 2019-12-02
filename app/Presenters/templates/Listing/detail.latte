@@ -8,17 +8,17 @@
 
 {block content}
     {include '../includes/post/gallery.latte'}
-    
+
     {include '../includes/post/description.latte'}
 
     <div class="container margin_60_35">
             <div class="row">
                 <div class="col-lg-8">
-                    {include '../includes/post/details.latte'}
-                    {include '../includes/post/reviews.latte'}
+                    {include '../includes/post/details.latte', 'post' => $post}
+                    {*include '../includes/post/reviews.latte'*}
                 </div>
                 <!-- /col -->
-                
+
                 {include '../includes/post/aside.latte'}
             </div>
             <!-- /row -->
@@ -33,18 +33,20 @@
 	<script src="http://maps.googleapis.com/maps/api/js"></script>
 	<script src="js/map_single_restaurant.js"></script>
 	<script src="js/infobox.js"></script>
-	
-	<!-- INPUT QUANTITY  -->
-	<script src="js/input_qty.js"></script>
-	
+
 	<!-- DATEPICKER  -->
 	<script>
         $('input[name="dates"]').daterangepicker({
             "singleDatePicker": true,
             "parentEl": '#input-dates',
-            "opens": "left"
+            "opens": "left",
+            "locale": {
+              "format": "dddd DD/MM/YYYY",
+              "daysOfWeek": ['Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa', 'Do'],
+              "monthNames": ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic']
+            }
         }, function(start, end, label) {
-            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+            console.log('New date range selected: ' + start.format('DD/MM/YYYY') + ' to ' + end.format('DD-MM-YYYY') + ' (predefined range: ' + label + ')');
         });
     </script>
 {/block}

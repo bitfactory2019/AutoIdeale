@@ -4,7 +4,7 @@ Theme URI: http://www.ansonika.com/sparker/
 Author: Ansonika
 Author URI: http://themeforest.net/user/Ansonika/
 
-[Table of contents] 
+[Table of contents]
 
 1. SITE STRUCTURE and TYPOGRAPHY
 - 1.1 Typography
@@ -24,7 +24,7 @@ Author URI: http://themeforest.net/user/Ansonika/
 - 2.10 404 page
 - 2.11 Media Gallery
 - 2.12 Faq
-- 2.13 Bookings 
+- 2.13 Bookings
 
 3. COMMON
 - 3.1 Misc
@@ -4379,7 +4379,7 @@ section#reviews {
   border: 1px solid #d2d8dd;
 }
 .booking select {
-  display: none;
+  /*display: none;*/
 }
 .booking .dropdown {
   background-color: #fff;
@@ -4409,7 +4409,7 @@ section#reviews {
   box-shadow: none;
 }
 .booking .custom-select-form select {
-  display: none;
+  /*display: none;*/
 }
 .booking .form-group {
   margin: 0 0 10px 0;
@@ -6653,7 +6653,7 @@ a.btn_3, .btn_3 {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 .custom-select-form select {
-  display: none;
+  /*display: none;*/
 }
 
 ul.share-buttons {

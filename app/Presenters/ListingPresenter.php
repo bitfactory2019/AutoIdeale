@@ -56,6 +56,6 @@ final class ListingPresenter extends _BasePresenter
 
     public function renderDetail($postId)
     {
-
+        $this->template->post = $this->dbWrapper->getPost($postId);
     }
 }
