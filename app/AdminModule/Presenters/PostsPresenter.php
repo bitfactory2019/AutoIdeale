@@ -28,7 +28,7 @@ final class PostsPresenter extends _BasePresenter
                ->setHtmlAttribute('placeholder', 'Inserisci titolo')
                ->setHtmlAttribute('class', 'form-control')
                ->setDefaultValue($this->template->post["data"]->title ?? "");
-          
+
           $form->addSelect('year', 'Anno')
                ->setRequired('Scegli l\'anno')
                ->setItems(\range(2000, \date('Y')), false)
@@ -45,10 +45,10 @@ final class PostsPresenter extends _BasePresenter
           $form->addSelect('brands_models_id', 'Modello auto')
                //->setRequired('Scegli il modello di auto')
                ->setPrompt('-- Scegli prima la Casa Automobilistica --')
-               ->setItems($this->utils->getDbOptions(
-                    'brands_models',
-                    !empty($this->template->post) ? ["brands_id" => $this->template->post["data"]->brands_id] : []
-               ))
+               ->setItems(!empty($this->template->post)
+                  ? $this->utils->getDbOptions('brands_models', ["brands_id" => $this->template->post["data"]->brands_id])
+                  : []
+               )
                ->setHtmlAttribute('class', 'wide')
                ->setDefaultValue($this->template->post["data"]->brands_models_id ?? null);
 
@@ -118,8 +118,8 @@ final class PostsPresenter extends _BasePresenter
                ->setHtmlAttribute('class', 'form-control')
                ->setDefaultValue($this->template->post["data"]->price ?? "");
 
-          $form->addSubmit('save', 'Salva'); 
-          
+          $form->addSubmit('save', 'Salva');
+
           if (!empty($this->template->post)) {
                $form->onSuccess[] = [$this, 'submitEditPost'];
           }
@@ -145,7 +145,7 @@ final class PostsPresenter extends _BasePresenter
                     $postId,
                     $this->getHttpRequest()->getFile('images')
                );
-     
+
                if (!empty($postFiles)) {
                     $this->dbWrapper->addPostFiles($postId, $postFiles);
                }
