@@ -121,17 +121,19 @@ final class PostsPresenter extends _BasePresenter
           $form->addSubmit('save', 'Salva');
 
           if (!empty($this->template->post)) {
-               $form->onSuccess[] = [$this, 'submitEditPost'];
+              $form->onSubmit[] = [$this, 'submitEditPost'];
           }
           else {
-               $form->onSuccess[] = [$this, 'submitAddPost'];
+              $form->onSubmit[] = [$this, 'submitAddPost'];
           }
 
           return $form;
      }
 
-     public function submitAddPost(UI\Form $form, \stdClass $values): void
+     public function submitAddPost(UI\Form $form): void
      {
+          $values = $form->getValues();
+
           // hack necessario per select dinamico
           $values->brands_models_id = $_POST["brands_models_id"];
 
@@ -155,8 +157,10 @@ final class PostsPresenter extends _BasePresenter
           }
      }
 
-     public function submitEditPost(UI\Form $form, \stdClass $values): void
+     public function submitEditPost(UI\Form $form): void
      {
+          $values = $form->getValues();
+
           // hack necessario per select dinamico
           $values->brands_models_id = $_POST["brands_models_id"];
 
