@@ -1,7 +1,6 @@
 <section id="description">
     <div class="detail_title_1">
         <h1>{$post[data]->title}</h1>
-        <a n:if="$post[data]->address" class="address" href="https://www.google.com/maps/search/?api=1&query={$post[data]->address} {$post[data]->city}">{$post[data]->address}, {$post[data]->city}</a>
     </div>
     <h3><i>{$post[data]->price}€</i></h3>
     {$post[data]->description|noescape|trim}
@@ -23,6 +22,9 @@
                 <li>{$post[data]->euro_class->name}</li>
             </ul>
         </div>
+    </div>
+    <div class="detail_title_1">
+        <a n:if="$post[data]->address" class="address" href="https://www.google.com/maps/search/?api=1&query={$post[data]->address} {$post[data]->city}">{$post[data]->address}, {$post[data]->city}</a>
     </div>
     <!-- /row -->
     {*
