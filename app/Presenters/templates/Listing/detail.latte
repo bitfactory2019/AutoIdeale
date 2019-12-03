@@ -7,7 +7,7 @@
 {block subheader}{/block}
 
 {block content}
-    {include '../includes/post/gallery.latte'}
+    {include '../includes/post/gallery.latte', 'post' => $post}
 
     {include '../includes/post/description.latte'}
 

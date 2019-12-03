@@ -17,8 +17,15 @@
 
 .homepage-brands .homepage-brands-model {
     text-align: center;
-    width: 33%; 
-    padding: 10px 0 30px 0; 
-    background: #f6f6f6; 
+    width: 33%;
+    padding: 10px 0 30px 0;
+    background: #f6f6f6;
     border: solid 25px #ffffff;
+}
+
+.hero_in.restaurant_detail:before {
+    background-image: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
