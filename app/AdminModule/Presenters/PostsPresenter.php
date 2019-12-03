@@ -112,6 +112,42 @@ final class PostsPresenter extends _BasePresenter
 
           $form->addMultiUpload('images', 'Foto');
 
+          $form->addText('name', 'Nome')
+               ->setRequired('Inserisci il tuo nome')
+               ->setHtmlAttribute('placeholder', 'Inserisci Nome')
+               ->setHtmlAttribute('class', 'form-control');
+          $form->addText('surname', 'Cognome')
+               ->setRequired('Inserisci il tuo cognome')
+               ->setHtmlAttribute('placeholder', 'Inserisci Cognome')
+               ->setHtmlAttribute('class', 'form-control');
+          $form->addText('city', 'Città')
+               ->setRequired('Inserisci la tua città')
+               ->setHtmlAttribute('placeholder', 'Inserisci Città')
+               ->setHtmlAttribute('class', 'form-control');
+          $form->addText('address', 'Indirizzo')
+               ->setRequired('Inserisci il tuo indirizzo')
+               ->setHtmlAttribute('placeholder', 'Via e numero civico')
+               ->setHtmlAttribute('class', 'form-control');
+          $form->addText('county', 'Provincia')
+               ->setRequired('Inserisci la tua provincia')
+               ->setHtmlAttribute('class', 'form-control');
+          $form->addText('cap', 'Cap')
+               ->setRequired('Inserisci il tuo CAP')
+               ->setHtmlAttribute('class', 'form-control');
+          $form->addText('telephone', 'Telefono')
+               ->setHtmlAttribute('class', 'form-control');
+          $form->addText('website', 'Sito web')
+               ->setHtmlAttribute('class', 'form-control');
+          $form->addText('email', 'E-mail')
+               ->setRequired('Inserisci la tua e-mail')
+               ->setHtmlAttribute('class', 'form-control');
+          $form->addText('facebook', 'Link di Facebook')
+               ->setHtmlAttribute('class', 'form-control');
+          $form->addText('twitter', 'Link di Twitter')
+               ->setHtmlAttribute('class', 'form-control');
+          $form->addText('instagram', 'Link di Instagram')
+               ->setHtmlAttribute('class', 'form-control');
+
           $form->addText('price')
                ->setRequired('Inserisci il prezzo di vendita')
                ->setHtmlAttribute('placeholder', 'Prezzo')

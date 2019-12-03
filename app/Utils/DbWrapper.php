@@ -80,6 +80,18 @@ class DbWrapper
                 'year' => $values->year,
                 'title' => $values->title,
                 'description' => $values->description,
+                'name' => $values->name,
+                'surname' => $values->surname,
+                'city' => $values->city,
+                'address' => $values->address,
+                'county' => $values->county,
+                'cap' => $values->cap,
+                'telephone' => $values->telephone,
+                'website' => $values->website,
+                'email' => $values->email,
+                'facebook' => $values->facebook,
+                'twitter' => $values->twitter,
+                'instagram' => $values->instagram,
                 'price' => $values->price,
                 'approved' => true,
                 'creation_time' => \time()
@@ -148,7 +160,7 @@ class DbWrapper
             ->fetchPairs('id');
 
         foreach ($rows as $row) {
-            $posts[] = $this->_formatPostResult($row); 
+            $posts[] = $this->_formatPostResult($row);
         }
 
         return $posts;
@@ -202,7 +214,7 @@ class DbWrapper
         $rows = $search_dbo->fetchPairs('id');
 
         foreach ($rows as $row) {
-            $posts[] = $this->_formatPostResult($row); 
+            $posts[] = $this->_formatPostResult($row);
         }
 
         return $posts;
@@ -232,7 +244,7 @@ class DbWrapper
             $brands[] = [
                 "data" => $row,
                 "models" => $models->fetchPairs('id')
-            ]; 
+            ];
         }
 
         return $brands;
