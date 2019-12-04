@@ -29,3 +29,10 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+
+#description .bullets li::before {
+    content: attr(data-icon);
+    top: 3px;
+    font-size: 18px;
+}
+
