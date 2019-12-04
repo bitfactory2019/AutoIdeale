@@ -10,7 +10,7 @@
 
 <style>
   .hero_in.restaurant_detail:before {
-    background-image: url({$post[thumbnail]->url});
+    background-image: url('{$post[thumbnail]->url|noescape}');
   }
 </style>
 <!--/hero_in-->
