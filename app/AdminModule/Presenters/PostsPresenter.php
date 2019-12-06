@@ -156,19 +156,21 @@ final class PostsPresenter extends _BasePresenter
 
           $form->addSubmit('save', 'Salva');
 
-          if (!empty($this->template->post)) {
+          /*if (!empty($this->template->post)) {
               $form->onSubmit[] = [$this, 'submitEditPost'];
           }
           else {
               $form->onSubmit[] = [$this, 'submitAddPost'];
-          }
+          }*/
 
           return $form;
      }
 
-     public function submitAddPost(UI\Form $form): void
+     public function actionAddPost(): bool
      {
-          $values = $form->getValues();
+          $values = $this->getHttpRequest()->post;
+          $this->flashMessage("Post salvato con successo!", "success");
+          return true;
 
           // hack necessario per select dinamico
           $values->brands_models_id = $_POST["brands_models_id"];
@@ -177,6 +179,7 @@ final class PostsPresenter extends _BasePresenter
 
           if ($postId === false) {
                $this->flashMessage("Post non salvato, riprova.", "danger");
+               return false;
           }
           else {
                $postFiles = $this->filesWrapper->uploadPostFiles(
@@ -187,9 +190,9 @@ final class PostsPresenter extends _BasePresenter
                if (!empty($postFiles)) {
                     $this->dbWrapper->addPostFiles($postId, $postFiles);
                }
-
                $this->flashMessage("Post salvato con successo!", "success");
-               $this->redirect('Dashboard:Index');
+               //$this->redirect('Dashboard:Index');
+               return true;
           }
      }
 
