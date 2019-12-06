@@ -10,7 +10,7 @@
     {include parent}
 
     {snippetArea wrapper}
-        {form addForm onSubmit => "return false", id => "form-dropzone", class => "dropzone"}
+        {form addForm onSubmit => "return false", id => "form-dropzone"}
             <div class="box_general padding_bottom">
                 <div class="header_box version_2">
                     <h2><i class="fa fa-file"></i>Informazioni</h2>
@@ -189,24 +189,22 @@
                     </div>
                 </div>
                 <!-- /row-->
-                {block images}
-                {*
+            </div>
+            <!-- /box_general-->
+
+            {block images}
+                <div class="box_general padding_bottom">
+                    <div class="header_box version_2">
+                        <h2><i class="fa fa-picture-o"></i>Galleria di immagini</h2>
+                    </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                {label images /}
-                                {input images, class => 'form-control-file'}
-                                <!--<form action="/file-upload" class="dropzone"></form>-->
+                        <div class="col-md-12 dropzone">
+                            <div style="" class="dropzone-previews" id="post-gallery">
                             </div>
                         </div>
                     </div>
-                *}
-                {/block}
-
-                <!--<div id="my-dropzone" class="dropzone"></div>-->
-                <div class="dropzone-previews"></div>
-                <!-- /row-->
-            </div>
+                </div>
+            {/block}
             <!-- /box_general-->
 
             <div class="box_general padding_bottom">
@@ -337,9 +335,9 @@
     {include parent}
 
 	<!-- Custom scripts for this page-->
-    <script src="js/dropzone.js"></script>
-    <!--<script src="vendor/dropzone.min.js"></script>-->
-    <link href="css/dropzone.css" rel="stylesheet">
+  <script src="vendor/dropzone.min.js"></script>
+  <link href="vendor/dropzone.css" rel="stylesheet">
+
 	<script src="vendor/bootstrap-datepicker.js"></script>
 	<script>$('input.date-pick').datepicker();</script>
 
@@ -372,12 +370,13 @@
             });
         });
 
-        //$("#form-dropzone").dropzone({
-        Dropzone.options.formDropzone = {
+        $("#form-dropzone").dropzone({
             paramName: "images",
-            clickable: ".dropzone-previews",
+            previewsContainer: "#post-gallery",
+            clickable: "#post-gallery",
             url: {link addPost},
             autoProcessQueue: false,
+            dictDefaultMessage: "Aggiungi",
             uploadMultiple: true,
             parallelUploads: 100,
             maxFiles: 100,
@@ -386,48 +385,25 @@
             init: function() {
                 var myDropzone = this;
 
-                // First change the button to actually tell Dropzone to process the queue.
                 $("#save-post-button").on("click", function(e) {
-                // Make sure that the form isn't actually being sent.
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log("prossessQueue");
+
                     myDropzone.processQueue();
                 });
 
-                // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
-                // of the sending event because uploadMultiple is set to true.
                 this.on("sendingmultiple", function() {
-                    console.log("sendingmultiple");
-                // Gets triggered when the form is actually being sent.
-                // Hide the success button or the complete form.
+                    //console.log("sendingmultiple");
                 });
                 this.on("successmultiple", function(files, response) {
-                    console.log("successmultiple");
-                // Gets triggered when the files have successfully been sent.
-                // Redirect user or notify of success.
-                    console.log(response);
+                    //console.log("successmultiple", response);
+
                     $(window.location).attr('href', {link Posts:listing});
                 });
                 this.on("errormultiple", function(files, response) {
-                    console.log("errormultiple");
-                // Gets triggered when there was an error sending the files.
-                // Maybe show form again, and notify user of error
+                    //console.log("errormultiple");
                 });
             }
-            /*init: function() {
-                var submitButton = document.querySelector("#save-post-button");
-                myDropzone = this;
-
-                submitButton.addEventListener("click", function(e) {
-                    e.preventDefault();
-                    myDropzone.processQueue(); 
-                });
-
-                myDropzone.on("complete", function(file) {
-                    myDropzone.removeFile(file);
-                });
-            }*/
-        };
+        });
     </script>
 {/block}
