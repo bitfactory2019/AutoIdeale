@@ -1,4 +1,5 @@
 _template
 .DS_Store
 www/images/posts
+www/temp
 www/utils.php

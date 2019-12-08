@@ -43,4 +43,9 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     {
         return $this->getSession('admin')->offsetGet('user');
     }
+    
+    public function getConfig()
+    {
+        return $this->context->getParameters();
+    }
 }

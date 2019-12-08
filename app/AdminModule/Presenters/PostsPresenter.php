@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\AdminModule\Presenters;
 
 use Nette\Application\UI;
+use \Nette\Application\Responses\JsonResponse;
 use App\Utils;
 
 final class PostsPresenter extends _BasePresenter
@@ -16,12 +17,21 @@ final class PostsPresenter extends _BasePresenter
 
      public function renderEdit(int $id)
      {
+          $this->template->tempPath = \Nette\Utils\Random::generate(10);
           $this->template->post = $this->dbWrapper->getPost($id);
+     }
+
+     public function renderAdd()
+     {
+          $this->template->tempPath = \Nette\Utils\Random::generate(10);
      }
 
      protected function createComponentAddForm(): UI\Form
      {
           $form = new UI\Form;
+
+          $form->addHidden('tempPath')
+               ->setDefaultValue($this->template->tempPath ?? "");
 
           $form->addText('title', 'Titolo')
                ->setRequired('Inserisci il titolo dell\'annuncio')
@@ -156,21 +166,38 @@ final class PostsPresenter extends _BasePresenter
 
           $form->addSubmit('save', 'Salva');
 
-          /*if (!empty($this->template->post)) {
+          if (!empty($this->template->post)) {
               $form->onSubmit[] = [$this, 'submitEditPost'];
           }
           else {
               $form->onSubmit[] = [$this, 'submitAddPost'];
-          }*/
+          }
 
           return $form;
      }
 
-     public function actionAddPost(): bool
+     public function handleAddTempImages()
      {
-          $values = $this->getHttpRequest()->post;
-          $this->flashMessage("Post salvato con successo!", "success");
-          return true;
+          $images = $this->getHttpRequest()->getFile('images');
+
+          $postFiles = $this->filesWrapper->uploadTempFiles(
+               $this->getHttpRequest()->getQuery('tempPath'),
+               $images
+          );
+
+          $this->sendResponse(new JsonResponse($postFiles));
+     }
+
+     public function handleDeleteTempImage($imageName)
+     {
+          $this->filesWrapper->deleteTempImage($imageName);
+
+          $this->sendResponse(new JsonResponse(['result' => true]));
+     }
+
+     public function submitAddPost(UI\Form $form): void
+     {
+          $values = $form->getValues();
 
           // hack necessario per select dinamico
           $values->brands_models_id = $_POST["brands_models_id"];
@@ -179,20 +206,21 @@ final class PostsPresenter extends _BasePresenter
 
           if ($postId === false) {
                $this->flashMessage("Post non salvato, riprova.", "danger");
-               return false;
+               return;
           }
           else {
-               $postFiles = $this->filesWrapper->uploadPostFiles(
-                    $postId,
-                    $this->getHttpRequest()->getFile('images')
+               $postFiles = $this->filesWrapper->moveTempFiles(
+                    $values->tempPath,
+                    $postId
                );
 
                if (!empty($postFiles)) {
                     $this->dbWrapper->addPostFiles($postId, $postFiles);
                }
+
                $this->flashMessage("Post salvato con successo!", "success");
-               //$this->redirect('Dashboard:Index');
-               return true;
+               $this->redirect('Dashboard:Index');
+               return;
           }
      }
 

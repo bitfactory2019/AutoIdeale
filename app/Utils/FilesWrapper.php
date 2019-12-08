@@ -2,6 +2,9 @@
 
 namespace App\Utils;
 
+use Nette\Utils\Finder;
+use Nette\Utils\FileSystem;
+
 class FilesWrapper
 {
     private $presenter;
@@ -13,7 +16,14 @@ class FilesWrapper
         $this->db = $this->presenter->getDbService();
     }
 
-    public function uploadPostFiles($post_id, $files)
+    public function deleteTempImage($imageName)
+    {
+        $config = $this->presenter->getConfig();
+
+        FileSystem::delete($config["wwwDir"].$config["tempImagesDir"].'/'.$imageName);
+    }
+
+    public function uploadTempFiles($temp_path, $files)
     {
         if (empty($files[0])) {
             return [];
@@ -24,12 +34,12 @@ class FilesWrapper
         // DIMENSIONI DA GENERARE
         // 461X307
         // 801x304
-        $config = $this->presenter->context->getParameters();
+        $config = $this->presenter->getConfig();
 
         foreach ($files as $file) {
             if ($file->isOk() && $file->isImage()) {
                 $imageName = $file->getSanitizedName();
-                $relative = $config['postsImagesDir'].$post_id.'/'.$imageName;
+                $relative = $config['tempImagesDir'].$temp_path.'/'.$imageName;
                 $file->move($config['wwwDir'].$relative);
 
                 $postFiles[] = [
@@ -39,6 +49,42 @@ class FilesWrapper
                 ];
             }
         }
+
+        return $postFiles;
+    }
+
+    public function moveTempFiles($temp_path, $post_id)
+    {
+        $config = $this->presenter->getConfig();
+        $postFiles = [];
+        
+        $src = $config["wwwDir"].$config["tempImagesDir"].$temp_path;
+        $dst = $config["wwwDir"].$config['postsImagesDir'].$post_id;
+
+        $dir = opendir($src);  
+  
+        FileSystem::createDir($dst, 0755);
+    
+        while ($file = readdir($dir)) {  
+            if (($file == '.') || ($file == '..')) {
+                continue;
+            }
+
+            FileSystem::copy($src.'/'.$file, $dst.'/'.$file);
+
+            $imageName = \basename($file);
+            $relative = $config['postsImagesDir'].$post_id.'/'.$imageName;
+
+            $postFiles[] = [
+                'name' => $imageName,
+                'url' => $this->presenter->getHttpRequest()->getUrl()->getBaseUrl().$relative,
+                'path' => $config["wwwDir"].$relative
+            ]; 
+        }
+
+        FileSystem::delete($src);
+    
+        closedir($dir);
 
         return $postFiles;
     }
