@@ -6,4 +6,33 @@
     ]}
 {/block}
 
-{block images}{/block}
+{*block images}
+    {foreach $post[images] as $image}
+        {dump $image}
+        <div class="dz-preview dz-image-preview">
+            <div class="dz-details">
+                <div class="dz-filename"><span data-dz-name>{$image->name}</span></div>
+                <div class="dz-size" data-dz-size></div>
+                <img data-dz-thumbnail src="{$image->url}" />
+            </div>
+            <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+            <div class="dz-success-mark"><span>✔</span></div>
+            <a class="dz-remove" href="javascript:undefined;" data-dz-remove="">Remove file</a>
+        </div>
+    {/foreach}
+{/block*}
+
+{block scripts}
+    {include parent}
+
+    <script>
+        {foreach $post[images] as $image}
+            var file = { id: {$image->id}, name: {$image->name}, size: {$image->size} };
+
+            dropZone.files.push(file);
+            dropZone.emit('addedfile', file);
+            dropZone.emit("thumbnail", file, {$image->url});
+            dropZone.emit('complete', file);
+        {/foreach}
+    </script>
+{/block}

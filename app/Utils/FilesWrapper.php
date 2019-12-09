@@ -23,6 +23,23 @@ class FilesWrapper
         FileSystem::delete($config["wwwDir"].$config["tempImagesDir"].'/'.$imageName);
     }
 
+    public function deleteImage($id)
+    {
+        //$config = $this->presenter->getConfig();
+
+        //FileSystem::delete($config["wwwDir"].$config["tempImagesDir"].'/'.$imageName);
+
+        $file = $this->db->table('posts_images')
+                         ->where('id', $id)
+                         ->fetch();
+
+        FileSystem::delete($file->path);
+
+        $this->db->table('posts_images')
+                 ->where('id', $id)
+                 ->delete();
+    }
+
     public function uploadTempFiles($temp_path, $files)
     {
         if (empty($files[0])) {
@@ -40,6 +57,36 @@ class FilesWrapper
             if ($file->isOk() && $file->isImage()) {
                 $imageName = $file->getSanitizedName();
                 $relative = $config['tempImagesDir'].$temp_path.'/'.$imageName;
+                $file->move($config['wwwDir'].$relative);
+
+                $postFiles[] = [
+                    'name' => $imageName,
+                    'url' => $this->presenter->getHttpRequest()->getUrl()->getBaseUrl().$relative,
+                    'path' => $config['wwwDir'].$relative
+                ];
+            }
+        }
+
+        return $postFiles;
+    }
+
+    public function uploadFiles($postId, $files)
+    {
+        if (empty($files[0])) {
+            return [];
+        }
+
+        $postFiles = [];
+
+        // DIMENSIONI DA GENERARE
+        // 461X307
+        // 801x304
+        $config = $this->presenter->getConfig();
+
+        foreach ($files as $file) {
+            if ($file->isOk() && $file->isImage()) {
+                $imageName = $file->getSanitizedName();
+                $relative = $config['postsImagesDir'].$postId.'/'.$imageName;
                 $file->move($config['wwwDir'].$relative);
 
                 $postFiles[] = [

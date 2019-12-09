@@ -188,9 +188,28 @@ final class PostsPresenter extends _BasePresenter
           $this->sendResponse(new JsonResponse($postFiles));
      }
 
+     public function handleAddImages()
+     {
+          $images = $this->getHttpRequest()->getFile('images');
+
+          $postFiles = $this->filesWrapper->uploadFiles(
+               $this->getHttpRequest()->getQuery('postId'),
+               $images
+          );
+
+          $this->sendResponse(new JsonResponse($postFiles));
+     }
+
      public function handleDeleteTempImage($imageName)
      {
           $this->filesWrapper->deleteTempImage($imageName);
+
+          $this->sendResponse(new JsonResponse(['result' => true]));
+     }
+
+     public function handleDeleteImage($imageId)
+     {
+          $this->filesWrapper->deleteImage($imageId);
 
           $this->sendResponse(new JsonResponse(['result' => true]));
      }
@@ -226,17 +245,27 @@ final class PostsPresenter extends _BasePresenter
 
      public function submitEditPost(UI\Form $form): void
      {
+          $postId = $this->template->post["data"]->id;
           $values = $form->getValues();
 
           // hack necessario per select dinamico
           $values->brands_models_id = $_POST["brands_models_id"];
 
-          $result = $this->dbWrapper->editPost($this->template->post["data"]->id, $values);
+          $result = $this->dbWrapper->editPost($postId, $values);
 
           if ($result === false) {
                $this->flashMessage("Post non salvato, riprova.", "danger");
           }
           else {
+               $postFiles = $this->filesWrapper->moveTempFiles(
+                    $values->tempPath,
+                    $postId
+               );
+
+               if (!empty($postFiles)) {
+                    $this->dbWrapper->addPostFiles($postId, $postFiles);
+               }
+
                $this->flashMessage("Post salvato con successo!", "success");
                $this->redirect('Dashboard:Index');
           }

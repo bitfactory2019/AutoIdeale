@@ -109,11 +109,15 @@ class DbWrapper
         $insertFiles = [];
 
         foreach ($files as $file) {
+            $img = \file_get_contents($file['path']);
+
             $insertFiles[] = [
                 'post_id' => $postId,
                 'name' => $file['name'],
                 'url' => $file['url'],
-                'path' => $file['path']
+                'path' => $file['path'],
+                'base64' => 'data:image/png;base64,'.\base64_encode($img),
+                'size' => \filesize($file['path'])
             ];
         }
 
