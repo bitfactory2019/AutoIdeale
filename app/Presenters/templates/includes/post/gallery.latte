@@ -8,9 +8,11 @@
     </div>
 </div>
 
-<style>
-  .hero_in.restaurant_detail:before {
-    background-image: url('{$post[thumbnail]->url|noescape}');
-  }
-</style>
+{if $post[thumbnail]}
+  <style>
+    .hero_in.restaurant_detail:before {
+      background-image: url('{$post[thumbnail]->url|noescape}');
+    }
+  </style>
+{/if}
 <!--/hero_in-->
