@@ -22,3 +22,7 @@
 		min-height: 150px;
 		padding: 0px;
 }
+
+.message-request .fa {
+		margin-right: 10px;
+}

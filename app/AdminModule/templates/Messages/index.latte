@@ -1,0 +1,54 @@
+{layout '../@layout.latte'}
+
+{block breadcrumbs}
+    {include '../includes/breadcrumbs.latte', breadcrumbs => [
+        [url => '', label => 'Messaggi']
+    ]}
+{/block}
+
+{block content}
+    {include parent}
+
+    <div class="box_general">
+			<h4>In Arrivo</h4>
+			<div class="list_general">
+				<ul>
+          {foreach $messages as $message}
+  					<li>
+  						<span>{$message[data]->creation_time|date:'%d/%m/%Y alle %H:%m'}</span>
+  						<figure><img src="{$message[post][thumbnail]}" alt=""></figure>
+  						<h4>
+                {$message[data]->name}
+                <i n:if="$message[data]->new" class="unread">Nuovo</i>
+              </h4>
+              <p class="message-request">
+                Richiesta appuntamento per l'annuncio
+                <strong><a n:href=":Listing:detail $message[data]->posts->id" target="_blank">{$message[data]->posts->title} <i class="fa fa-external-link"></i></a></strong><br />
+                <i class="fa fa-calendar-o"></i><strong>{$message[data]->date_time|date:'%d/%m/%Y'}</strong><br />
+                <i class="fa fa-clock-o"></i><strong>{$message[data]->date_time|date:'%H:%M'}</strong>
+              </p>
+  					</li>
+          {/foreach}
+				</ul>
+			</div>
+		</div>
+		<!-- /box_general-->
+		<nav aria-label="...">
+			<ul class="pagination pagination-sm add_bottom_30">
+				<li class="page-item disabled">
+					<a class="page-link" href="#" tabindex="-1">Precedente</a>
+				</li>
+				<li class="page-item"><a class="page-link" href="#">1</a></li>
+				<li class="page-item"><a class="page-link" href="#">2</a></li>
+				<li class="page-item"><a class="page-link" href="#">3</a></li>
+				<li class="page-item">
+					<a class="page-link" href="#">Successivo</a>
+				</li>
+			</ul>
+		</nav>
+		<!-- /pagination-->
+{/block}
+
+{block scripts}
+    {include parent}
+{/block}

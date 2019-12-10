@@ -12,14 +12,13 @@
                     <span class="nav-link-text">Dashboard</span>
                 </a>
             </li>
-            <!--
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Messages">
-                <a class="nav-link" href="messages.html">
+                <a class="nav-link" n:href="Messages:index">
                     <i class="fa fa-fw fa-envelope-open"></i>
                     <span class="nav-link-text">Messaggi</span>
+                    <span n:if="count($newMessages)" class="badge badge-pill badge-primary">{count($newMessages)}</span>
                 </a>
             </li>
-            -->
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My listing">
                 <a class="nav-link" n:href="Posts:Listing">
                     <i class="fa fa-fw fa-list"></i>

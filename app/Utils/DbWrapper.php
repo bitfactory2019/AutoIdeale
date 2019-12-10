@@ -292,4 +292,28 @@ class DbWrapper
 
         return $posts;
     }
+
+    public function getMessages($userId, $only_new = false)
+    {
+        $messages = [];
+
+        $rows = $this->db->table('posts_requests')
+          ->where('posts.users_id', $userId)
+          ->order('creation_time DESC');
+
+        if ($only_new) {
+            $rows->where('new', true);
+        }
+
+        $rows = $rows->fetchPairs('id');
+
+        foreach ($rows as $row) {
+            $messages[] = [
+              "data" => $row,
+              "post" => $this->_formatPostResult($row->posts)
+            ];
+        }
+
+        return $messages;
+    }
 }
