@@ -6,6 +6,7 @@ namespace App\Presenters;
 
 use Nette;
 use Nette\Application\UI;
+use Nette\Utils\DateTime;
 
 final class ListingPresenter extends _BasePresenter
 {
@@ -57,5 +58,68 @@ final class ListingPresenter extends _BasePresenter
     public function renderDetail($postId)
     {
         $this->template->post = $this->dbWrapper->getPost($postId);
+    }
+
+    public function renderRequestConfirmed($postId)
+    {
+        $this->template->post = $this->dbWrapper->getPost($postId);
+    }
+
+    public function createComponentRequestForm(): UI\Form
+    {
+        $form = new UI\Form;
+
+        $form->addHidden('postId')
+             ->setDefaultValue($this->template->post['data']->id ?? '');
+
+        $form->addText('name', 'Nome e cognome')
+            ->setRequired('Inserisci nome e cognome')
+            ->setHtmlAttribute('placeholder', 'Il tuo nome...')
+            ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('email', 'Indirizzo e-mail')
+            ->setRequired('Campo obbligatorio')
+            ->addRule(UI\Form::EMAIL, 'Inserisci un indirizzo email valido')
+            ->setHtmlAttribute('placeholder', 'La tua email...')
+            ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('date', 'Data')
+            ->setRequired('Scegli una data')
+            ->setHtmlAttribute('placeholder', 'Scegli un giorno...')
+            ->setHtmlAttribute('class', 'form-control');
+
+        $form->addSelect('time', 'Ora')
+             ->setRequired("Scegli un'ora")
+             ->setItems($this->utils->getHours(), false)
+             ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSubmit('book', 'Prenota');
+
+        $form->onSubmit[] = [$this, 'submitSendRequest'];
+
+        return $form;
+    }
+
+    public function submitSendRequest(UI\Form $form): void
+    {
+        $values = $form->getValues();
+        $dateTime = DateTime::createFromFormat("l d/m/Y h:i", $values->date." ".$values->time);
+
+        $result = $this->dbWrapper->sendPostRequest(
+            $values->postId, 
+            $values->name, 
+            $values->email, 
+            $dateTime->getTimeStamp()
+        );
+
+        if ($result === false) {
+            $this->flashMessage("Richiesta non inviata, riprova.", "danger");
+            return;
+        }
+        else {
+            $this->flashMessage("La tua richiesta è stata inviata correttamente!", "success");
+            $this->redirect('Listing:detail', $values->postId);
+            return;
+        }
     }
 }

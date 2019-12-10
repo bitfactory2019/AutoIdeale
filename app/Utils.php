@@ -24,6 +24,19 @@ class Utils
         return $a;
     }
 
+    public function getHours($start_h = 8, $start_m = 0, $end_h = 20, $end_m = 0)
+    {
+        $hours = [];
+
+        for ($h = $start_h; $h <= $end_h; $h++) {
+            for ($m = 0; $m < 60; $m = $m + 15) {
+                $hours[] = \str_pad($h, 2, "0", STR_PAD_LEFT).":".\str_pad($m, 2, "0", STR_PAD_LEFT);
+            }
+        }
+
+        return $hours;
+    }
+
     public function getDbOptions($table, $where = [])
     {
         $results = $this->db->table($table);

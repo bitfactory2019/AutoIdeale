@@ -224,6 +224,25 @@ class DbWrapper
         return $posts;
     }
 
+    public function sendPostRequest($postId, $name, $email, $dateTime)
+    {
+        try {
+            $request = $this->db->table('posts_requests')->insert([
+                'post_id' => $postId,
+                "name" => $name,
+                "email" => $email,
+                'date_time' => $dateTime,
+                'creation_time' => \time()
+            ]);
+
+            return $request->getPrimary();
+        }
+        catch (\PDOException $e) {
+            Debugger::dump($e);
+            return false;
+        }
+    }
+
     public function getRandomBrands($brandsNo = false, $modelsNo = false)
     {
         $brands = [];
