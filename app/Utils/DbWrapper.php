@@ -228,7 +228,7 @@ class DbWrapper
     {
         try {
             $request = $this->db->table('posts_requests')->insert([
-                'post_id' => $postId,
+                'posts_id' => $postId,
                 "name" => $name,
                 "email" => $email,
                 'date_time' => $dateTime,
