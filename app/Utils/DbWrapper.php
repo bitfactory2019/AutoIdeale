@@ -229,6 +229,7 @@ class DbWrapper
         try {
             $request = $this->db->table('posts_requests')->insert([
                 'posts_id' => $postId,
+                'status' => 'pending',
                 "name" => $name,
                 "email" => $email,
                 'date_time' => $dateTime,
@@ -295,25 +296,41 @@ class DbWrapper
 
     public function getMessages($userId, $only_new = false)
     {
+        return [];
+    }
+
+    public function getRequests($userId, $only_new = false)
+    {
         $messages = [];
 
         $rows = $this->db->table('posts_requests')
-          ->where('posts.users_id', $userId)
-          ->order('creation_time DESC');
+            ->where('posts.users_id', $userId)
+            ->order('creation_time DESC');
 
         if ($only_new) {
-            $rows->where('new', true);
+            $rows->where('status', 'pending');
         }
 
         $rows = $rows->fetchPairs('id');
 
         foreach ($rows as $row) {
             $messages[] = [
-              "data" => $row,
-              "post" => $this->_formatPostResult($row->posts)
+                "data" => $row,
+                "post" => $this->_formatPostResult($row->posts)
             ];
         }
 
         return $messages;
+    }
+
+    public function getRequest($requestId)
+    {
+        $row = $this->db->table('posts_requests')
+            ->get($requestId);
+
+        return [
+            "data" => $row,
+            "post" => $this->_formatPostResult($row->posts)
+        ];
     }
 }

@@ -19,6 +19,17 @@
                     <span n:if="count($newMessages)" class="badge badge-pill badge-primary">{count($newMessages)}</span>
                 </a>
             </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Bookings">
+            <a class="nav-link" n:href="Requests:index">
+                <i class="fa fa-fw fa-calendar-check-o"></i>
+                <span class="nav-link-text">
+                    Appuntamenti 
+                    <span class="badge badge-pill badge-primary">
+                        {if count($newRequests) > 0}{count($newRequests)} Nuovi{else}{count($requests)}{/if}
+                    </span>
+                </span>
+            </a>
+            </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My listing">
                 <a class="nav-link" n:href="Posts:Listing">
                     <i class="fa fa-fw fa-list"></i>

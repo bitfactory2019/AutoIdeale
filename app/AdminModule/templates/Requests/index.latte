@@ -1,0 +1,79 @@
+{layout '../@layout.latte'}
+
+{block breadcrumbs}
+    {include '../includes/breadcrumbs.latte', breadcrumbs => [
+        [url => '', label => 'Richieste di appuntamento']
+    ]}
+{/block}
+
+{block content}
+    {include parent}
+
+    <div class="box_general">
+        <div class="header_box">
+            <h2 class="d-inline-block">Richieste di appuntamento</h2>
+            <div class="filter">
+                <select name="orderby" class="selectbox">
+                    <option value="all">Tutti gli stati</option>
+                    <option value="approved">Approvati</option>
+                    <option value="pending">In attesa</option>
+                    <option value="refused">Cancellati</option>
+                </select>
+            </div>
+        </div>
+        <div class="list_general">
+            <ul>
+                {foreach $requests as $request}
+                    <li>
+                        {form requestForm, requestId => $request[data]->id}
+                            <input type="hidden" name="requestId" value={$request[data]->id} />
+
+                            <figure><img src="{$request[post][thumbnail]}" alt=""></figure>
+                            <h4>
+                                {$request[post][data]->title} 
+                                
+                                {switch $request[data]->status}
+                                    {case pending}
+                                        <i class="pending">In attesa</i>
+                                    {case approved}
+                                        <i class="approved">Approvato</i>
+                                    {case refused}
+                                        <i class="cancel">Cancellato</i>
+                                {/switch}
+                            </h4>
+
+                            <ul class="booking_list">
+                                <li><strong>Data richiesta</strong> {$request[data]->date_time|date:'%d/%m/%Y alle %H:%M'}</li>
+                                <li><strong>Cliente</strong> {$request[data]->name}</li>
+                            </ul>
+
+                            <p><a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-envelope"></i> Invia messaggio</a></p>
+
+                            {if $request[data]->status == 'pending'}
+                                <ul class="buttons">
+                                    <li>{input approved, class => 'btn_1 gray approve'}</li>
+                                    <li>{input refused, class => 'btn_1 gray delete'}</li>
+                                </ul>
+                            {/if}
+                        {/form}
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+    <!-- /box_general-->
+    <nav aria-label="...">
+        <ul class="pagination pagination-sm add_bottom_30">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Precedente</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Successivo</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- /pagination-->
+{/block}

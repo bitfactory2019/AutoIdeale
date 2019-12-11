@@ -37,7 +37,10 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         }
 
         $this->template->posts = $this->dbWrapper->getPosts($this->getAdminUser()['id']);
+        $this->template->messages = $this->dbWrapper->getMessages($this->getAdminUser()['id']);
         $this->template->newMessages = $this->dbWrapper->getMessages($this->getAdminUser()['id'], true);
+        $this->template->requests = $this->dbWrapper->getRequests($this->getAdminUser()['id']);
+        $this->template->newRequests = $this->dbWrapper->getRequests($this->getAdminUser()['id'], true);
     }
 
     protected function getAdminUser()
