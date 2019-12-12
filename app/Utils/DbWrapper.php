@@ -303,7 +303,7 @@ class DbWrapper
         return [];
     }
 
-    public function getRequests($userId, $only_new = false)
+    public function getRequests($userId, $status = 'all')
     {
         $messages = [];
 
@@ -311,8 +311,8 @@ class DbWrapper
             ->where('posts.users_id', $userId)
             ->order('creation_time DESC');
 
-        if ($only_new) {
-            $rows->where('status', 'pending');
+        if ($status !== 'all') {
+            $rows->where('status', $status);
         }
 
         $rows = $rows->fetchPairs('id');

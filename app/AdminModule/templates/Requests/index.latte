@@ -13,7 +13,7 @@
         <div class="header_box">
             <h2 class="d-inline-block">Richieste di appuntamento</h2>
             <div class="filter">
-                <select name="orderby" class="selectbox">
+                <select id="requests-sort" name="orderby" class="form-control wide">
                     <option value="all">Tutti gli stati</option>
                     <option value="approved">Approvati</option>
                     <option value="pending">In attesa</option>
@@ -21,54 +21,57 @@
                 </select>
             </div>
         </div>
-        <div class="list_general">
-            <ul>
-                {foreach $requests as $request}
-                    <li>
-                        {form requestForm, requestId => $request[data]->id}
-                            <input type="hidden" name="requestId" value={$request[data]->id} />
 
-                            <figure><img src="{$request[post][thumbnail]}" alt=""></figure>
-                            <h4>
-                                {$request[data]->name} 
-                                
-                                {switch $request[data]->status}
-                                    {case pending}
-                                        <i class="pending">In attesa</i>
-                                    {case approved}
-                                        <i class="approved">Approvato</i>
-                                    {case refused}
-                                        <i class="cancel">Cancellato</i>
-                                {/switch}
-                            </h4>
+        {snippet requests}
+            <div class="list_general">
+                <ul>
+                    {foreach $requests as $request}
+                        <li>
+                            {form requestForm, requestId => $request[data]->id}
+                                <input type="hidden" name="requestId" value={$request[data]->id} />
 
-                            <ul class="booking_list">
-                                <li><strong>Data richiesta</strong> {$request[data]->date_time|date:'%d/%m/%Y alle %H:%M'}</li>
-                                <li>
-                                    <strong>Annuncio</strong> 
-                                    <a n:href=":Listing:detail $request[data]->posts->id" target="_blank">
-                                        {$request[data]->posts->title}
-                                        <i class="fa fa-external-link"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                                <figure><img src="{$request[post][thumbnail]}" alt=""></figure>
+                                <h4>
+                                    {$request[data]->name} 
+                                    
+                                    {switch $request[data]->status}
+                                        {case pending}
+                                            <i class="pending">In attesa</i>
+                                        {case approved}
+                                            <i class="approved">Approvato</i>
+                                        {case refused}
+                                            <i class="cancel">Cancellato</i>
+                                    {/switch}
+                                </h4>
 
-                            <p>
-                                <a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-envelope"></i> Invia messaggio</a>
-                                <a href="tel:{$request[data]->telephone}"} class="btn_1 gray"><i class="fa fa-phone"></i> Telefona</a>
-                            </p>
-
-                            {if $request[data]->status == 'pending'}
-                                <ul class="buttons">
-                                    <li>{input approved, class => 'btn_1 gray approve'}</li>
-                                    <li>{input refused, class => 'btn_1 gray delete'}</li>
+                                <ul class="booking_list">
+                                    <li><strong>Data richiesta</strong> {$request[data]->date_time|date:'%d/%m/%Y alle %H:%M'}</li>
+                                    <li>
+                                        <strong>Annuncio</strong> 
+                                        <a n:href=":Listing:detail $request[data]->posts->id" target="_blank">
+                                            {$request[data]->posts->title}
+                                            <i class="fa fa-external-link"></i>
+                                        </a>
+                                    </li>
                                 </ul>
-                            {/if}
-                        {/form}
-                    </li>
-                {/foreach}
-            </ul>
-        </div>
+
+                                <p>
+                                    <a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-envelope"></i> Invia messaggio</a>
+                                    <a href="tel:{$request[data]->telephone}"} class="btn_1 gray"><i class="fa fa-phone"></i> Telefona</a>
+                                </p>
+
+                                {if $request[data]->status == 'pending'}
+                                    <ul class="buttons">
+                                        <li>{input approved, class => 'btn_1 gray approve'}</li>
+                                        <li>{input refused, class => 'btn_1 gray delete'}</li>
+                                    </ul>
+                                {/if}
+                            {/form}
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        {/snippet}
     </div>
     <!-- /box_general-->
     <nav aria-label="...">
@@ -85,4 +88,26 @@
         </ul>
     </nav>
     <!-- /pagination-->
+{/block}
+
+{block scripts}
+    {include parent}
+
+    <script>
+        $('#requests-sort').off('change').on('change', function (e) {
+            $(".list_general").css('opacity', '0.5');
+            console.log($(this).val());
+
+            $.nette.ajax({
+                type: 'GET',
+                url: {link filterRequests!},
+                data: {
+                    'status': $(this).val(),
+                },
+                success: () => {
+                    $(".list_general").css('opacity', '1');
+                }
+            });
+        });
+    </script>
 {/block}

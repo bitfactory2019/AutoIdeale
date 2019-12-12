@@ -64,4 +64,12 @@ final class RequestsPresenter extends _BasePresenter
         $this->redirect('Requests:index');
         return;
     }
+
+    public function handleFilterRequests($status)
+    {
+        $this->template->requests = $this->dbWrapper->getRequests($this->getAdminUser()['id'], $status);
+
+        //$this->presenter->redrawControl('searchWrapper');
+        $this->presenter->redrawControl('requests');
+    }
 }
