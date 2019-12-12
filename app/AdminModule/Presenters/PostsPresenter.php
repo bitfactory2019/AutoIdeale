@@ -26,6 +26,13 @@ final class PostsPresenter extends _BasePresenter
           $this->template->tempPath = \Nette\Utils\Random::generate(10);
      }
 
+     public function handleSortPosts($order)
+     {
+         $this->template->requests = $this->dbWrapper->getPosts($this->getAdminUser()['id'], $order);
+ 
+         $this->presenter->redrawControl('posts');
+     }
+
      protected function createComponentAddForm(): UI\Form
      {
           $form = new UI\Form;

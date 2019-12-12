@@ -155,14 +155,21 @@ class DbWrapper
         }
     }
 
-    public function getPosts($userId)
+    public function getPosts($userId, $sort = 'latest')
     {
         $posts = [];
 
-        $rows = $this->db->table('posts')
-            ->where('users_id', $userId)
-            ->order('creation_time DESC')
-            ->fetchPairs('id');
+        $dbo = $this->db->table('posts')
+            ->where('users_id', $userId);
+        
+        switch ($sort) {
+            case 'random': $dbo->order('RAND()'); break;
+            case 'oldest': $dbo->order('creation_time ASC'); break;
+            case 'latest': $dbo->order('creation_time DESC'); break;
+            default: $dbo->order('creation_time DESC'); break;
+        }
+
+        $rows = $dbo->fetchPairs('id');
 
         foreach ($rows as $row) {
             $posts[] = $this->_formatPostResult($row);
