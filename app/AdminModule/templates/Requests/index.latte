@@ -13,7 +13,7 @@
         <div class="header_box">
             <h2 class="d-inline-block">Richieste di appuntamento</h2>
             <div class="filter">
-                <select id="requests-sort" name="orderby" class="form-control wide">
+                <select id="requests-filter" name="orderby" class="form-control wide">
                     <option value="all">Tutti gli stati</option>
                     <option value="approved">Approvati</option>
                     <option value="pending">In attesa</option>
@@ -94,9 +94,8 @@
     {include parent}
 
     <script>
-        $('#requests-sort').off('change').on('change', function (e) {
+        $('#requests-filter').off('change').on('change', function (e) {
             $(".list_general").css('opacity', '0.5');
-            console.log($(this).val());
 
             $.nette.ajax({
                 type: 'GET',

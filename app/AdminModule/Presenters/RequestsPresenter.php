@@ -69,7 +69,6 @@ final class RequestsPresenter extends _BasePresenter
     {
         $this->template->requests = $this->dbWrapper->getRequests($this->getAdminUser()['id'], $status);
 
-        //$this->presenter->redrawControl('searchWrapper');
         $this->presenter->redrawControl('requests');
     }
 }
