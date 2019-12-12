@@ -3,6 +3,7 @@
 namespace App\Utils;
 
 use Nette\Diagnostic\Debugger;
+use Nette\Utils\DateTime;
 
 class DbWrapper
 {
@@ -224,15 +225,18 @@ class DbWrapper
         return $posts;
     }
 
-    public function sendPostRequest($postId, $name, $email, $dateTime)
+    public function sendPostRequest($values)
     {
+        $dateTime = DateTime::createFromFormat("l d/m/Y h:i", $values->date." ".$values->time);
+
         try {
             $request = $this->db->table('posts_requests')->insert([
-                'posts_id' => $postId,
+                'posts_id' => $values->postId,
                 'status' => 'pending',
-                "name" => $name,
-                "email" => $email,
-                'date_time' => $dateTime,
+                'name' => $values->name,
+                'email' => $values->email,
+                'telephone', $values->telephone,
+                'date_time' => $dateTime->getTimeStamp(),
                 'creation_time' => \time()
             ]);
 

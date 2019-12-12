@@ -6,7 +6,6 @@ namespace App\Presenters;
 
 use Nette;
 use Nette\Application\UI;
-use Nette\Utils\DateTime;
 
 final class ListingPresenter extends _BasePresenter
 {
@@ -83,6 +82,12 @@ final class ListingPresenter extends _BasePresenter
             ->setHtmlAttribute('placeholder', 'La tua email...')
             ->setHtmlAttribute('class', 'form-control');
 
+        $form->addText('telephone', 'Numero di cellulare')
+            ->setRequired('Campo obbligatorio')
+            ->addRule(UI\Form::PATTERN, 'Inserisci un numero di telefono valido', '([0-9]\s*{8,}')
+            ->setHtmlAttribute('placeholder', 'Numero di telefono...')
+            ->setHtmlAttribute('class', 'form-control');
+
         $form->addText('date', 'Data')
             ->setRequired('Scegli una data')
             ->setHtmlAttribute('placeholder', 'Scegli un giorno...')
@@ -103,14 +108,8 @@ final class ListingPresenter extends _BasePresenter
     public function submitSendRequest(UI\Form $form): void
     {
         $values = $form->getValues();
-        $dateTime = DateTime::createFromFormat("l d/m/Y h:i", $values->date." ".$values->time);
 
-        $result = $this->dbWrapper->sendPostRequest(
-            $values->postId, 
-            $values->name, 
-            $values->email, 
-            $dateTime->getTimeStamp()
-        );
+        $result = $this->dbWrapper->sendPostRequest($form->getValues());
 
         if ($result === false) {
             $this->flashMessage("Richiesta non inviata, riprova.", "danger");
