@@ -8,6 +8,30 @@ use Nette;
 
 final class RegistrationPresenter extends _BasePresenter
 {
+    public function renderConfirmation($account)
+    {
+        $user = $this->db->table('users')
+            ->where('email', \base64_decode($account))
+            ->fetch();
+
+        $error = '';
+
+        if (empty($user)) {
+            $error = 'not-found';
+        }
+        elseif ($user->enabled) {
+            $error = 'already-enabled';
+        }
+        else {
+            $this->db->table('users')
+                ->where('id', $user->id)
+                ->update(['enabled' => true]);
+        }
+
+        $this->template->result = empty($error);
+        $this->template->error = $error;
+    }
+
     protected function createComponentSignUpForm()
     {
         $form = new \Nette\Application\UI\Form();
@@ -41,7 +65,10 @@ final class RegistrationPresenter extends _BasePresenter
                     $this->flashMessage("Si è verificato un errore con la registrazione, contatta l'assistenza.", "danger");
                 }
                 else {
-                    //$this->emailWrapper->sendNewUser($values);
+                    $this->emailWrapper->sendNewUserConfirmation(
+                        $values,
+
+                    );
     
                     $this->flashMessage("La registrazione è avvenuta con successo!", "success");
                     $this->flashMessage("Un amministratore attiverà il tuo account appena possibile.", "success");

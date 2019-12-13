@@ -3,6 +3,7 @@
 namespace App\Utils;
 
 use Nette\Mail;
+use Nette\Http\Url;
 
 class EmailWrapper
 {
@@ -17,17 +18,34 @@ class EmailWrapper
         $this->mailer = new Mail\SendmailMailer;
     }
     
-    public function sendNewUser($values)
+    public function sendNewUserConfirmation($values)
     {
         $template = new \Latte\Engine;
         $mail = new Mail\Message;
         $config = $this->presenter->context->getParameters();
 
+        $url = $this->_getBaseUrl();
+        $url->path .= '/registration/confirmation';
+        $url->query = 'account='.base64_encode($values->email);
+
         $mail->setFrom('AutoIdeale <noreply@autoideale.it>')
             ->addTo($values->email)
-            ->setSubject('Nuova registrazione')
-            ->setHtmlBody($template->renderToString($config['templateEmailsDir'].'newUser.latte', ["args" => $values]));
+            ->setHtmlBody(
+                $template->renderToString(
+                    $config['templateEmailsDir'].'newUserConfirmation.latte', [
+                    "args" => $values,
+                    "confirmationUrl" => $url
+                ])
+            );
 
         $this->mailer->send($mail);
+    }
+
+    private function _getBaseUrl()
+    {
+        $url = new Url($this->presenter->getHttpRequest()->getUrl());
+        $url->path = '/AutoIdeale/www';
+
+        return $url;
     }
 }
