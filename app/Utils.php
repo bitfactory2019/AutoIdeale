@@ -45,6 +45,8 @@ class Utils
             $results->where($field, $value);
         }
 
+        $results->order('name');
+
         return $this->arrayKeyValue($results, 'id', 'name');
     }
 
