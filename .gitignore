@@ -3,3 +3,5 @@ _template
 www/images/posts
 www/temp
 www/utils.php
+app/Presenters/Test/TestPresenter.php
+app/Presenters/templates/Test/index.latte
