@@ -65,14 +65,11 @@ final class RegistrationPresenter extends _BasePresenter
                     $this->flashMessage("Si è verificato un errore con la registrazione, contatta l'assistenza.", "danger");
                 }
                 else {
-                    $this->emailWrapper->sendNewUserConfirmation(
-                        $values,
+                    $this->emailWrapper->sendNewUserConfirmation($values);
 
-                    );
-    
                     $this->flashMessage("La registrazione è avvenuta con successo!", "success");
                     $this->flashMessage("Un amministratore attiverà il tuo account appena possibile.", "success");
-    
+
                     $this->redirect("Registration:signIn");
                 }
             }
