@@ -2,8 +2,8 @@ parameters:
 
 database:
 	dsn: 'mysql:host=autoideale.it;dbname=autoideale_develop'
-	user: 'hayV65HabU'
-	password: 'JYJDq2d3Jv'
+	user: 'autoideale_dev'
+	password: 'MEQSj2yQBf'
 
 session:
 	autoStart: true # default is 'smart'
