@@ -1,15 +1,9 @@
 parameters:
 
 database:
-	#dsn: 'mysql:host=localhost;dbname=autoideale'
-	#user: 'root'
-	#password:
-	#dsn: 'mysql:host=remotemysql.com:3306;dbname=qA86pKEbXR'
-	#user: 'qA86pKEbXR'
-	#password: '4qcFX4jgFc'
-	dsn: 'mysql:host=medianetspace.com;dbname=autoideale'
-	user: 'autoideale'
-	password: 'autoideale'
+	dsn: 'mysql:host=autoideale.it;dbname=autoideale_develop'
+	user: 'hayV65HabU'
+	password: 'JYJDq2d3Jv'
 
 session:
 	autoStart: true # default is 'smart'
