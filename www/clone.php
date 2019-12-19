@@ -35,7 +35,7 @@
     @mkdir("../../AutoIdeale-clone");
     $zip->extractTo("../../AutoIdeale-clone");
     $zip->close();
-    copy_recursive("../../AutoIdeale-temp", "../../AutoIdeale-clone/www/images");
+    copy_recursive("../../AutoIdeale-temp", "../../AutoIdeale-clone/AutoIdeale-master/www/images");
     rmdir_recursive("../../AutoIdeale-temp");
     rmdir_recursive("../../AutoIdeale-master");
     copy_recursive("../../AutoIdeale-clone/AutoIdeale-master", "../../AutoIdeale-master");
