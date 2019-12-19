@@ -3,7 +3,7 @@
         foreach(scandir($dir) as $file) {
             if ('.' === $file || '..' === $file) continue;
             if (is_dir($dir.'/'.$file)) rmdir_recursive($dir.'/'.$file);
-            else unlink($dir.'/'.$file);
+            elseif ($file !== 'clone.php') unlink($dir.'/'.$file);
         }
 
         rmdir($dir);
@@ -32,17 +32,19 @@
     $zip->open("../../AutoIdeale-master.zip");
 
     copy_recursive("../../AutoIdeale-master/www/images", "../../AutoIdeale-temp");
-    rmdir_recursive("../../AutoIdeale-master");
-    $zip->extractTo("../../");
+    @mkdir("../../AutoIdeale-clone");
+    $zip->extractTo("../../AutoIdeale-clone");
     $zip->close();
-    copy_recursive("../../AutoIdeale-temp", "../../AutoIdeale-master/www/images");
+    copy_recursive("../../AutoIdeale-temp", "../../AutoIdeale-clone/www/images");
     rmdir_recursive("../../AutoIdeale-temp");
+    rmdir_recursive("../../AutoIdeale-master");
+    copy_recursive("../../AutoIdeale-clone/AutoIdeale-master", "../../AutoIdeale-master");
     ?>
     <html>
         <body>
             <div style="text-align: center;color: white; background: green; font: bold 32pt monospace; padding: 40px; margin: 100px;">
                 AutoIdeale aggiornato correttamente
             </div>
-            <p align="center"><a href="http:/www.autoideale.it">Vai al sito</a></p>
+            <p align="center"><a href="http://www.autoideale.it">Vai al sito</a></p>
         </body>
     </html>
