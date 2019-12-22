@@ -89,4 +89,53 @@ class Utils
     {
         return $seat->seats_no.($seat->more ? '+' : '');
     }
+
+    public function getModelTypesOptions($modelId)
+    {
+        $types = [];
+
+        $model_types = $this->db->table('brands_models_types')->where('models_id', $modelId);
+
+        foreach ($model_types as $type) {
+            $types[$type['id']] = $type->type." ".$type->cv."cv";
+        }
+
+        return $types;
+    }
+
+    public function getTypeYearsOptions($typeId)
+    {
+        $options = [];
+
+        $type = $this->db->table('brands_models_types')->get($typeId);
+
+        for ($year = $type->production_from_year; $year <= $type->production_to_year; $year++) {
+            $options[$year] = $year;
+        }
+
+        return $options;
+    }
+
+    public function getTypeYearMonthsOptions($typeId, $year)
+    {
+        $options = [];
+
+        $type = $this->db->table('brands_models_types')->get($typeId);
+        $start = 1;
+        $end = 12;
+
+        if ($type->production_from_year == $year) {
+            $start = $type->production_from_month;
+        }
+
+        if ($type->production_to_year == $year) {
+            $end = $type->production_to_month;
+        }
+
+        for ($month = $start; $month <= $end; $month++) {
+            $options[$month] = Library::MONTHS[$month];
+        }
+
+        return $options;
+    }
 }

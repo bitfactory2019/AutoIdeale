@@ -69,6 +69,9 @@ class DbWrapper
                 'users_id' => $userId,
                 'brands_id' => $values->brands_id,
                 'brands_models_id' => $values->brands_models_id,
+                'brands_models_types_id' => $values->brands_models_types_id,
+                'year' => $values->year,
+                'month' => $values->month,
                 'fuel_types_id' => $values->fuel_types_id,
                 'kilometers_id' => $values->kilometers_id,
                 'models_id' => $values->models_id,
@@ -78,7 +81,6 @@ class DbWrapper
                 'euro_class_id' => $values->euro_class_id,
                 'doors_id' => $values->doors_id,
                 'seats_id' => $values->seats_id,
-                'year' => $values->year,
                 'title' => $values->title,
                 'description' => $values->description,
                 'name' => $values->name,
@@ -101,6 +103,7 @@ class DbWrapper
             return $post->getPrimary();
         }
         catch (\PDOException $e) {
+            Debugger::dump($e);
             return false;
         }
     }
@@ -133,6 +136,9 @@ class DbWrapper
                 ->update([
                     'brands_id' => $values->brands_id,
                     'brands_models_id' => $values->brands_models_id,
+                    'brands_models_types_id' => $values->brands_models_types_id,
+                    'year' => $values->year,
+                    'month' => $values->month,
                     'fuel_types_id' => $values->fuel_types_id,
                     'kilometers_id' => $values->kilometers_id,
                     'models_id' => $values->models_id,
@@ -142,7 +148,6 @@ class DbWrapper
                     'euro_class_id' => $values->euro_class_id,
                     'doors_id' => $values->doors_id,
                     'seats_id' => $values->seats_id,
-                    'year' => $values->year,
                     'title' => $values->title,
                     'description' => $values->description,
                     'price' => $values->price
@@ -161,7 +166,7 @@ class DbWrapper
 
         $dbo = $this->db->table('posts')
             ->where('users_id', $userId);
-        
+
         switch ($sort) {
             case 'random': $dbo->order('RAND()'); break;
             case 'oldest': $dbo->order('creation_time ASC'); break;
