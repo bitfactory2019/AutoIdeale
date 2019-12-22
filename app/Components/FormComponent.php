@@ -43,7 +43,7 @@ class FormComponent extends UI\Component
 
         $form->addSelect('year', 'Anno')
             ->setPrompt('Anno da')
-            ->setItems(\range(2000, \date('Y')), false)
+            ->setItems(\range(1900, \date('Y')), false)
             ->setHtmlAttribute('class', 'form-control wide')
             ->setDefaultValue($sessionSearch->year ?? null);
 
@@ -72,7 +72,7 @@ class FormComponent extends UI\Component
     {
         // hack necessario per select dinamico
         $values->brands_models_id = $_POST["brands_models_id"];
-        
+
         $this->presenter->getSession('frontend')->remove();
         $this->presenter->getSession('frontend')->offsetSet('search', $values);
 
