@@ -13,16 +13,23 @@
         <div class="col-md-6">
             <ul class="bullets">
                 <li data-icon="&#x64;">{$post[data]->brands->name}</li>
+                <li data-icon="&#x64;">{$post[data]->brands_models->name}</li>
+                <li data-icon="&#x64;">
+                    {$post[data]->brands_models_types->type} -
+                    {$post[data]->brands_models_types->cc}cc -
+                    {$post[data]->brands_models_types->cv}cv ({$post[data]->brands_models_types->kw}kw)
+                </li>
+                <li data-icon="&#x64;">{$post[data]->month|month} {$post[data]->year}</li>
                 <li data-icon="&#xe007;">{$post[data]->fuel_types->name}</li>
                 <li data-icon="&#xe01c;">
-                    {$post[data]->kilometers->from|number:0:'':'.'} km - 
+                    {$post[data]->kilometers->from|number:0:'':'.'} km -
                     {$post[data]->kilometers->to|number:0:'':'.'} km
                 </li>
-                <li data-icon="&#x65;">{$post[data]->models->name}</li>
             </ul>
         </div>
         <div class="col-md-6">
             <ul class="bullets">
+                <li data-icon="&#x65;">{$post[data]->models->name}</li>
                 <li data-icon="&#x5f;">{$post[data]->shift_types->name}</li>
                 <li data-icon="&#x64;">{$post[data]->doors->name} porte</li>
                 <li data-icon="&#x37;">{$post[data]->seats->seats_no}{if $post[data]->seats->more}+{/if} posti</li>

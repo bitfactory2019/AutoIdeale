@@ -8,3 +8,10 @@ database:
 session:
 	autoStart: true # default is 'smart'
 	debugger: true
+
+services:
+  nette.latteFactory:
+    setup:
+      - addFilter(month, @App\Filters\MonthFilter)
+
+  - App\Filters\MonthFilter
