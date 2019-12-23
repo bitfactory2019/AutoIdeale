@@ -52,3 +52,20 @@
     width: auto;
     border-radius: 3px;
 }
+
+#advancedSearchForm input {
+    border: 1px solid #d2d8dd;
+}
+
+#advancedSearchForm .doors_label {
+    display: block;
+}
+
+#advancedSearchForm .btn-group {
+    width: 100%;
+}
+
+#advancedSearchForm .btn-group .btn {
+    padding: 12px;
+    width: 25%;
+}

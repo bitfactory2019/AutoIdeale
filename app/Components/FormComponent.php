@@ -141,6 +141,34 @@ class FormComponent extends UI\Component
              ->setPrompt('a')
              ->setHtmlAttribute('class', 'form-control wide');
 
+        $form->addSelect('shift_types_id', 'Cambio')
+             ->setItems($this->presenter->getUtils()->getDbOptions('shift_types'))
+             ->setPrompt('-- Tutto --')
+             ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSelect('power_type', 'Potenza')
+             ->setItems(['cv' => 'CV', 'kw' => 'kW'])
+             ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addText('power_from', 'da')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('power_to', 'a')
+             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addRadioList(
+            'doors_id',
+            'N. di porte',
+            [
+                '' => 'Tutto',
+                '2-3' => '2/3',
+                '4-5' => '4/5',
+                '6-7' => '6/7'
+            ]
+        )
+        ->getItemLabelPrototype()
+        ->addClass("btn btn-secondary");
+
         $form->addSubmit('search', 'Cerca');
 
         $form->onSuccess[] = [$this, 'submitSearchPost'];

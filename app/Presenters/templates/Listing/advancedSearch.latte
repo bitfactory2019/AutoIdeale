@@ -12,8 +12,8 @@
             {form advancedSearchForm, id => "advancedSearchForm"}
                 <div class="main_title_2">
                     <span><em></em></span>
-                    <h2>Dati principali</h2>
-                    <p>Marca, modello, anno di costruzione...</p>
+                    <h2>Ricerca avanzata</h2>
+                    <p>Cerca per marca, modello, anno di costruzione...</p>
                 </div>
 
                 <div class="bg_color_1">
@@ -110,6 +110,8 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="dropdown-divider"></div>
+
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -149,6 +151,54 @@
                                     <div class="input-group">
                                         {input seats_to}
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {label shift_types_id /}
+                                    <div class="input-group">
+                                        {input shift_types_id}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {label power_type /}
+                                            <div class="input-group">
+                                                {input power_type}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {label power_from /}
+                                            <div class="input-group">
+                                                {input power_from}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {label power_to /}
+                                            <div class="input-group">
+                                                {input power_to}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {label doors_id, class => 'doors_label' /}
+                                      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                          {input doors_id}
+                                      </div>
                                 </div>
                             </div>
                         </div>
