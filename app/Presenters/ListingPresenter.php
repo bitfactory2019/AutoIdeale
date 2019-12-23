@@ -37,8 +37,34 @@ final class ListingPresenter extends _BasePresenter
         $this['advancedSearchForm']['price_to']
              ->setItems($priceRanges, false);
 
-        $this->presenter->redrawControl('wrapper');
-        $this->presenter->redrawControl('price_to');
+        $this->redrawControl('wrapper');
+        $this->redrawControl('price_to');
+    }
+
+    public function handleChangeKilometers($kilometers)
+    {
+        $kilometersRanges = \array_filter($this->formComponent->getKilometersRanges(), function($kilometersVal) use ($kilometers) {
+            return $kilometersVal > $kilometers;
+        });
+
+        $this['advancedSearchForm']['kilometers_to']
+             ->setItems($kilometersRanges, false);
+
+        $this->redrawControl('wrapper');
+        $this->redrawControl('kilometers_to');
+    }
+
+    public function handleChangeSeats($seats)
+    {
+        $seatsRange = \array_filter(\range(1, 12), function($seatsVal) use ($seats) {
+            return $seatsVal > $seats;
+        });
+
+        $this['advancedSearchForm']['seats_to']
+             ->setItems($seatsRange, false);
+
+        $this->redrawControl('wrapper');
+        $this->redrawControl('seats_to');
     }
 
     public function renderSearchResults($page = 1, $limit = 10)

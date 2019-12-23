@@ -131,10 +131,12 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    {label kilometers_to /}
-                                    <div class="input-group">
-                                        {input kilometers_to}
-                                    </div>
+                                  {snippet kilometers_to}
+                                        {label kilometers_to /}
+                                        <div class="input-group">
+                                            {input kilometers_to}
+                                        </div>
+                                    {/snippet}
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -147,10 +149,12 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    {label seats_to /}
-                                    <div class="input-group">
-                                        {input seats_to}
-                                    </div>
+                                    {snippet seats_to}
+                                        {label seats_to /}
+                                        <div class="input-group">
+                                            {input seats_to}
+                                        </div>
+                                    {/snippet}
                                 </div>
                             </div>
                         </div>
@@ -273,6 +277,30 @@
                 url: {link ChangePrice!},
                 data: {
                     'price': $(this).val(),
+                }
+            });
+        });
+
+        $('#advancedSearchForm').on('change', '#' + {$control['advancedSearchForm']['kilometers_from']->htmlId}, function () {
+            $("#brands-models-types-year-loading").show();
+
+            $.nette.ajax({
+                type: 'GET',
+                url: {link ChangeKilometers!},
+                data: {
+                    'kilometers': $(this).val(),
+                }
+            });
+        });
+
+        $('#advancedSearchForm').on('change', '#' + {$control['advancedSearchForm']['seats_from']->htmlId}, function () {
+            $("#brands-models-types-year-loading").show();
+
+            $.nette.ajax({
+                type: 'GET',
+                url: {link ChangeSeats!},
+                data: {
+                    'seats': $(this).val(),
                 }
             });
         });
