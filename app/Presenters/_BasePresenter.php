@@ -66,20 +66,23 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         return $form;
     }
 
-    public function handleLoadBrands($brandId)
+    public function handleLoadBrandModels($formName, $brandId)
     {
-        if ($brandId) {
-            $this['searchForm']['brands_models_id']
-                ->setPrompt('-- Modello --')
-                ->setItems($this->utils->getDbOptions("brands_models", ["brands_id" => $brandId]));
-        }
-        else {
-            $this['searchForm']['brands_models_id']
-                ->setPrompt('-- Modello --')
-                ->setItems([]);
-        }
+        $this->formComponent->handleLoadBrandModels($formName, $brandId);
+    }
 
-        $this->redrawControl('searchWrapper');
-        $this->redrawControl('brands_models');
+    public function handleLoadModelTypes($formName, $modelId)
+    {
+        $this->formComponent->handleLoadModelTypes($formName, $modelId);
+    }
+
+    public function handleLoadTypeYears($formName, $typeId)
+    {
+        $this->formComponent->handleLoadTypeYears($formName, $typeId);
+    }
+
+    public function handleLoadTypeYearMonths($formName, $typeId, $year)
+    {
+        $this->formComponent->handleLoadTypeYearMonths($formName, $typeId, $year);
     }
 }

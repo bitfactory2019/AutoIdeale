@@ -7,7 +7,7 @@
 {block subheader}{/block}
 
 {block content}
-    {snippetArea searchWrapper}
+    {snippetArea wrapper}
         {include '../includes/search/searchTop.latte'}
     {/snippetArea}
 
@@ -16,7 +16,7 @@
     {/snippetArea}
 
     {include '../includes/search/collapseMap.latte'}
-    
+
     <div class="container margin_60_35">
         <div class="row">
             {include '../includes/search/filtersAside.latte'}
@@ -43,7 +43,7 @@
 	<script src="http://maps.googleapis.com/maps/api/js"></script>
 	<script src="js/markerclusterer.js"></script>
 	<script src="js/listing_map.js"></script>
-	<script src="js/infobox.js"></script> 
+	<script src="js/infobox.js"></script>
 
     <script>
         $('input[type="range"]').rangeslider({

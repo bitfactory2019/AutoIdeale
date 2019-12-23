@@ -36,3 +36,19 @@
     font-size: 18px;
 }
 
+.advanced-search-link {
+    text-align: right;
+}
+
+.advanced-search-link a {
+    color: #FFF;
+}
+
+#advancedSearchForm .row {
+    margin-bottom: 10px;
+}
+
+#advancedSearchForm input[type=submit] {
+    width: auto;
+    border-radius: 3px;
+}

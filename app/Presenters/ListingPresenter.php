@@ -14,6 +14,33 @@ final class ListingPresenter extends _BasePresenter
         return $this->formComponent->createComponentSearchForm();
     }
 
+    public function createComponentAdvancedSearchForm(): UI\Form
+    {
+        return $this->formComponent->createComponentAdvancedSearchForm();
+    }
+
+    public function handleChangeYear($year)
+    {
+        $this['advancedSearchForm']['year_to']
+             ->setItems(\array_reverse(\range($year, \date('Y')), false));
+
+        $this->presenter->redrawControl('wrapper');
+        $this->presenter->redrawControl('year_to');
+    }
+
+    public function handleChangePrice($price)
+    {
+        $priceRanges = \array_filter($this->formComponent->getPriceRanges(), function($priceVal) use ($price) {
+            return $priceVal > $price;
+        });
+
+        $this['advancedSearchForm']['price_to']
+             ->setItems($priceRanges, false);
+
+        $this->presenter->redrawControl('wrapper');
+        $this->presenter->redrawControl('price_to');
+    }
+
     public function renderSearchResults($page = 1, $limit = 10)
     {
         $results = [

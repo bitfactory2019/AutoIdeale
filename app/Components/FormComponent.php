@@ -68,6 +68,74 @@ class FormComponent extends UI\Component
         return $form;
     }
 
+    public function createComponentAdvancedSearchForm(): UI\Form
+    {
+        $form = new UI\Form;
+
+        $form->addSelect('brands_id', 'Marca auto')
+             //->setRequired('Scegli la casa automobilistica')
+             ->setItems($this->presenter->getUtils()->getDbOptions('brands'))
+             ->setPrompt('-- Casa Automobilistica --')
+             ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSelect('brands_models_id', 'Modello auto')
+             //->setRequired('Scegli il modello di auto')
+             ->setPrompt('-- Scegli prima la Casa Automobilistica --')
+             ->setItems([])
+             ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSelect('brands_models_types_id', 'Configurazione')
+             //->setRequired('Scegli il modello di auto')
+             ->setPrompt('-- Scegli prima il modello --')
+             ->setItems([])
+             ->setHtmlAttribute('class', 'form-control wide');
+
+         $form->addSelect('models_id', 'Tipo di auto')
+              //->setRequired('Scegli la casa automobilistica')
+              ->setItems($this->presenter->getUtils()->getDbOptions('models'))
+              ->setPrompt('-- Tutti --')
+              ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSelect('year_from', 'Anno')
+             ->setPrompt('dal')
+             ->setItems(\array_reverse(\range(1900, \date('Y'))), false)
+             ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSelect('year_to', '')
+             ->setPrompt('al')
+             ->setItems(\range(1900, 2000))
+             ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSelect('price_from', 'Prezzo')
+            ->setPrompt('da')
+            ->setItems($this->getPriceRanges(), false)
+            ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSelect('price_to')
+            ->setPrompt('a')
+            ->setItems($this->getPriceRanges(), false)
+            ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSubmit('search', 'Cerca');
+
+        $form->onSuccess[] = [$this, 'submitSearchPost'];
+
+        return $form;
+    }
+
+    public function getPriceRanges()
+    {
+        $price_range = [];
+        $price_range = \array_merge($price_range, \range(500, 3000, 500));
+        $price_range = \array_merge($price_range, \range(4000, 10000, 1000));
+        $price_range = \array_merge($price_range, \range(12500, 20000, 2500));
+        $price_range = \array_merge($price_range, \range(25000, 30000, 5000));
+        $price_range = \array_merge($price_range, \range(40000, 50000, 10000));
+        $price_range = \array_merge($price_range, \range(75000, 100000, 25000));
+
+        return $price_range;
+    }
+
     public function submitSearchPost(UI\Form $form, \stdClass $values): void
     {
         // hack necessario per select dinamico
@@ -94,5 +162,73 @@ class FormComponent extends UI\Component
 
         $this->presenter->redrawControl('searchWrapper');
         $this->presenter->redrawControl('brands_models');
+    }
+
+    public function handleLoadBrandModels($formName, $brandId)
+    {
+         if ($brandId) {
+              $this->presenter[$formName]['brands_models_id']
+                   ->setPrompt("-- Scegli un modello --")
+                   ->setItems($this->presenter->getUtils()->getDbOptions("brands_models", ["brands_id" => $brandId]));
+         }
+         else {
+              $this->presenter[$formName]['brands_models_id']
+                   ->setPrompt('-- Scegli prima la Casa Automobilistica --')
+                   ->setItems([]);
+         }
+
+         $this->presenter->redrawControl('wrapper');
+         $this->presenter->redrawControl('brands_models');
+    }
+
+    public function handleLoadModelTypes($formName, $modelId)
+    {
+         if ($modelId) {
+              $this->presenter[$formName]['brands_models_types_id']
+                   ->setPrompt("-- Scegli una configurazione --")
+                   ->setItems($this->presenter->getUtils()->getModelTypesOptions($modelId));
+         }
+         else {
+              $this->presenter[$formName]['brands_models_types_id']
+                   ->setPrompt('-- Scegli prima il modello --')
+                   ->setItems([]);
+         }
+
+         $this->presenter->redrawControl('wrapper');
+         $this->presenter->redrawControl('brands_models_types');
+    }
+
+    public function handleLoadTypeYears($formName, $typeId)
+    {
+         if ($typeId) {
+              $this['advancedSearchForm']['year']
+                   ->setPrompt("-- Anno --")
+                   ->setItems($this->presenter->getUtils()->getTypeYearsOptions($typeId));
+         }
+         else {
+              $this['advancedSearchForm']['year']
+                   ->setPrompt('----')
+                   ->setItems([]);
+         }
+
+         $this->presenter->redrawControl('wrapper');
+         $this->presenter->redrawControl('type_years');
+    }
+
+    public function handleLoadTypeYearMonths($formName, $typeId, $year)
+    {
+         if ($typeId && $year) {
+              $this['advancedSearchForm']['month']
+                   ->setPrompt("-- Mese --")
+                   ->setItems($this->presenter->getUtils()->getTypeYearMonthsOptions($typeId, $year));
+         }
+         else {
+              $this['advancedSearchForm']['month']
+                   ->setPrompt('----')
+                   ->setItems([]);
+         }
+
+         $this->presenter->redrawControl('wrapper');
+         $this->presenter->redrawControl('type_months');
     }
 }
