@@ -116,6 +116,31 @@ class FormComponent extends UI\Component
             ->setItems($this->getPriceRanges(), false)
             ->setHtmlAttribute('class', 'form-control wide');
 
+        $form->addSelect('fuel_types_id', 'Carburante')
+             ->setItems($this->presenter->getUtils()->getDbOptions('fuel_types'))
+             ->setPrompt('-- Tutto --')
+             ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSelect('kilometers_from', 'Chilometraggio')
+             ->setItems($this->getKilometersRanges(), false)
+             ->setPrompt('da')
+             ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSelect('kilometers_to')
+             ->setItems($this->getKilometersRanges(), false)
+             ->setPrompt('a')
+             ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSelect('seats_from', 'N. di posti')
+             ->setItems(\range(1, 12), false)
+             ->setPrompt('da')
+             ->setHtmlAttribute('class', 'form-control wide');
+
+        $form->addSelect('seats_to')
+             ->setItems(\range(1, 12), false)
+             ->setPrompt('a')
+             ->setHtmlAttribute('class', 'form-control wide');
+
         $form->addSubmit('search', 'Cerca');
 
         $form->onSuccess[] = [$this, 'submitSearchPost'];
@@ -134,6 +159,17 @@ class FormComponent extends UI\Component
         $price_range = \array_merge($price_range, \range(75000, 100000, 25000));
 
         return $price_range;
+    }
+
+    public function getKilometersRanges()
+    {
+        $kilometers_range = [];
+
+        $kilometers_range = \array_merge($kilometers_range, \range(2500, 5000, 2500));
+        $kilometers_range = \array_merge($kilometers_range, \range(10000, 100000, 10000));
+        $kilometers_range = \array_merge($kilometers_range, \range(125000, 200000, 25000));
+
+        return $kilometers_range;
     }
 
     public function submitSearchPost(UI\Form $form, \stdClass $values): void
