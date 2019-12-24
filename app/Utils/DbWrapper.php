@@ -220,12 +220,68 @@ class DbWrapper
             $search_dbo->where('brands_models_id', $search->brands_models_id);
         }
 
+        if (!empty($search->brands_models_types_id)) {
+            $search_dbo->where('brands_models_types_id', $search->brands_models_types_id);
+        }
+
+        if (!empty($search->models_id)) {
+            $search_dbo->where('models_id', $search->models_id);
+        }
+
         if (!empty($search->year)) {
             $search_dbo->where('year', $search->year);
         }
 
+        if (!empty($search->year_from)) {
+            $search_dbo->where('year >= ?', $search->year_from);
+        }
+
+        if (!empty($search->year_to)) {
+            $search_dbo->where('year <= ?', $search->year_to);
+        }
+
         if (!empty($search->price)) {
             $search_dbo->where('price <= ?', $search->price);
+        }
+
+        if (!empty($search->price_from)) {
+            $search_dbo->where('price >= ?', $search->price_from);
+        }
+
+        if (!empty($search->price_to)) {
+            $search_dbo->where('price <= ?', $search->price_to);
+        }
+
+        if (!empty($search->fuel_types_id)) {
+            $search_dbo->where('fuel_types_id', $search->fuel_types_id);
+        }
+
+        if (!empty($search->kilometers_from)) {
+            $search_dbo->where('kilometers.from >= ?', $search->kilometers_from);
+        }
+
+        if (!empty($search->kilometers_to)) {
+            $search_dbo->where('kilometers.to <= ?', $search->kilometers_to);
+        }
+
+        if (!empty($search->seats_from)) {
+            $search_dbo->where('seats.from >= ?', $search->seats_from);
+        }
+
+        if (!empty($search->seats_to)) {
+            $search_dbo->where('seats.to <= ?', $search->seats_to);
+        }
+
+        if (!empty($search->shift_types_id)) {
+            $search_dbo->where('shift_types_id', $search->shift_types_id);
+        }
+
+        if (!empty($search->power_from)) {
+            $search_dbo->where('brands_models_types.' . $search->power_type . ' >= ?', $search->power_from);
+        }
+
+        if (!empty($search->power_to)) {
+            $search_dbo->where('brands_models_types.' . $search->power_type . ' <= ?', $search->power_to);
         }
 
         $rows = $search_dbo->fetchPairs('id');

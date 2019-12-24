@@ -159,19 +159,14 @@ class FormComponent extends UI\Component
         $form->addRadioList(
             'doors_id',
             'N. di porte',
-            [
-                '' => 'Tutto',
-                '2-3' => '2/3',
-                '4-5' => '4/5',
-                '6-7' => '6/7'
-            ]
+            ['' => 'Tutto'] + $this->presenter->getUtils()->getDbOptions('doors')
         )
         ->getItemLabelPrototype()
         ->addClass("btn btn-secondary");
 
         $form->addSubmit('search', 'Cerca');
 
-        $form->onSuccess[] = [$this, 'submitSearchPost'];
+        $form->onSuccess[] = [$this, 'submitAdvancedSearchPost'];
 
         return $form;
     }
@@ -204,6 +199,20 @@ class FormComponent extends UI\Component
     {
         // hack necessario per select dinamico
         $values->brands_models_id = $_POST["brands_models_id"];
+
+        $this->presenter->getSession('frontend')->remove();
+        $this->presenter->getSession('frontend')->offsetSet('search', $values);
+
+        $this->presenter->redirect('Listing:searchResults');
+    }
+
+    public function submitAdvancedSearchPost(UI\Form $form, \stdClass $values): void
+    {
+        // hack necessario per select dinamico
+        $values->brands_models_id = $_POST["brands_models_id"];
+        $values->brands_models_types_id = $_POST["brands_models_types_id"];
+        $values->year_to = $_POST["year_to"];
+        $values->price_to = $_POST["price_to"];
 
         $this->presenter->getSession('frontend')->remove();
         $this->presenter->getSession('frontend')->offsetSet('search', $values);
