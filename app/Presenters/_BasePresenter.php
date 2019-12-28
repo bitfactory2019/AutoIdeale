@@ -29,6 +29,11 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         return $this->db;
     }
 
+    public function getConfig()
+    {
+        return $this->context->getParameters();
+    }
+
     public function getUtils(): \App\Utils
     {
         return $this->utils;
