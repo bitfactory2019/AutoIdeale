@@ -100,19 +100,19 @@ class FilesWrapper
         return $postFiles;
     }
 
-    public function moveTempFiles($temp_path, $post_id)
+    public function moveTempFiles($temp_path, $post_id, $deleteSource = true)
     {
         $config = $this->presenter->getConfig();
         $postFiles = [];
-        
+
         $src = $config["wwwDir"].$config["tempImagesDir"].$temp_path;
         $dst = $config["wwwDir"].$config['postsImagesDir'].$post_id;
 
-        $dir = opendir($src);  
-  
+        $dir = opendir($src);
+
         FileSystem::createDir($dst, 0755);
-    
-        while ($file = readdir($dir)) {  
+
+        while ($file = readdir($dir)) {
             if (($file == '.') || ($file == '..')) {
                 continue;
             }
@@ -126,11 +126,13 @@ class FilesWrapper
                 'name' => $imageName,
                 'url' => $this->presenter->getHttpRequest()->getUrl()->getBaseUrl().$relative,
                 'path' => $config["wwwDir"].$relative
-            ]; 
+            ];
         }
 
-        FileSystem::delete($src);
-    
+        if ($deleteSource) {
+            FileSystem::delete($src);
+        }
+
         closedir($dir);
 
         return $postFiles;
