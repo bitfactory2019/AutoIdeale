@@ -2,7 +2,9 @@
     <div class="wrapper">
         <span class="magnific-gallery">
             {foreach $post[images] as $image}
-              <a href="{$image->url}" n:class="$iterator->isFirst() ? btn_photos" title="{$post[data]->title}" data-effect="mfp-zoom-in">Galleria</a>
+              <a href="{$image->url}" n:class="$iterator->isFirst() ? btn_photos" title="{$post[data]->title}" data-effect="mfp-zoom-in">
+                {if $iterator->first}Galleria{/if}
+              </a>
             {/foreach}
         </span>
     </div>
