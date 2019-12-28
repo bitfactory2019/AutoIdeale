@@ -80,7 +80,7 @@ final class PostsPresenter extends _BasePresenter
              ->setRequired('Scegli l\'anno')
              ->setPrompt('----')
              ->setItems(!empty($this->template->post)
-                ? $this->utils->getTypeYearsOptions($this->template->post["data"]->brands_models_id)
+                ? $this->utils->getTypeYearsOptions($this->template->post["data"]->brands_models_types_id)
                 : []
              )
              ->setHtmlAttribute('class', 'wide')
