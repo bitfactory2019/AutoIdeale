@@ -94,7 +94,7 @@ class Utils
     {
         $types = [];
 
-        $model_types = $this->db->table('brands_models_types')->where('models_id', $modelId);
+        $model_types = $this->db->table('brands_models_types')->where('brands_models_id', $modelId);
 
         foreach ($model_types as $type) {
             $types[$type['id']] = $type->type." ".$type->cv."cv";
