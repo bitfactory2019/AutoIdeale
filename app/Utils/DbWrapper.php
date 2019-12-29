@@ -9,11 +9,13 @@ class DbWrapper
 {
     private $presenter;
     private $db;
+    private $utils;
 
     public function __construct(\Nette\Application\UI\Presenter $presenter)
     {
         $this->presenter = $presenter;
         $this->db = $this->presenter->getDbService();
+        $this->utils = new \App\Utils($this->presenter);
     }
 
     public function getUserByEmail($email)
@@ -177,21 +179,10 @@ class DbWrapper
         $rows = $dbo->fetchPairs('id');
 
         foreach ($rows as $row) {
-            $posts[] = $this->_formatPostResult($row);
+            $posts[] = $this->utils->formatPostResult($row);
         }
 
         return $posts;
-    }
-
-    private function _formatPostResult($post)
-    {
-        return [
-            "data" => $post,
-            "thumbnail" => $post->related('posts_images.post_id')->limit(1)->fetch(),
-            "images" => $post->related('posts_images.post_id'),
-            "isNew" => $post->creation_time > strtotime("3 days ago"),
-            "isNotAvailable" => !$post->approved
-        ];
     }
 
     public function getPost($id)
@@ -200,10 +191,10 @@ class DbWrapper
             ->where('id', $id)
             ->fetch();
 
-        return $this->_formatPostResult($row);
+        return $this->utils->formatPostResult($row);
     }
 
-    public function searchPosts()
+    public function searchPosts($page = 1, $limit = 10)
     {
         $search = $this->presenter->getSession('frontend')->offsetGet('search');
 
@@ -284,13 +275,16 @@ class DbWrapper
             $search_dbo->where('brands_models_types.' . $search->power_type . ' <= ?', $search->power_to);
         }
 
-        $rows = $search_dbo->fetchPairs('id');
+        $tot = \count($search_dbo);
 
-        foreach ($rows as $row) {
-            $posts[] = $this->_formatPostResult($row);
-        }
-
-        return $posts;
+        return [
+            'tot' => $tot,
+            'posts' => $search_dbo->page($page, $limit),
+            'page' => [],
+            'pageNo' => $page,
+            'pageTot' => \ceil($tot / $limit),
+            'limit' => $limit
+        ];
     }
 
     public function sendPostRequest($values)
@@ -360,7 +354,7 @@ class DbWrapper
         $rows = $rows_dbo->fetchPairs('id');
 
         foreach ($rows as $row) {
-            $posts[] = $this->_formatPostResult($row);
+            $posts[] = $this->utils->formatPostResult($row);
         }
 
         return $posts;
@@ -388,7 +382,7 @@ class DbWrapper
         foreach ($rows as $row) {
             $messages[] = [
                 "data" => $row,
-                "post" => $this->_formatPostResult($row->posts)
+                "post" => $this->utils->formatPostResult($row->posts)
             ];
         }
 
@@ -402,7 +396,7 @@ class DbWrapper
 
         return [
             "data" => $row,
-            "post" => $this->_formatPostResult($row->posts)
+            "post" => $this->utils->formatPostResult($row->posts)
         ];
     }
 }

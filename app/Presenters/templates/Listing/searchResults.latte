@@ -30,7 +30,9 @@
                 <!-- /row -->
 
                 {if count($searchResults['posts']) > $searchResults['limit']}
-                    <p class="text-center"><a href="#0" class="btn_1 rounded add_top_30">Carica</a></p>
+                    <p class="text-center">
+                      <a id="load-more-results" href="#0" class="btn_1 rounded add_top_30">Carica</a>
+                    </p>
                 {/if}
             </div>
             <!-- /col -->
@@ -55,6 +57,19 @@
                 this.output.html(value);
                 this.$element.val(value);
             }
+        });
+
+        $('#load-more-results').on('click', function (e) {
+            e.preventDefault();
+            $("#brands-models-loading").show();
+
+            $.nette.ajax({
+                type: 'GET',
+                url: {link LoadMoreResults!},
+                data: {
+                    'page': {$searchResults['pageNo'] + 1}
+                }
+            });
         });
     </script>
 {/block}

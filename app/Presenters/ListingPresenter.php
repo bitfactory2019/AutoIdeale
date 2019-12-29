@@ -69,29 +69,21 @@ final class ListingPresenter extends _BasePresenter
 
     public function renderSearchResults($page = 1, $limit = 10)
     {
-        $results = [
-            'posts' => [],
-            'page' => [],
-            'pageNo' => 1,
-            'pageTot' => 1,
-            'limit' => $limit
-        ];
+        $results = $this->dbWrapper->searchPosts($page, $limit);
 
-        $results['posts'] = $this->dbWrapper->searchPosts();
-        $results['pageTot'] = \ceil(\count($results['posts']) / $limit);
-
-        $rowFrom = ($page - 1) * $limit;
-        $rowTo = $page * $limit;
-        for ($i = $rowFrom; $i < $rowTo; $i++) {
-            if (!empty($results['posts'][$i])) {
-                $results['page'][] = $results['posts'][$i];
-            }
+        foreach ($results['posts'] as $i => $post) {
+            $results['page'][] = $this->utils->formatPostResult($post);
         }
 
         $this->template->searchResults = $results;
         $this->template->search = $this->getSession('frontend')->offsetGet('search');
 
         $this->template->view = $this->getSession('frontend')->offsetGet('search')->view ?? 'grid';
+    }
+
+    public function handleLoadMoreResults($page)
+    {
+
     }
 
     public function handleChangeView($view)

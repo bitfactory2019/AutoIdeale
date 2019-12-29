@@ -138,4 +138,17 @@ class Utils
 
         return $options;
     }
+
+    public function formatPostResult($post)
+    {
+        $thumbnail = $this->presenter->getDbService()->table('posts_images')->where('post_id', $post->id)->limit(1)->fetch();
+
+        return [
+            "data" => $post,
+            "thumbnail" => $thumbnail,
+            "images" => $post->related('posts_images.post_id'),
+            "isNew" => $post->creation_time > strtotime("3 days ago"),
+            "isNotAvailable" => !$post->approved
+        ];
+    }
 }
