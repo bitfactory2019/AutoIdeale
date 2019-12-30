@@ -10,9 +10,10 @@
         {include '../includes/search-homepage.latte'}
     {/snippetArea}
 
+    {include '../includes/showcase.latte', posts => $showcase}
+
     {include '../includes/homepage-slide.latte'}
     {include '../includes/homepage-brands.latte', brands => $brands}
 
-    {include '../includes/showcase.latte', posts => $showcase}
     {include '../includes/guidelines.latte'}
 {/block}
