@@ -87,9 +87,6 @@ final class TestPresenter extends _BasePresenter
 
             $randomPrice = \rand(10, 200) * 100;
 
-            $brand = $this->db->table('brands')->get($randomBrand);
-            $brand_model = $this->db->table('brands_models')->get($randomBrandModel);
-
             $post = $this->db->table('posts')->insert([
                 'users_id' => $userId,
                 'brands_id' => $randomBrand,
@@ -106,7 +103,7 @@ final class TestPresenter extends _BasePresenter
                 'euro_class_id' => $randomEuroClass,
                 'doors_id' => $randomDoors,
                 'seats_id' => $randomSeats,
-                'title' => $brand->name.' '.$brand_model->name,
+                'title' => $this->_title($randomBrand, $randomBrandModel),
                 'description' => $this->_description($randomBrand, $randomBrandModel, $randomYear),
                 'name' => $name,
                 'surname' => $surname,
@@ -135,12 +132,17 @@ final class TestPresenter extends _BasePresenter
       }
     }
 
-    private function _description($brandId, $modelId, $year)
+    private function _title($brandId, $modelId)
     {
       $brand = $this->db->table('brands')->get($brandId);
       $model = $this->db->table('brands_models')->get($modelId);
 
-      return $brand->name.' '.$model->name.' del '.$year;
+      return $brand->name.' '.$model->name;
+    }
+
+    private function _description($brandId, $modelId, $year)
+    {
+      return $this->_title($brandId, $modelId).' del '.$year;
     }
 
     private function _randomYear($modelTypeId)
