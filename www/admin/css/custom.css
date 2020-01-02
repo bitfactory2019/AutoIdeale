@@ -26,3 +26,7 @@
 .message-request .fa {
 		margin-right: 10px;
 }
+
+#addForm .dz-message {
+	text-align: center;
+}

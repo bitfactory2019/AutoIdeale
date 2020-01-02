@@ -225,7 +225,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 dropzone">
-                        <div class="dz-default dz-message"></div>
+                        <div class="dz-default dz-message">
+                          <p><i class="fa fa-picture-o fa-5x" aria-hidden="true"></i></p>
+                          <p>Trascina qui le immagini del tuo annuncio</p>
+                        </div>
                         <div class="dropzone-previews" id="post-gallery">
                             {block images}{/block}
                         </div>
@@ -448,7 +451,15 @@
             acceptedFiles: 'image/*',
             addRemoveLinks: true,
             init: function() {
+                this.on("addedfile", function(file) {
+                    $(".dz-message").hide();
+                });
+
                 this.on("removedfile", function(file) {
+                    if (this.files.length === 0) {
+                        $(".dz-message").show();
+                    }
+
                     if (file.id) {
                         $.nette.ajax({
                             type: 'GET',
