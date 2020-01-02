@@ -87,8 +87,8 @@ final class TestPresenter extends _BasePresenter
 
             $randomPrice = \rand(10, 200) * 100;
 
-            $brand = $this->db->table('brands')->get($values->brands_id);
-            $brand_model = $this->db->table('brands_models')->get($values->brands_models_id);
+            $brand = $this->db->table('brands')->get($randomBrand);
+            $brand_model = $this->db->table('brands_models')->get($randomBrandModel);
 
             $post = $this->db->table('posts')->insert([
                 'users_id' => $userId,
