@@ -34,7 +34,7 @@
                                 <h4>{$post[data]->title}</h4>
                                 <p>{$post[data]->description|striptags|truncate:100}</p>
                                 <p>
-                                    <a href="#0" class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> Guarda</a>
+                                    <a n:href=":Listing:detail postId => $post[data][id]" target="_blank" class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> Guarda</a>
                                     <a n:href="Posts:edit $post[data][id]" class="btn_1 gray"><i class="fa fa-fw fa-edit"></i> Modifica</a>
                                 </p>
                                 <ul class="buttons">
