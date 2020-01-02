@@ -196,6 +196,19 @@ class DbWrapper
 
     public function searchPosts($page = 1, $limit = 10)
     {
+        $request = $this->presenter->getHttpRequest();
+        $search = new \stdClass();
+        if (!empty($request->getQuery('brands_id'))) {
+            $search->brands_id = $request->getQuery('brands_id');
+        }
+        if (!empty($request->getQuery('brands_models_id'))) {
+            $search->brands_models_id = $request->getQuery('brands_models_id');
+        }
+
+        if (!empty($search->brands_id) || !empty($search->brands_models_id)) {
+            $this->presenter->getSession('frontend')->offsetSet('search', $search);
+        }
+
         $search = $this->presenter->getSession('frontend')->offsetGet('search');
 
         $posts = [];
