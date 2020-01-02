@@ -43,12 +43,6 @@ final class PostsPresenter extends _BasePresenter
        $form->addHidden('tempPath')
             ->setDefaultValue($this->template->tempPath ?? "");
 
-        $form->addText('title', 'Titolo')
-             ->setRequired('Inserisci il titolo dell\'annuncio')
-             ->setHtmlAttribute('placeholder', 'Inserisci titolo')
-             ->setHtmlAttribute('class', 'form-control')
-             ->setDefaultValue($this->template->post["data"]->title ?? "");
-
         $form->addSelect('brands_id', 'Marca auto')
              ->setRequired('Scegli la casa automobilistica')
              ->setItems($this->utils->getDbOptions('brands'))

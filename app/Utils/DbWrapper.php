@@ -67,6 +67,9 @@ class DbWrapper
     public function addNewPost($userId, $values)
     {
         try {
+            $brand = $this->db->table('brands')->get($values->brands_id);
+            $brand_model = $this->db->table('brands_models')->get($values->brands_models_id);
+
             $post = $this->db->table('posts')->insert([
                 'users_id' => $userId,
                 'brands_id' => $values->brands_id,
@@ -83,7 +86,7 @@ class DbWrapper
                 'euro_class_id' => $values->euro_class_id,
                 'doors_id' => $values->doors_id,
                 'seats_id' => $values->seats_id,
-                'title' => $values->title,
+                'title' => $brand->name.' '.$brand_model->name,
                 'description' => $values->description,
                 'name' => $values->name,
                 'surname' => $values->surname,
