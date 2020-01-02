@@ -340,6 +340,38 @@ class DbWrapper
         return $brands;
     }
 
+    public function getTopBrands($brandsNo = false, $modelsNo = false)
+    {
+        $brands = [];
+
+        $brands_dbo = $this->db->table('brands')
+            ->where('top', true)
+            ->order('name');
+
+        if ($brandsNo !== false) {
+            $brands_dbo->limit($brandsNo);
+        }
+
+        $rows = $brands_dbo->fetchPairs('id');
+
+        foreach ($rows as $row) {
+            $models = $row->related('brands_models')
+                ->where('top', true)
+                ->order('name');
+
+            if ($modelsNo !== false) {
+                $models->limit($modelsNo);
+            }
+
+            $brands[] = [
+                "data" => $row,
+                "models" => $models->fetchPairs('id')
+            ];
+        }
+
+        return $brands;
+    }
+
     public function getShowcase($postsNo = false)
     {
         $posts = [];
