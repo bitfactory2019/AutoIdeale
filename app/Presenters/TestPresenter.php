@@ -69,11 +69,8 @@ final class TestPresenter extends _BasePresenter
           $userId = $user->getPrimary();
 
           for ($i = 1; $i <= 5; $i++) {
-            $randomBrand = $this->db->table('brands')
-              ->where('name', ['Opel', 'Ford', 'Fiat', 'Nissan', 'Seat', 'Dacia', 'BMW', 'Audi'])
-              ->order('RAND()')
-              ->fetchField('id');
-            $randomBrandModel = $this->db->table('brands_models')->where('brands_id', $randomBrand)->order('RAND()')->fetchField('id');
+            $randomBrand = $this->db->table('brands')->where('top', true)->order('RAND()')->fetchField('id');
+            $randomBrandModel = $this->db->table('brands_models')->where('brands_id', $randomBrand)->where('top', true)->order('RAND()')->fetchField('id');
             $randomModelType = $this->db->table('brands_models_types')->where('brands_models_id', $randomBrandModel)->order('RAND()')->fetchField('id');
             $randomYear = $this->_randomYear($randomModelType);
             $randomMonth = $this->_randomMonth($randomModelType, $randomYear);
