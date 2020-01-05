@@ -36,11 +36,12 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
             return;
         }
 
-        $this->template->posts = $this->dbWrapper->getPosts($this->getAdminUser()['id']);
-        $this->template->messages = $this->dbWrapper->getMessages($this->getAdminUser()['id']);
-        $this->template->newMessages = $this->dbWrapper->getMessages($this->getAdminUser()['id'], true);
-        $this->template->requests = $this->dbWrapper->getRequests($this->getAdminUser()['id']);
-        $this->template->pendingRequests = $this->dbWrapper->getRequests($this->getAdminUser()['id'], 'pending');
+        $this->template->user = $this->getAdminUser();
+        $this->template->posts = $this->dbWrapper->getPosts($this->template->user['id']);
+        $this->template->messages = $this->dbWrapper->getMessages($this->template->user['id']);
+        $this->template->newMessages = $this->dbWrapper->getMessages($this->template->user['id'], true);
+        $this->template->requests = $this->dbWrapper->getRequests($this->template->user['id']);
+        $this->template->pendingRequests = $this->dbWrapper->getRequests($this->template->user['id'], 'pending');
     }
 
     protected function getAdminUser()

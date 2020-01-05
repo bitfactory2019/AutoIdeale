@@ -12,7 +12,7 @@ final class PostsPresenter extends _BasePresenter
 {
      public function renderListing()
      {
-          $this->template->posts = $this->dbWrapper->getPosts($this->getAdminUser()['id']);
+          $this->template->posts = $this->dbWrapper->getPosts($this->template->user['id']);
      }
 
      public function renderEdit(int $id)
@@ -28,7 +28,7 @@ final class PostsPresenter extends _BasePresenter
 
      public function handleSortPosts($order)
      {
-         $this->template->requests = $this->dbWrapper->getPosts($this->getAdminUser()['id'], $order);
+         $this->template->requests = $this->dbWrapper->getPosts($this->template->user['id'], $order);
 
          $this->presenter->redrawControl('posts');
      }
@@ -278,7 +278,7 @@ final class PostsPresenter extends _BasePresenter
           $values->year = $_POST["year"];
           $values->month = $_POST["month"];
 
-          $postId = $this->dbWrapper->addNewPost($this->getAdminUser()['id'], $values);
+          $postId = $this->dbWrapper->addNewPost($this->template->user['id'], $values);
 
           if ($postId === false) {
                $this->flashMessage("Post non salvato, riprova.", "danger");

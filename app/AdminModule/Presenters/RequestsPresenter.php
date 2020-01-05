@@ -67,7 +67,7 @@ final class RequestsPresenter extends _BasePresenter
 
     public function handleFilterRequests($status)
     {
-        $this->template->requests = $this->dbWrapper->getRequests($this->getAdminUser()['id'], $status);
+        $this->template->requests = $this->dbWrapper->getRequests($this->template->user['id'], $status);
 
         $this->presenter->redrawControl('requests');
     }

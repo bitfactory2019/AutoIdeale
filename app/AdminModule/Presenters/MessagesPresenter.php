@@ -12,6 +12,6 @@ final class MessagesPresenter extends _BasePresenter
 {
     public function renderIndex(): void
     {
-        $this->template->messages = $this->dbWrapper->getMessages($this->getAdminUser()['id']);
+        $this->template->messages = $this->dbWrapper->getMessages($this->template->user['id']);
     }
 }
