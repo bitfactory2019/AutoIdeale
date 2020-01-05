@@ -1,0 +1,63 @@
+{layout '../@layout.latte'}
+
+{block header}
+    {include '../includes/header.latte' sticky => true}
+{/block}
+
+{block h1}Account{/block}
+
+{block content}
+  <div class="container margin_60">
+    {foreach $flashes as $flash}
+      <div class="alert alert-{$flash->type}" role="alert">
+        {$flash->message}
+      </div>
+    {/foreach}
+    <div class="row justify-content-center">
+      <div class="col-xl-6 col-lg-6 col-md-8">
+        <div class="box_account">
+          <h3 class="client">Accedi</h3>
+          <div class="form_container">
+            <div class="row no-gutters">
+              <div class="col-lg-6 pr-lg-1">
+                <a href="#0" class="social_bt facebook">Login con Facebook</a>
+              </div>
+              <div class="col-lg-6 pl-lg-1">
+                <a href="#0" class="social_bt google">Login con Google</a>
+              </div>
+            </div>
+
+            <div class="divider"><span>o</span></div>
+
+            {include '../includes/account/sign-in-form.latte'}
+            {include '../includes/account/recovery-password-form.latte'}
+          </div>
+          <!-- /form_container -->
+        </div>
+        <!-- /box_account -->
+        <div class="row hidden_tablet">
+          <div class="col-md-6">
+            <ul class="list_ok">
+              <li>Vendere auto in tutta Italia</li>
+              <li>Vasta gamma di Modelli Auto</li>
+              <li>Vendita sicura</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="list_ok">
+              <li>Auto Garantite</li>
+              <li>Suporto 7/7</li>
+            </ul>
+          </div>
+        </div>
+        <!-- /row -->
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-8">
+        {include '../includes/account/sign-up-form.latte'}
+        <!-- /box_account -->
+      </div>
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+{/block}

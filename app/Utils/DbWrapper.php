@@ -28,10 +28,23 @@ class DbWrapper
     public function addUser($values)
     {
         try {
+            $isPrivate = $values->client_type === 'private';
+            $isCompany = $values->client_type === 'company';
+
+            $group = $this->db->table('groups')
+              ->where('name', $values->client_type)
+              ->fetch();
+
             $user = $this->db->table('users')->insert([
-                'groups_id' => 2,
-                'name' => $values->name,
-                'surname' => $values->surname,
+                'groups_id' => $group->id,
+                'name' => $isPrivate ? $values->name : null,
+                'surname' => $isPrivate ? $values->surname : null,
+                'company_name' => $isCompany ? $values->company_name : null,
+                'address' => $values->address,
+                'city' => $values->city,
+                'cap' => $values->cap,
+                'country' => $values->country,
+                'telephone' => $values->telephone,
                 'email' => $values->email,
                 'password' => \md5($values->password),
                 'enabled' => false,
@@ -41,7 +54,8 @@ class DbWrapper
             return $user->getPrimary();
         }
         catch (\PDOException $e) {
-            Debugger::dump($e);
+            //Debugger::dump($e);
+            $this->presenter->flashMessage($e->getMessage(), "danger");
             return false;
         }
     }

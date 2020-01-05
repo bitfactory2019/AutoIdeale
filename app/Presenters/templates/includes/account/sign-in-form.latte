@@ -1,0 +1,21 @@
+{form signInForm}
+    <div class="form-group">
+        {label email /}
+        {input email class => "form-control"}
+    </div>
+    <div class="form-group">
+        {label password /}
+        {input password class => "form-control"}
+    </div>
+    <div class="clearfix add_bottom_15">
+        <div class="checkboxes float-left">
+            <label class="container_check">Ricordami password
+                <input type="checkbox" name="remember">
+                <span class="checkmark"></span>
+            </label>
+        </div>
+        <div class="float-right"><a id="forgot" href="javascript:void(0);">Non ti ricordi la Password?</a></div>
+    </div>
+
+    {input signin class => "btn_1 full-width"}
+{/form}
