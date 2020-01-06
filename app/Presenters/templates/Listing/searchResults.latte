@@ -29,11 +29,30 @@
                 </div>
                 <!-- /row -->
 
-                {if count($searchResults['posts']) > $searchResults['limit']}
-                    <p class="text-center">
-                      <a id="load-more-results" href="#0" class="btn_1 rounded add_top_30">Carica</a>
-                    </p>
-                {/if}
+                <div class="pagination__wrapper add_bottom_30">
+      						<ul class="pagination">
+      							<li n:if="$searchResults[pagination][current] > $searchResults[pagination][from]">
+                      <a n:href="Listing:searchResults $searchResults[pagination][prev]" class="prev" title="pagina precedente">&#10094;</a>
+                    </li>
+                    <li n:if="$searchResults[pagination][current] == $searchResults[pagination][from]">
+                      <span class="prev">&#10094;</span>
+                    </li>
+
+                    {for $i = $searchResults['pagination']['from']; $i <= $searchResults['pagination']['to']; $i++}
+                      <li>
+                        <a n:href="Listing:searchResults $i" n:class="$i == $searchResults[pagination][current] ? active">{$i}</a>
+                      </li>
+                    {/for}
+
+                    <li n:if="$searchResults[pagination][current] < $searchResults[pagination][to]">
+                      <a n:href="Listing:searchResults $searchResults[pagination][next]" class="next" title="prossima pagina">&#10095;</a>
+                    </li>
+                    <li n:if="$searchResults[pagination][current] == $searchResults[pagination][to]">
+                      <span class="prev">&#10095;</span>
+                    </li>
+      						</ul>
+      					</div>
+      					<!-- /pagination -->
             </div>
             <!-- /col -->
         </div>
@@ -47,29 +66,16 @@
 	<script src="js/listing_map.js"></script>
 	<script src="js/infobox.js"></script>
 
-    <script>
-        $('input[type="range"]').rangeslider({
-            polyfill: false,
-            onInit: function () {
-                this.output = $(".distance span").html(this.$element.val());
-            },
-            onSlide: function (position, value) {
-                this.output.html(value);
-                this.$element.val(value);
-            }
-        });
-
-        $('#load-more-results').on('click', function (e) {
-            e.preventDefault();
-            $("#brands-models-loading").show();
-
-            $.nette.ajax({
-                type: 'GET',
-                url: {link LoadMoreResults!},
-                data: {
-                    'page': {$searchResults['pageNo'] + 1}
-                }
-            });
-        });
+  <script>
+      $('input[type="range"]').rangeslider({
+          polyfill: false,
+          onInit: function () {
+              this.output = $(".distance span").html(this.$element.val());
+          },
+          onSlide: function (position, value) {
+              this.output.html(value);
+              this.$element.val(value);
+          }
+      });
     </script>
 {/block}

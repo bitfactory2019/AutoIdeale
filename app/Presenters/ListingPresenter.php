@@ -81,11 +81,6 @@ final class ListingPresenter extends _BasePresenter
         $this->template->view = $this->getSession('frontend')->offsetGet('search')->view ?? 'grid';
     }
 
-    public function handleLoadMoreResults($page)
-    {
-
-    }
-
     public function handleChangeView($view)
     {
         $search = $this->getSession('frontend')->offsetGet('search');

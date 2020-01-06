@@ -215,6 +215,7 @@ class DbWrapper
     {
         $request = $this->presenter->getHttpRequest();
         $search = new \stdClass();
+
         if (!empty($request->getQuery('brands_id'))) {
             $search->brands_id = $request->getQuery('brands_id');
         }
@@ -306,14 +307,25 @@ class DbWrapper
         }
 
         $tot = \count($search_dbo);
+        $page_tot = \ceil($tot / $limit);
+        $page_count = 5;
+        $page_from = \max(1, $page - $page_count);
+        $page_to = \min($page + $page_count, $page_tot);
 
         return [
             'tot' => $tot,
             'posts' => $search_dbo->page($page, $limit),
             'page' => [],
-            'pageNo' => $page,
-            'pageTot' => \ceil($tot / $limit),
-            'limit' => $limit
+            'pagination' => [
+              'current' => $page,
+              'prev' => \max(1, $page - 1),
+              'next' => \min($page + 1, $page_tot),
+              'tot' => $page_tot,
+              'limit' => $limit,
+              'from' => $page_from,
+              'to' => $page_to,
+              'count' => $page_count
+            ]
         ];
     }
 
