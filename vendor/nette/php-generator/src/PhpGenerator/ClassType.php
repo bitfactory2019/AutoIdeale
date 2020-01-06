@@ -69,7 +69,6 @@ final class ClassType
 
 	/**
 	 * @param  string|object  $class
-	 * @return static
 	 */
 	public static function from($class): self
 	{
@@ -89,7 +88,11 @@ final class ClassType
 		try {
 			return (new Printer)->printClass($this, $this->namespace);
 		} catch (\Throwable $e) {
+			if (PHP_VERSION_ID >= 70400) {
+				throw $e;
+			}
 			trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
+			return '';
 		}
 	}
 

@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Nette\PhpGenerator\Traits;
 
 use Nette;
-use Nette\PhpGenerator\Helpers;
+use Nette\PhpGenerator\Dumper;
 use Nette\PhpGenerator\Parameter;
 
 
@@ -43,7 +43,7 @@ trait FunctionLike
 	 */
 	public function setBody(string $code, array $args = null): self
 	{
-		$this->body = $args === null ? $code : Helpers::format($code, ...$args);
+		$this->body = $args === null ? $code : (new Dumper)->format($code, ...$args);
 		return $this;
 	}
 
@@ -59,7 +59,7 @@ trait FunctionLike
 	 */
 	public function addBody(string $code, array $args = null): self
 	{
-		$this->body .= ($args === null ? $code : Helpers::format($code, ...$args)) . "\n";
+		$this->body .= ($args === null ? $code : (new Dumper)->format($code, ...$args)) . "\n";
 		return $this;
 	}
 
@@ -172,6 +172,13 @@ trait FunctionLike
 	}
 
 
+	public function isReturnNullable(): bool
+	{
+		return $this->returnNullable;
+	}
+
+
+	/** @deprecated  use isReturnNullable() */
 	public function getReturnNullable(): bool
 	{
 		return $this->returnNullable;
@@ -181,7 +188,7 @@ trait FunctionLike
 	/**
 	 * @deprecated
 	 */
-	public function setNamespace(PhpNamespace $val = null): self
+	public function setNamespace(Nette\PhpGenerator\PhpNamespace $val = null): self
 	{
 		trigger_error(__METHOD__ . '() is deprecated', E_USER_DEPRECATED);
 		return $this;

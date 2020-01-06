@@ -40,7 +40,6 @@ final class Method
 
 	/**
 	 * @param  string|array  $method
-	 * @return static
 	 */
 	public static function from($method): self
 	{
@@ -53,7 +52,11 @@ final class Method
 		try {
 			return (new Printer)->printMethod($this);
 		} catch (\Throwable $e) {
+			if (PHP_VERSION_ID >= 70400) {
+				throw $e;
+			}
 			trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
+			return '';
 		}
 	}
 
@@ -63,7 +66,7 @@ final class Method
 	 */
 	public function setBody(?string $code, array $args = null): self
 	{
-		$this->body = $args === null || $code === null ? $code : Helpers::format($code, ...$args);
+		$this->body = $args === null || $code === null ? $code : (new Dumper)->format($code, ...$args);
 		return $this;
 	}
 
