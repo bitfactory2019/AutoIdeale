@@ -98,6 +98,18 @@ final class AccountPresenter extends _BasePresenter
              ->addConditionOn($form['client_type'], Form::EQUAL, 'company')
              ->setRequired();
 
+        $form->addText('unique_code', 'Codice Univoco')
+             ->addConditionOn($form['client_type'], Form::EQUAL, 'company')
+             ->setRequired();
+
+        $form->addText('email_pec', 'Indirizzo e-mail PEC')
+             ->addConditionOn($form['client_type'], Form::EQUAL, 'company')
+             ->setRequired();
+
+        $form->addText('iban', 'Codice IBAN')
+             ->addConditionOn($form['client_type'], Form::EQUAL, 'company')
+             ->setRequired();
+
         $form->addText('address', 'Indirizzo')->setRequired();
         $form->addText('city', 'Città')->setRequired();
         $form->addText('cap', 'Codice postale')->setRequired();
@@ -106,6 +118,7 @@ final class AccountPresenter extends _BasePresenter
              ->setItems(['Europa', 'Stati Uniti', 'Asia'], false);
 
         $form->addText('telephone', 'Telefono')->setRequired();
+        $form->addText('mobile', 'Cellulare')->setRequired();
 
         $form->addSubmit('signUp', 'Registrati');
 
