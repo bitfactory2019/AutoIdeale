@@ -10,18 +10,18 @@
 			$('.header').removeClass("sticky");
 		}
 	});
-	
+
 	// Sticky sidebar
 	$('#sidebar').theiaStickySidebar({
 		updateSidebarHeight: true,
 		additionalMarginTop: 150
 	});
-	
+
 	// Faq section
 	$('#faq_cat').theiaStickySidebar({
 		additionalMarginTop: 100
 	});
-	
+
 	// Mobile Mmenu
 	var $menu = $("nav#menu").mmenu({
 		"extensions": ["pagedim-black", "theme-dark"],
@@ -33,7 +33,7 @@
 		navbar: {
 			title: 'MENU'
 		},
-		navbars: [{position:'bottom',content: ['<a href="#0">© 2019 Sparker</a>']}]}, 
+		navbars: [{position:'bottom',content: ['<a href="#0">© 2019 Sparker</a>']}]},
 		{
 		// configuration
 		clone: true,
@@ -59,12 +59,12 @@
 			$icon.removeClass("is-active");
 		}, 100);
 	});
-	
+
 	// Rotate icons
 	$(".main_categories a").hover(
 		function(){$(this).find("i").toggleClass("rotate-x");}
 	);
-	
+
 	// Modal Sign In
 	$('#sign-in').magnificPopup({
 		type: 'inline',
@@ -78,7 +78,7 @@
 		closeMarkup: '<button title="%title%" type="button" class="mfp-close"></button>',
 		mainClass: 'my-mfp-zoom-in'
 	});
-	
+
 	// Show Password
 	$('#password, #password_in').hidePassword('focus', {
 		toggle: {
@@ -90,7 +90,7 @@
 	$("#forgot").click(function () {
 		$("#forgot_pw").fadeToggle("fast");
 	});
-	
+
 	//Scroll to top
 	$(window).on('scroll', function () {
 		'use strict';
@@ -105,10 +105,10 @@
 			scrollTop: 0
 		}, 500);
 	});
-	
+
 	/* Animation on scroll */
 	new WOW().init();
-	
+
 	// Account switch client type
 	$('input[name="client_type"]').click(function () {
 		var inputValue = $(this).attr("value");
@@ -116,10 +116,10 @@
 		$(".box").not(targetBox).hide();
 		$(targetBox).show();
 	});
-	
+
 	//  Video popups
 	$('.video').magnificPopup({type:'iframe'});	/* video modal*/
-	
+
 	// Image popups
 	$('.magnific-gallery').each(function () {
 		$(this).magnificPopup({
@@ -132,7 +132,7 @@
 			removalDelay: 500, //delay removal by X to allow out-animation
 			callbacks: {
 				beforeOpen: function () {
-					// just a hack that adds mfp-anim class to markup 
+					// just a hack that adds mfp-anim class to markup
 					this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
 					this.st.mainClass = this.st.el.attr('data-effect');
 				}
@@ -141,7 +141,7 @@
 			midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
 		});
 	});
-	
+
 	// Other address
 	$('#other_addr input').change(function(){
         if(this.checked)
@@ -149,7 +149,7 @@
         else
             $('#other_addr_c').fadeOut('fast');
     });
-	
+
 	// Accordion
 	function toggleChevron(e) {
 		$(e.target)
@@ -164,27 +164,27 @@
             .find(".indicator")
             .toggleClass('ti-minus ti-plus');
     }
-	
+
 	// Jquery select
 	//$('.custom-search-input-2 select, .custom-select-form select').niceSelect();
-	
+
 	// Like Icon
-    $('.wish_bt').on('click', function(e){
+    $('.wish_bt.online').on('click', function(e){
     	e.preventDefault();
 		$(this).toggleClass('liked');
 	});
-	
+
 	// Search Mobile aside
 	$('a.side_panel').on("click", function () {
 		$('#search_mobile').toggleClass('show');
 		$('.layer').toggleClass('layer-is-visible');
 	});
-	
+
 	// Search Mobile horizontal
 	$('a.search_mob').click(function () {
 		$('.search_mob_wp').slideToggle("fast");
 	});
-	
+
 	// Collapse filters
 	$(window).on('load', function () {
 		var width = $(window).width();
@@ -194,7 +194,7 @@
 			$('.collapse#collapseFilters').addClass('show');
 		};
 	});
-	
+
 	// Range slider
 	$('input[type="range"]').rangeslider({
 		polyfill: false,
@@ -206,7 +206,7 @@
 			this.output.html(value);
 		}
 	});
-	
+
 	//Footer collapse
 	var $headingFooter = $('footer h3');
 	$(window).resize(function() {
@@ -219,7 +219,7 @@
 	$headingFooter.on("click", function () {
 		$(this).toggleClass('opened');
 	});
-	
+
 	// Carousels
 	$('#carousel').owlCarousel({
 		center: true,
@@ -262,7 +262,7 @@
 			}
 		}
 	});
-	
+
 	// Sticky filters
 	$(window).on('load resize', function () {
 		var width = $(window).width();
@@ -272,16 +272,16 @@
 			});
 		} else {
 			$('.sticky_horizontal').stick_in_parent({
-				offset_top: 60			
+				offset_top: 60
 			});
 		}
-	});	
-	
+	});
+
 	// Sticky horizontal results list page or detail page
 	$("#results,.sticky_horizontal_2").stick_in_parent({
 		offset_top: 0
 	});
-	
+
 	// Sticky results map view
 	$(window).on('load resize', function () {
 		var width = $(window).width();
@@ -291,11 +291,11 @@
 			});
 		} else {
 			$('#results_map_view').stick_in_parent({
-				offset_top: 58			
+				offset_top: 58
 			});
 		}
 	});
-	            
+
 	// Secondary nav scroll
 	var $sticky_nav= $('.secondary_nav');
 	$sticky_nav.find('a').on('click', function(e) {
@@ -310,9 +310,9 @@
 		$sticky_nav.find('ul li a.active').removeClass('active');
 		$(this).addClass('active');
 	});
-	
+
 	$('#faq_box a[href^="#"]').on('click', function () {
-		if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
+		if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
 			|| location.hostname == this.hostname) {
 			var target = $(this.hash);
 			target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
@@ -328,7 +328,7 @@
 		$('ul#cat_nav li a.active').removeClass('active');
 		$(this).addClass('active');
 	});
-	
+
 	// Button show/hide map
 	$(".btn_map, .btn_map_in, .btn_filt").on("click", function () {
 		var el = $(this);
@@ -337,12 +337,12 @@
 			scrollTop: $("body").offset().top
 		}, 600);
 	});
-	
+
 	// Button map view
 	$(".btn_map_view").on("click", function () {
 		var el = $(this);
 		el.text() == el.data("text-swap") ? el.text(el.data("text-original")) : el.text(el.data("text-swap"));
 	});
-	
-	
-})(window.jQuery); 
+
+
+})(window.jQuery);

@@ -9,7 +9,9 @@
             <div class="item">
                 <div class="strip grid">
                     <figure>
-                        <a n:href="Listing:detail $post[data]->id" class="wish_bt"></a>
+                        <a n:if="$logged" class="wish_bt online"></a>
+                        <a n:if="!$logged" href="#sign-in-dialog" id="sign-in" class="wish_bt"></a>
+
                         <a n:href="Listing:detail $post[data]->id">
                             <img n:if="$post[thumbnail]" src="{$post[thumbnail]->url}" class="img-fluid" alt="" width="400" height="266">
                             <div class="read_more">

@@ -24,6 +24,15 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         $this->formComponent = new Components\FormComponent($this);
     }
 
+    public function startup()
+    {
+        parent::startup();
+
+        $user = $this->getSession('frontend')->offsetGet('user');
+        $this->template->logged = !empty($user);
+        $this->template->user = $user;
+    }
+
     public function getDbService(): \Nette\Database\Context
     {
         return $this->db;
