@@ -69,6 +69,28 @@ final class ListingPresenter extends _BasePresenter
 
     public function renderSearchResults($page = 1, $limit = 10)
     {
+        $this->template->view = $this->getSession('frontend')->offsetGet('search')->view ?? 'grid';
+
+        if ($this->isAjax()) {
+            return;
+        }
+
+        $this->getSession('frontend')->offsetSet('filters', new \stdClass());
+
+        $request = $this->getHttpRequest();
+        $search = new \stdClass();
+
+        if (!empty($request->getQuery('brands_id'))) {
+            $search->brands_id = $request->getQuery('brands_id');
+        }
+        if (!empty($request->getQuery('brands_models_id'))) {
+            $search->brands_models_id = $request->getQuery('brands_models_id');
+        }
+
+        if (!empty($search->brands_id) || !empty($search->brands_models_id)) {
+            $this->getSession('frontend')->offsetSet('search', $search);
+        }
+
         $results = $this->dbWrapper->searchPosts($page, $limit);
 
         foreach ($results['posts'] as $i => $post) {
@@ -77,8 +99,7 @@ final class ListingPresenter extends _BasePresenter
 
         $this->template->searchResults = $results;
         $this->template->search = $this->getSession('frontend')->offsetGet('search');
-
-        $this->template->view = $this->getSession('frontend')->offsetGet('search')->view ?? 'grid';
+        $this->template->filters = $this->getSession('frontend')->offsetGet('filters');
     }
 
     public function handleChangeView($view)
@@ -91,6 +112,58 @@ final class ListingPresenter extends _BasePresenter
 
         $this->redrawControl('filtersTop');
         $this->redrawControl('filters-top');
+        $this->redrawControl('results');
+    }
+
+    public function handleFilterBrandsResults($brands_id, $checked)
+    {
+        $this->_filterResults('brands_id', $brands_id, $checked);
+    }
+
+    public function handleFilterFuelTypesResults($fuel_types_id, $checked)
+    {
+        $this->_filterResults('fuel_types_id', $fuel_types_id, $checked);
+    }
+
+    public function handleFilterPriceResults($price)
+    {
+        $this->_filterResults('price', $price);
+    }
+
+    private function _filterResults($arg, $value, $checked = null)
+    {
+        $filters = $this->getSession('frontend')->offsetGet('filters');
+
+        if (empty($filters)) {
+            $filters = new \stdClass();
+        }
+
+        if (empty($filters->$arg)) {
+            $filters->$arg = [];
+        }
+
+        if ($checked === null) {
+            $filters->$arg = $value;
+        }
+        elseif ($checked === true) {
+            $filters->$arg[] = $value;
+        }
+        else {
+            if (($key = array_search($value, $filters->$arg)) !== false) {
+                unset($filters->$arg[$key]);
+            }
+        }
+
+        $this->getSession('frontend')->offsetSet('filters', $filters);
+
+        $results = $this->dbWrapper->searchPosts();
+
+        foreach ($results['posts'] as $i => $post) {
+            $results['page'][] = $this->utils->formatPostResult($post);
+        }
+
+        $this->template->searchResults = $results;
+
         $this->redrawControl('results');
     }
 

@@ -217,20 +217,6 @@ class DbWrapper
 
     public function searchPosts($page = 1, $limit = 10)
     {
-        $request = $this->presenter->getHttpRequest();
-        $search = new \stdClass();
-
-        if (!empty($request->getQuery('brands_id'))) {
-            $search->brands_id = $request->getQuery('brands_id');
-        }
-        if (!empty($request->getQuery('brands_models_id'))) {
-            $search->brands_models_id = $request->getQuery('brands_models_id');
-        }
-
-        if (!empty($search->brands_id) || !empty($search->brands_models_id)) {
-            $this->presenter->getSession('frontend')->offsetSet('search', $search);
-        }
-
         $search = $this->presenter->getSession('frontend')->offsetGet('search');
 
         $posts = [];
@@ -310,7 +296,31 @@ class DbWrapper
             $search_dbo->where('brands_models_types.' . $search->power_type . ' <= ?', $search->power_to);
         }
 
-        $tot = \count($search_dbo);
+        $search_dbo_page = clone $search_dbo;
+
+        $search_dbo_brands = clone $search_dbo;
+        $search_dbo_brands->select('COUNT(id) AS tot, brands_id')
+                          ->group('brands_id');
+
+        $search_dbo_fuel_types = clone $search_dbo;
+        $search_dbo_fuel_types->select('COUNT(id) AS tot, fuel_types_id')
+                              ->group('fuel_types_id');
+
+        $filters = $this->presenter->getSession('frontend')->offsetGet('filters');
+
+        if (!empty($filters->brands_id)) {
+            $search_dbo_page->where('brands_id', $filters->brands_id);
+        }
+
+        if (!empty($filters->fuel_types_id)) {
+            $search_dbo_page->where('fuel_types_id', $filters->fuel_types_id);
+        }
+
+        if (!empty($filters->price)) {
+            $search_dbo_page->where('price <= ?', $filters->price);
+        }
+
+        $tot = \count($search_dbo_page);
         $page_tot = \ceil($tot / $limit);
         $page_count = 5;
         $page_from = \max(1, $page - $page_count);
@@ -318,7 +328,9 @@ class DbWrapper
 
         return [
             'tot' => $tot,
-            'posts' => $search_dbo->page($page, $limit),
+            'posts' => $search_dbo_page->page($page, $limit),
+            'brands' => $search_dbo_brands,
+            'fuel_types' => $search_dbo_fuel_types,
             'page' => [],
             'pagination' => [
               'current' => $page,

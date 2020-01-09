@@ -2,67 +2,41 @@
     <div id="filters_col">
         <a data-toggle="collapse" href="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters" id="filters_col_bt">Filtri </a>
         <div class="collapse show" id="collapseFilters">
-            <div class="filter_type">
+            <div id="filters-brands" class="filter_type">
                 <h6>Case automobilistiche</h6>
                 <ul>
-                    <li>
-                        <label class="container_check">Audi <small>43</small>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </li>
-                    <li>
-                        <label class="container_check">Bmw <small>33</small>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </li>
-                    <li>
-                        <label class="container_check">Ford <small>12</small>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </li>
-                    <li>
-                        <label class="container_check">Renault <small>44</small>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </li>
+                    {foreach $searchResults['brands'] as $row}
+                        <li>
+                            <label class="container_check">
+                                {$row->brands->name}
+                                <small>{$row->tot}</small>
+                                <input type="checkbox" name="brands_id" value="{$row->brands_id}">
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                    {/foreach}
                 </ul>
             </div>
-            <div class="filter_type">
-                <h6>Distance</h6>
-                <div class="distance"> Seleziona il raggio <span></span> km</div>
-                <input type="range" min="10" max="100" step="10" value="30" data-orientation="horizontal">
+
+            <div id="filters-price" class="filter_type">
+                <h6>Prezzo</h6>
+                <div class="distance">Fino a <span></span> €</div>
+                <input type="range" name="price" min="0" max="20000" step="1000" value="20000" data-orientation="horizontal">
             </div>
-            <div class="filter_type">
+
+            <div id="filters-fuel-types" class="filter_type">
                 <h6>Carburante</h6>
                 <ul>
-                    <li>
-                        <label class="container_check">Benzina <small>34</small>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </li>
-                    <li>
-                        <label class="container_check">Diesel <small>21</small>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </li>
-                    <li>
-                        <label class="container_check">Gpl <small>15</small>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </li>
-                    <li>
-                        <label class="container_check">Elettrica <small>34</small>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </li>
+                    {foreach $searchResults['fuel_types'] as $row}
+                        <li>
+                            <label class="container_check">
+                                {$row->fuel_types->name}
+                                <small>{$row->tot}</small>
+                                <input type="checkbox" name="fuel_types_id" value="{$row->fuel_types_id}">
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                    {/foreach}
                 </ul>
             </div>
         </div>
@@ -70,3 +44,52 @@
     </div>
     <!--/filters col-->
 </aside>
+
+<script>
+    $('#filters-brands input').on('click', function (e) {
+        $('#search-results-wrapper .loading').addClass('active');
+
+        $.nette.ajax({
+            type: 'GET',
+            url: {link filterBrandsResults!},
+            data: {
+                'brands_id': e.target.value,
+                'checked': e.target.checked ? 1 : 0
+            },
+            success: function(data) {
+                $('#search-results-wrapper .loading').removeClass('active');
+            }
+        });
+    });
+
+    $('#filters-price input').on('change', function(e) {
+        $('#search-results-wrapper .loading').addClass('active');
+
+        $.nette.ajax({
+            type: 'GET',
+            url: {link filterPriceResults!},
+            data: {
+                'price': e.target.value
+            },
+            success: function(data) {
+                $('#search-results-wrapper .loading').removeClass('active');
+            }
+        });
+    });
+
+    $('#filters-fuel-types input').on('click', function (e) {
+        $('#search-results-wrapper .loading').addClass('active');
+
+        $.nette.ajax({
+            type: 'GET',
+            url: {link filterFuelTypesResults!},
+            data: {
+                'fuel_types_id': e.target.value,
+                'checked': e.target.checked ? 1 : 0
+            },
+            success: function(data) {
+                $('#search-results-wrapper .loading').removeClass('active');
+            }
+        });
+    });
+</script>

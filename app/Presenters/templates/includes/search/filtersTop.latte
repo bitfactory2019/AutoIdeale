@@ -31,7 +31,8 @@
 <script>
     $('#filters-top').delegate('.change-view', 'click', function (e) {
         e.preventDefault();
-        
+        $("#loading").show();
+
         $.nette.ajax({
             type: 'GET',
             url: {link changeView!},

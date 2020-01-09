@@ -11,7 +11,7 @@ final class TestPresenter extends _BasePresenter
 {
     public function renderIndex()
     {
-      exit;
+      return;
       $names = [
         'Pietro',
         'Giovanni',

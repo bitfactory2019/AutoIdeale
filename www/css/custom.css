@@ -69,3 +69,22 @@
     padding: 12px;
     width: 25%;
 }
+
+#search-results-wrapper .loading {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity .5s;
+    background: #FFF;
+    z-index: 2;
+}
+
+#search-results-wrapper .loading.active {
+    display: block;
+    opacity: .9;
+    transition: opacity .5s;
+}
