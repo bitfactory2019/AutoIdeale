@@ -20,34 +20,36 @@
                 </select>
             </div>
         </div>
-        {snippet posts}
-            <div class="list_general">
-                {if $posts}
-                    <ul>
-                        {foreach $posts as $post}
-                            <li>
-                                {if $post[thumbnail]}
-                                    <figure n:tag-if="$post[thumbnail]"><img src="{$post[thumbnail]->url}" alt=""></figure>
-                                {/if}
+        <div id="posts-list">
+            {snippet posts}
+                <div class="list_general">
+                    {if $posts}
+                        <ul id="posts-list">
+                            {foreach $posts as $post}
+                                <li>
+                                    {if $post[thumbnail]}
+                                        <figure n:tag-if="$post[thumbnail]"><img src="{$post[thumbnail]->url}" alt=""></figure>
+                                    {/if}
 
-                                <small>{$post[data]->brand}</small>
-                                <h4>{$post[data]->title}</h4>
-                                <p>{$post[data]->description|striptags|truncate:100}</p>
-                                <p>
-                                    <a n:href=":Listing:detail postId => $post[data][id]" target="_blank" class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> Guarda</a>
-                                    <a n:href="Posts:edit $post[data][id]" class="btn_1 gray"><i class="fa fa-fw fa-edit"></i> Modifica</a>
-                                </p>
-                                <ul class="buttons">
-                                    <li><a href="#0" class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i> Cancella</a></li>
-                                </ul>
-                            </li>
-                        {/foreach}
-                    </ul>
-                {else}
-                    Nessun annuncio inserito
-                {/if}
-            </div>
-        {/snippet}
+                                    <small>{$post[data]->brand}</small>
+                                    <h4>{$post[data]->title}</h4>
+                                    <p>{$post[data]->description|striptags|truncate:100}</p>
+                                    <p>
+                                        <a n:href=":Listing:detail postId => $post[data][id]" target="_blank" class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> Guarda</a>
+                                        <a n:href="Posts:edit $post[data][id]" class="btn_1 gray"><i class="fa fa-fw fa-edit"></i> Modifica</a>
+                                    </p>
+                                    <ul class="buttons">
+                                        <li><a href="#{$post[data][id]}" class="btn_1 gray delete wishlist_close delete-post"><i class="fa fa-fw fa-times-circle-o"></i> Cancella</a></li>
+                                    </ul>
+                                </li>
+                            {/foreach}
+                        </ul>
+                    {else}
+                        Nessun annuncio inserito
+                    {/if}
+                </div>
+            {/snippet}
+        </div>
     </div>
     <!-- /box_general-->
     <nav aria-label="...">
@@ -78,6 +80,23 @@
                 url: {link sortPosts!},
                 data: {
                     'order': $(this).val(),
+                },
+                success: () => {
+                    $(".list_general").css('opacity', '1');
+                }
+            });
+        });
+
+        $('#posts-list').on('click', 'a.delete-post', function(e) {
+            e.preventDefault();
+
+            $(".list_general").css('opacity', '0.5');
+
+            $.nette.ajax({
+                type: 'GET',
+                url: {link deletePost!},
+                data: {
+                    'id': $(this).attr('href').substr(1),
                 },
                 success: () => {
                     $(".list_general").css('opacity', '1');

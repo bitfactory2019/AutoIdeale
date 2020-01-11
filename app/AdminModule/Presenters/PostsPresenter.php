@@ -33,6 +33,21 @@ final class PostsPresenter extends _BasePresenter
          $this->presenter->redrawControl('posts');
      }
 
+     public function handleDeletePost($postId)
+     {
+         $result = $this->dbWrapper->deletePost($postId);
+
+         if ($result === true) {
+             $this->flashMessage("Post cancellato correttamente", "success");
+         }
+         else {
+             $this->flashMessage("Non è stato possibile cancellare il post, riprova.", "danger");
+         }
+
+         $this->presenter->redrawControl('flashes');
+         $this->presenter->redrawControl('posts');
+     }
+
      protected function createComponentAddForm(): UI\Form
      {
         $form = new UI\Form;

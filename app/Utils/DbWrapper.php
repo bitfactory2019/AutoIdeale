@@ -183,6 +183,20 @@ class DbWrapper
         }
     }
 
+    public function deletePost($postId)
+    {
+        try {
+            $post = $this->db->table('posts')
+                ->where('id', $postId)
+                ->delete();
+
+            return true;
+        }
+        catch (\PDOException $e) {
+            return false;
+        }
+    }
+
     public function getPosts($userId, $sort = 'latest')
     {
         $posts = [];
