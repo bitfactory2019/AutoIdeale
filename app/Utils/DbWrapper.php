@@ -25,6 +25,11 @@ class DbWrapper
             ->fetch();
     }
 
+    public function getUserById($id)
+    {
+        return $this->db->table('users')->get($id);
+    }
+
     public function addUser($values)
     {
         try {

@@ -28,13 +28,16 @@ final class AccountPresenter extends _BasePresenter
             else {
                 $this->flashMessage("Bentornato {$user->name} {$user->surname}", "success");
 
-                $this->getSession("admin")->offsetSet("logged", true);
-                $this->getSession("admin")->offsetSet("user", $user->toArray());
-                $this->getSession("admin")->offsetSet("remember", $values->remember ?? false);
+                $section = $this->getSession("admin");
+
+                $section->remove();
+                $section->logged = true;
+                $section->user_id = $user->id;
+                $section->remember = $values->remember ?? false;
 
                 $this->dbWrapper->saveUserLogin($user->id);
 
-                $this->redirect('Admin:Dashboard:index');
+                $this->redirect('Admin:Dashboard:'.$user->groups->admin_index);
             }
         };
 
@@ -148,5 +151,16 @@ final class AccountPresenter extends _BasePresenter
         };
 
       return $form;
+    }
+
+    public function renderSignOut()
+    {
+        $section = $this->getSession("admin");
+
+        foreach ($section as $key => $val) {
+        	 unset($section->$key);
+        }
+
+        $this->redirect("Homepage:index");
     }
 }

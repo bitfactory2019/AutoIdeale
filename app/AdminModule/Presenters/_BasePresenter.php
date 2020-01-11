@@ -13,6 +13,8 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     protected $filesWrapper;
     protected $utils;
 
+    protected $section;
+
     public function __construct(\Nette\Database\Context $database)
     {
         $this->db = $database;
@@ -30,23 +32,18 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     {
         parent::startup();
 
-        if (!$this->getSession("admin")->offsetGet("logged")) {
-            $this->redirect(":Registration:signIn");
+        $this->section = $this->getSession("admin");
 
-            return;
+        if (empty($this->section->user_id)) {
+            $this->redirect(":Account:index");
         }
 
-        $this->template->user = $this->getAdminUser();
-        $this->template->posts = $this->dbWrapper->getPosts($this->template->user['id']);
-        $this->template->messages = $this->dbWrapper->getMessages($this->template->user['id']);
-        $this->template->newMessages = $this->dbWrapper->getMessages($this->template->user['id'], true);
-        $this->template->requests = $this->dbWrapper->getRequests($this->template->user['id']);
-        $this->template->pendingRequests = $this->dbWrapper->getRequests($this->template->user['id'], 'pending');
-    }
-
-    protected function getAdminUser()
-    {
-        return $this->getSession('admin')->offsetGet('user');
+        $this->template->user = $this->dbWrapper->getUserById($this->section->user_id);
+        $this->template->posts = $this->dbWrapper->getPosts($this->section->user_id);
+        $this->template->messages = $this->dbWrapper->getMessages($this->section->user_id);
+        $this->template->newMessages = $this->dbWrapper->getMessages($this->section->user_id, true);
+        $this->template->requests = $this->dbWrapper->getRequests($this->section->user_id);
+        $this->template->pendingRequests = $this->dbWrapper->getRequests($this->section->user_id, 'pending');
     }
 
     public function getConfig()
