@@ -69,13 +69,13 @@ final class ListingPresenter extends _BasePresenter
 
     public function renderSearchResults($page = 1, $limit = 10)
     {
-        $this->template->view = $this->getSession('frontend')->offsetGet('search')->view ?? 'grid';
+        $this->template->view = $this->section_frontend->search->view ?? 'grid';
 
         if ($this->isAjax()) {
             return;
         }
 
-        $this->getSession('frontend')->offsetSet('filters', new \stdClass());
+        $this->section_frontend->filters = new \StdClass();
 
         $request = $this->getHttpRequest();
         $search = new \stdClass();
@@ -88,7 +88,7 @@ final class ListingPresenter extends _BasePresenter
         }
 
         if (!empty($search->brands_id) || !empty($search->brands_models_id)) {
-            $this->getSession('frontend')->offsetSet('search', $search);
+            $this->section_frontend->search = $search;
         }
 
         $results = $this->dbWrapper->searchPosts($page, $limit);
@@ -98,15 +98,15 @@ final class ListingPresenter extends _BasePresenter
         }
 
         $this->template->searchResults = $results;
-        $this->template->search = $this->getSession('frontend')->offsetGet('search');
-        $this->template->filters = $this->getSession('frontend')->offsetGet('filters');
+        $this->template->search = $this->section_frontend->search;
+        $this->template->filters = $this->section_frontend->filters;
     }
 
     public function handleChangeView($view)
     {
-        $search = $this->getSession('frontend')->offsetGet('search');
+        $search = $this->section_frontend->search;
         $search->view = $view;
-        $this->getSession('frontend')->offsetSet('search', $search);
+        $this->section_frontend->search = $search;
 
         $this->template->view = $view;
 
@@ -132,7 +132,7 @@ final class ListingPresenter extends _BasePresenter
 
     private function _filterResults($arg, $value, $checked = null)
     {
-        $filters = $this->getSession('frontend')->offsetGet('filters');
+        $filters = $this->section_frontend->filters;
 
         if (empty($filters)) {
             $filters = new \stdClass();
@@ -154,7 +154,7 @@ final class ListingPresenter extends _BasePresenter
             }
         }
 
-        $this->getSession('frontend')->offsetSet('filters', $filters);
+        $this->section_frontend->filters = $filters;
 
         $results = $this->dbWrapper->searchPosts();
 

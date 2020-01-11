@@ -31,7 +31,6 @@ final class AccountPresenter extends _BasePresenter
                 $section = $this->getSession("admin");
 
                 $section->remove();
-                $section->logged = true;
                 $section->user_id = $user->id;
                 $section->remember = $values->remember ?? false;
 
@@ -52,24 +51,6 @@ final class AccountPresenter extends _BasePresenter
         $form->addSubmit('recovery', 'Reset Password');
 
         $form->onSuccess[] = function() use ($form) {
-            /*$values = $form->getValues();
-
-            $user = $this->dbWrapper->getUserLogin($values);
-
-            if (empty($user)) {
-                $this->flashMessage("Utente non riconosciuto", "danger");
-            }
-            else {
-                $this->flashMessage("Bentornato {$user->name} {$user->surname}", "success");
-
-                $this->getSession("admin")->offsetSet("logged", true);
-                $this->getSession("admin")->offsetSet("user", $user->toArray());
-                $this->getSession("admin")->offsetSet("remember", $values->remember ?? false);
-
-                $this->dbWrapper->saveUserLogin($user->id);
-
-                $this->redirect('Admin:Dashboard:index');
-            }*/
         };
 
         return $form;
@@ -145,7 +126,7 @@ final class AccountPresenter extends _BasePresenter
                     $this->flashMessage("La registrazione è avvenuta con successo!", "success");
                     $this->flashMessage("Un amministratore attiverà il tuo account appena possibile.", "success");
 
-                    $this->redirect("Registration:signIn");
+                    //$this->redirect("Registration:signIn");
                 }
             }
         };

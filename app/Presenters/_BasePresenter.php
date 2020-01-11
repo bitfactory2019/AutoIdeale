@@ -15,6 +15,9 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     protected $utils;
     protected $formComponent;
 
+    protected $section_admin;
+    protected $section_frontend;
+
     public function __construct(\Nette\Database\Context $database)
     {
         $this->db = $database;
@@ -28,9 +31,11 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     {
         parent::startup();
 
-        $user = $this->getSession('frontend')->offsetGet('user');
-        $this->template->logged = !empty($user);
-        $this->template->user = $user;
+        $this->section_admin = $this->getSession('admin');
+        $this->section_frontend = $this->getSession('frontend');
+
+        $this->template->logged = !empty($this->section_admin->user);
+        $this->template->user = $this->dbWrapper->getUserById($this->section_admin->user_id);
     }
 
     public function getDbService(): \Nette\Database\Context
@@ -46,38 +51,6 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     public function getUtils(): \App\Utils
     {
         return $this->utils;
-    }
-
-    protected function createComponentSignInForm()
-    {
-        $form = new \Nette\Application\UI\Form();
-
-        $form->addEmail('email', 'Email')->setRequired('Inserisci l\'email');
-        $form->addPassword('password', 'Password')->setRequired('Inserisci la password');
-        $form->addSubmit('signin', 'Login');
-
-        $form->onSuccess[] = function() use ($form) {
-            $values = $form->getValues();
-
-            $user = $this->dbWrapper->getUserLogin($values);
-
-            if (empty($user)) {
-                $this->flashMessage("Utente non riconosciuto", "danger");
-            }
-            else {
-                $this->flashMessage("Bentornato {$user->name} {$user->surname}", "success");
-
-                $this->getSession("admin")->offsetSet("logged", true);
-                $this->getSession("admin")->offsetSet("user", $user->toArray());
-                $this->getSession("admin")->offsetSet("remember", $values->remember ?? false);
-
-                $this->dbWrapper->saveUserLogin($user->id);
-
-                $this->redirect('Admin:Dashboard:index');
-            }
-        };
-
-        return $form;
     }
 
     public function handleLoadBrandModels($formName, $brandId)
