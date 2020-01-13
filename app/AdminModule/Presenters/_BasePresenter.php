@@ -44,6 +44,13 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         $this->template->newMessages = $this->dbWrapper->getMessages($this->section->user_id, true);
         $this->template->requests = $this->dbWrapper->getRequests($this->section->user_id);
         $this->template->pendingRequests = $this->dbWrapper->getRequests($this->section->user_id, 'pending');
+
+        if ($this->template->user->groups->name === 'admin') {
+          $administrator = new \StdClass();
+          $administrator->usersNo = $this->db->table('users')->count('*');
+
+          $this->template->administrator = $administrator;
+        }
     }
 
     public function getConfig()

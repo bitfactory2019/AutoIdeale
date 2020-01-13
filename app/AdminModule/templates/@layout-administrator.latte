@@ -7,7 +7,7 @@
     </head>
 
     <body class="fixed-nav sticky-footer" id="page-top">
-        {include 'includes/nav-top.latte', 'posts' => $posts}
+        {include 'includes/administrator/nav-top.latte', 'posts' => $posts}
 
         <div class="content-wrapper">
             <div class="container-fluid">
@@ -51,6 +51,15 @@
 
             <!-- Nette environment -->
             <script src="js/nette.ajax.js"></script>
+
+            <!-- datatables -->
+            <script>
+                $(".data-table").DataTable({
+                  'language': {
+                    'url': '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json'
+                  }
+                });
+            </script>
         {/block}
     </body>
 </html>
