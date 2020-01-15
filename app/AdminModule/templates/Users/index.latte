@@ -16,7 +16,7 @@
       </h4>
 
       <div class="list_general table-responsive pb-5 mt-4">
-        <table class="data-table table table-striped table-hover">
+        <table id="data-table-users" class="data-table table table-striped table-hover">
           <thead>
             <tr>
               <th scope="col">ID</th>
@@ -25,6 +25,7 @@
               <th scope="col">Email</th>
               <th scope="col">Data registrazione</th>
               <th scope="col">Attivo</th>
+              <th scope="col" class="sorting_disabled"></th>
             </tr>
           </thead>
           <tbody>
@@ -39,6 +40,9 @@
                   <i n:if="$_user->enabled" class="fa fa-fw fa-check"></i>
                   <i n:if="!$_user->enabled" class="fa fa-fw fa-times"></i>
                 </td>
+                <td>
+                  <a href="#"><i class="fa fa-arrow-circle-right"></i></a>
+                </td>
               </tr>
             {/foreach}
           </tbody>
@@ -46,4 +50,24 @@
 			</div>
 		</div>
 		<!-- /box_general-->
+{/block}
+
+{block scripts}
+  {include parent}
+
+  <script>
+    var table = $("#data-table-users").DataTable({
+      'language': {
+        'url': '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json'
+      },
+      'columnDefs': [
+        { 'orderable': false, 'targets': 6 }
+      ]
+    });
+    console.log(table);
+
+    table.on( 'click', function ( e, dt, type, indexes ) {
+        table[ type ]( indexes ).nodes().to$().addClass( 'custom-selected' );
+    } );
+  </script>
 {/block}
