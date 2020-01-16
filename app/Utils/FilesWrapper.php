@@ -42,6 +42,10 @@ class FilesWrapper
 
     public function uploadTempFiles($temp_path, $files)
     {
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+
         if (empty($files[0])) {
             return [];
         }
