@@ -41,7 +41,7 @@
                   <i n:if="!$_user->enabled" class="fa fa-fw fa-times"></i>
                 </td>
                 <td>
-                  <a href="#"><i class="fa fa-arrow-circle-right"></i></a>
+                  <a class="list-detail-button" n:href="Users:detail $_user->id"><i class="fa fa-arrow-circle-right"></i></a>
                 </td>
               </tr>
             {/foreach}

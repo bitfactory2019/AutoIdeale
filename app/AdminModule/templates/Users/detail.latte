@@ -1,0 +1,188 @@
+{layout '../@layout-administrator.latte'}
+
+{block breadcrumbs}
+    {include '../includes/breadcrumbs.latte', breadcrumbs => [
+        [url => 'Users:index', label => 'Utenti'],
+        [url => '', label => $user->name.' '.$user->surname]
+    ]}
+{/block}
+
+{block content}
+  {include parent}
+
+  {form userDetailForm, id => "addForm"}
+    {input userId}
+    {input tempPath}
+
+    <div class="box_general padding_bottom">
+			<div class="header_box version_2">
+				<h2><i class="fa fa-user"></i>Dettagli profilo</h2>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+            {label image /}
+
+            <div class="col-md-12 dropzone">
+                <div class="dz-default dz-message">
+                  <p><i class="fa fa-picture-o fa-5x" aria-hidden="true"></i></p>
+                  <p>Trascina qui l'immagine del tuo profilo</p>
+                </div>
+                <div class="dropzone-previews" id="user-image">
+                    {block images}{/block}
+                </div>
+            </div>
+			    </div>
+				</div>
+				<div class="col-md-8">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+                {label name /}
+                {input name}
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+                {label surname /}
+                {input surname}
+							</div>
+						</div>
+					</div>
+					<!-- /row-->
+          <div class="row">
+            <div class="col-md-12">
+							<div class="form-group">
+                {label address /}
+                {input address}
+							</div>
+            </div>
+          </div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+                {label city /}
+                {input city}
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+                {label cap /}
+                {input cap}
+							</div>
+						</div>
+					</div>
+					<!-- /row-->
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+                {label telephone /}
+                {input telephone}
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+                {label mobile /}
+                {input mobile}
+							</div>
+						</div>
+					</div>
+					<!-- /row-->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+                {label info /}
+                {input info}
+							</div>
+						</div>
+					</div>
+					<!-- /row-->
+				</div>
+			</div>
+		</div>
+
+    <div class="row">
+			<div class="col-md-6">
+				<div class="box_general padding_bottom">
+					<div class="header_box version_2">
+						<h2><i class="fa fa-lock"></i>Cambia password</h2>
+					</div>
+					<div class="form-group">
+            {label new_password /}
+            {input new_password}
+					</div>
+					<div class="form-group">
+            {label confirm_password /}
+            {input confirm_password}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="box_general padding_bottom">
+					<div class="header_box version_2">
+						<h2><i class="fa fa-envelope"></i>Cambia email</h2>
+					</div>
+					<div class="form-group">
+            {label new_email /}
+            {input new_email}
+					</div>
+					<div class="form-group">
+            {label confirm_email /}
+            {input confirm_email}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /row-->
+
+    <p>{input save class => 'btn_1 medium'}</p>
+  {/form}
+{/block}
+
+{block scripts}
+  {include parent}
+
+  <script src="vendor/dropzone.min.js"></script>
+  <link href="vendor/dropzone.css" rel="stylesheet">
+
+  <script>
+    Dropzone.autoDiscover = false;
+
+    var dropZone = new Dropzone(".dropzone", {
+        paramName: "images",
+        previewsContainer: "#user-image",
+        clickable: ".dropzone",
+        url: {link addTempImages!, tempPath => $tempPath},
+        dictDefaultMessage: "",
+        uploadMultiple: false,
+        acceptedFiles: 'image/*',
+        addRemoveLinks: true,
+        init: function() {
+            this.on("addedfile", function(file) {
+                $(".dz-message").hide();
+            });
+
+            this.on("removedfile", function(file) {
+                if (this.files.length === 0) {
+                    $(".dz-message").show();
+                }
+
+                if (file.id) {
+                    $.nette.ajax({
+                        type: 'GET',
+                        url: {link deleteImage!},
+                        data: { 'imageId': file.id }
+                    });
+                }
+                else {
+                    $.nette.ajax({
+                        type: 'GET',
+                        url: {link deleteTempImage!},
+                        data: { 'imageName': {$tempPath}+'/'+file.name }
+                    });
+                }
+            });
+        }
+    });
+  </script>
+{/block}
