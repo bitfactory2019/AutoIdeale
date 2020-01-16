@@ -23,7 +23,7 @@ class FilesWrapper
         FileSystem::delete($config["wwwDir"].$config["tempImagesDir"].'/'.$imageName);
     }
 
-    public function deleteImage($id)
+    public function deletePostImage($id)
     {
         //$config = $this->presenter->getConfig();
 
@@ -74,7 +74,7 @@ class FilesWrapper
         return $postFiles;
     }
 
-    public function uploadFiles($postId, $files)
+    public function uploadPostFiles($postId, $files)
     {
         if (empty($files[0])) {
             return [];
@@ -104,7 +104,7 @@ class FilesWrapper
         return $postFiles;
     }
 
-    public function moveTempFiles($temp_path, $post_id, $deleteSource = true)
+    public function moveTempPostFiles($temp_path, $post_id, $deleteSource = true)
     {
         $config = $this->presenter->getConfig();
         $postFiles = [];

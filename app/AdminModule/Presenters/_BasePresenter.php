@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\AdminModule\Presenters;
 
 use Nette;
+use \Nette\Application\Responses\JsonResponse;
 
 abstract class _BasePresenter extends Nette\Application\UI\Presenter
 {
@@ -56,5 +57,25 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     public function getConfig()
     {
         return $this->context->getParameters();
+    }
+
+
+    public function handleAddTempImages()
+    {
+        $images = $this->getHttpRequest()->getFile('images');
+
+        $postFiles = $this->filesWrapper->uploadTempFiles(
+             $this->getHttpRequest()->getQuery('tempPath'),
+             $images
+        );
+
+        $this->sendResponse(new JsonResponse($postFiles));
+    }
+
+    public function handleDeleteTempImage($imageName)
+    {
+         $this->filesWrapper->deleteTempImage($imageName);
+
+         $this->sendResponse(new JsonResponse(['result' => true]));
     }
 }

@@ -245,23 +245,11 @@ final class PostsPresenter extends _BasePresenter
         return $form;
     }
 
-     public function handleAddTempImages()
-     {
-          $images = $this->getHttpRequest()->getFile('images');
-
-          $postFiles = $this->filesWrapper->uploadTempFiles(
-               $this->getHttpRequest()->getQuery('tempPath'),
-               $images
-          );
-
-          $this->sendResponse(new JsonResponse($postFiles));
-     }
-
      public function handleAddImages()
      {
           $images = $this->getHttpRequest()->getFile('images');
 
-          $postFiles = $this->filesWrapper->uploadFiles(
+          $postFiles = $this->filesWrapper->uploadPostFiles(
                $this->getHttpRequest()->getQuery('postId'),
                $images
           );
@@ -269,16 +257,9 @@ final class PostsPresenter extends _BasePresenter
           $this->sendResponse(new JsonResponse($postFiles));
      }
 
-     public function handleDeleteTempImage($imageName)
-     {
-          $this->filesWrapper->deleteTempImage($imageName);
-
-          $this->sendResponse(new JsonResponse(['result' => true]));
-     }
-
      public function handleDeleteImage($imageId)
      {
-          $this->filesWrapper->deleteImage($imageId);
+          $this->filesWrapper->deletePostImage($imageId);
 
           $this->sendResponse(new JsonResponse(['result' => true]));
      }
@@ -300,7 +281,7 @@ final class PostsPresenter extends _BasePresenter
                return;
           }
           else {
-               $postFiles = $this->filesWrapper->moveTempFiles(
+               $postFiles = $this->filesWrapper->moveTempPostFiles(
                     $values->tempPath,
                     $postId
                );
@@ -332,7 +313,7 @@ final class PostsPresenter extends _BasePresenter
                $this->flashMessage("Post non salvato, riprova.", "danger");
           }
           else {
-               /*$postFiles = $this->filesWrapper->moveTempFiles(
+               /*$postFiles = $this->filesWrapper->moveTempPostFiles(
                     $values->tempPath,
                     $postId
                );
