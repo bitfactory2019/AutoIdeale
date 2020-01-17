@@ -73,6 +73,9 @@ final class UsersPresenter extends _BasePresenter
               ->setHtmlAttribute('placeholder', 'Scrivi qualcosa su di te')
               ->setDefaultValue($this->template->user->info ?? "");
 
+          $form->addCheckbox('enabled', 'Abilitato')
+              ->setValue($this->template->user->enabled);
+
          $form->addPassword('new_password', 'Nuova password')
               ->setHtmlAttribute('class', 'form-control');
 
@@ -87,12 +90,7 @@ final class UsersPresenter extends _BasePresenter
 
          $form->addSubmit('save', 'Salva');
 
-         if (!empty($this->template->user->id)) {
-             $form->onSubmit[] = [$this, 'submitEditUser'];
-         }
-         else {
-             $form->onSubmit[] = [$this, 'submitAddUser'];
-         }
+         $form->onSubmit[] = [$this, 'submitEditUser'];
 
          return $form;
     }
@@ -107,10 +105,16 @@ final class UsersPresenter extends _BasePresenter
     public function submitEditUser(UI\Form $form): void
     {
         $values = $form->getValues();
-    }
 
-    public function submitAddUser(UI\Form $form): void
-    {
-        $values = $form->getValues();
+        $result = $this->dbWrapper->editUser($values);
+
+        if ($result) {
+            $this->flashMessage("Utente salvato con successo!", "success");
+        }
+        else {
+            $this->flashMessage("Salvataggio non riuscito, riprova.", "danger");
+        }
+
+        $this->redrawControl("flashes");
     }
 }

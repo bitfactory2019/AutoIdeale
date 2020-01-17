@@ -69,6 +69,39 @@ class DbWrapper
         }
     }
 
+    public function editUser($values)
+    {
+        try {
+            $data = [
+                "name" => $values->name,
+                "surname" => $values->surname,
+                "address" => $values->address,
+                "city" => $values->city,
+                "cap" => $values->cap,
+                "telephone" => $values->telephone,
+                "info" => $values->info,
+                "enabled" => $values->enabled
+            ];
+
+            if (!empty($values->new_password) && ($values->new_password === $values->confirm_password)) {
+                $data['password'] = \md5($values->new_password);
+            }
+
+            if (!empty($values->new_email) && ($values->new_email === $values->confirm_password)) {
+                $data['email'] = \md5($values->new_email);
+            }
+
+            $this->db->table('users')
+                ->where('id', $values->userId)
+                ->update($data);
+
+            return true;
+        }
+        catch (\PDOException $e) {
+            return false;
+        }
+    }
+
     public function getUserLogin($values)
     {
         return $this->db->table('users')
