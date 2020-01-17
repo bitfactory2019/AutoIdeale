@@ -35,7 +35,7 @@
                 <td>{$_user->groups->name|firstUpper}</td>
                 <td>{$_user->name} {$_user->surname}</td>
                 <td>{$_user->email}</td>
-                <td>{$_user->creation_time|date:'d/m/Y H:i:s'}</td>
+                <td>{$_user->creation_time|date:'d/m/Y'}</td>
                 <td>
                   <i n:if="$_user->enabled" class="fa fa-fw fa-check"></i>
                   <i n:if="!$_user->enabled" class="fa fa-fw fa-times"></i>
@@ -56,13 +56,49 @@
   {include parent}
 
   <script>
+    $('#data-table-users thead tr').clone(true).appendTo('#data-table-users thead');
+    $('#data-table-users thead tr:eq(1) th').each(function(i) {
+        switch (i) {
+            case 1: $(this).html('<select></select>');
+                  $('select', this).append('<option value="">-- Tutti --</option>');
+                  $('select', this).append('<option value="admin">Admin</option>');
+                  $('select', this).append('<option value="private">Privato</option>');
+                  $('select', this).append('<option value="company">Azienda</option>');
+
+                  $('select', this).on('keyup change', function(e) {
+                      table.column(i).search(e.target.value).draw();
+                  });
+                  break;
+            case 2:
+            case 3: $(this).html('<input type="text" class="col-xs-2" />');
+
+                    $('input', this).on('keyup change', function(e) {
+                        table.column(i).search(e.target.value).draw();
+                    });
+                    break;
+            case 5: $(this).html('<select></select>');
+                  $('select', this).append('<option value="">-- Tutti --</option>');
+                  $('select', this).append('<option value="1">Attivi</option>');
+                  $('select', this).append('<option value="0">Non attivi</option>');
+
+                  $('select', this).on('keyup change', function(e) {
+                      table.column(i).search(e.target.value).draw();
+                  });
+                  break;
+            default: $(this).html('');
+        }
+    });
+  </script>
+
+  <script>
     var table = $("#data-table-users").DataTable({
       'language': {
         'url': '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json'
       },
       'columnDefs': [
         { 'orderable': false, 'targets': 6 }
-      ]
+      ],
+      'orderCellsTop': true,
     });
     console.log(table);
 
