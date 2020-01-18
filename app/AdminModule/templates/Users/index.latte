@@ -59,7 +59,7 @@
     $('#data-table-users thead tr').clone(true).appendTo('#data-table-users thead');
     $('#data-table-users thead tr:eq(1) th').each(function(i) {
         switch (i) {
-            case 1: $(this).html('<select></select>');
+            case 1: $(this).html('<select class="form-control form-control-sm"></select>');
                   $('select', this).append('<option value="">-- Tutti --</option>');
                   $('select', this).append('<option value="admin">Admin</option>');
                   $('select', this).append('<option value="private">Privato</option>');
@@ -70,13 +70,13 @@
                   });
                   break;
             case 2:
-            case 3: $(this).html('<input type="text" class="col-xs-2" />');
+            case 3: $(this).html('<input type="text" class="form-control" />');
 
                     $('input', this).on('keyup change', function(e) {
                         table.column(i).search(e.target.value).draw();
                     });
                     break;
-            case 5: $(this).html('<select></select>');
+            case 5: $(this).html('<select class="form-control"></select>');
                   $('select', this).append('<option value="">-- Tutti --</option>');
                   $('select', this).append('<option value="1">Attivi</option>');
                   $('select', this).append('<option value="0">Non attivi</option>');
