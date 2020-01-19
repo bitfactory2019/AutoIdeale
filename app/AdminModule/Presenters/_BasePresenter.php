@@ -51,6 +51,16 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
           $administrator->usersNo = $this->db->table('users')->count('*');
           $administrator->postsNo = $this->db->table('posts')->count('*');
 
+          $administrator->newUsers = $this->db->table('users')
+            ->where('enabled = 1')
+            ->where('creation_time > ?', $this->template->user->last_login)
+            ->count('*');
+
+          $administrator->newPosts = $this->db->table('posts')
+            ->where('approved = 1')
+            ->where('creation_time > ?', $this->template->user->last_login)
+            ->count('*');
+
           $this->template->administrator = $administrator;
         }
     }
