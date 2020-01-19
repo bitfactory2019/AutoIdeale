@@ -19,6 +19,13 @@
                     <span class="badge badge-pill badge-primary">{$administrator->usersNo}</span>
                 </a>
             </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Messages">
+                <a class="nav-link" n:href="Posts:administratorListing">
+                    <i class="fa fa-fw fa-bullhorn"></i>
+                    <span class="nav-link-text">Annunci</span>
+                    <span class="badge badge-pill badge-primary">{$administrator->postsNo}</span>
+                </a>
+            </li>
             </ul>
             <ul class="navbar-nav sidenav-toggler">
                 <li class="nav-item">

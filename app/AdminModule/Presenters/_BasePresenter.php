@@ -49,6 +49,7 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         if ($this->template->user->groups->name === 'admin') {
           $administrator = new \StdClass();
           $administrator->usersNo = $this->db->table('users')->count('*');
+          $administrator->postsNo = $this->db->table('posts')->count('*');
 
           $this->template->administrator = $administrator;
         }

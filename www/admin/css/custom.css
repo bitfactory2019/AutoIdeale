@@ -34,3 +34,5 @@
 h4 span.badge {
 	font-size: small
 }
+
+.datepicker .datepicker-days {display: block !important;}
