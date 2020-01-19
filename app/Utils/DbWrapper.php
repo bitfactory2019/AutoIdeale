@@ -113,11 +113,16 @@ class DbWrapper
 
     public function saveUserLogin($userId)
     {
-        $this->db->table('users_logins')->insert([
+        $this->db->table('users_logins')
+          ->insert([
             'user_id' => $userId,
             'ip_address' => $this->presenter->getHttpRequest()->getRemoteAddress(),
             'login_time' => \time()
-        ]);
+          ]);
+
+        $this->db->table('users')
+          ->where(['id' => $userId])
+          ->update(['last_login' => \time()]);
     }
 
     public function addNewPost($userId, $values)
