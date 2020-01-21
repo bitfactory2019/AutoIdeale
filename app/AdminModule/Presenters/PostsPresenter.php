@@ -405,6 +405,7 @@ final class PostsPresenter extends _BasePresenter
 
       	$grid->setDataSource($this->db->table('posts'));
         $grid->setDefaultSort(['creation_time' => 'DESC']);
+        $grid->setItemsDetail(__DIR__ . '/../templates/Posts/administratorDetail.latte');
 
         /*$grid->addAction('edit', '')
 	           ->setIcon('pencil');*/

@@ -1,0 +1,57 @@
+{block detail}
+  <div class="item_detail">
+    <div class="card mb-3">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <img src="{$item->related('posts_images.post_id')->fetch()->url}" class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{$item->title}</h5>
+            <p class="card-text">
+              <a n:if="$item->address" class="address" target="_blank" href="https://www.google.com/maps/search/?api=1&query={$item->address} {$item->city}">{$item->address}, {$item->city}</a>
+            </p>
+            <p class="card-text">{$item->description|noescape|trim}</p>
+
+            <div class="row add_bottom_30">
+                <div class="col-md-6">
+                    <ul class="bullets">
+                        <li><strong>Marca</strong> {$item->brands->name}</li>
+                        <li><strong>Modello</strong> {$item->brands_models->name}</li>
+                        <li>
+                            <strong>Motorizzazione</strong>
+                            {$item->brands_models_types->type} -
+                            {$item->brands_models_types->cc}cc -
+                            {$item->brands_models_types->cv}cv ({$item->brands_models_types->kw}kw)
+                        </li>
+                        <li><strong>Immatricolazione</strong> {$item->month|month} {$item->year}</li>
+                        <li><strong>Carburante</strong> {$item->fuel_types->name}</li>
+                        <li>
+                            <strong>Chilometri</strong>
+                            {$item->kilometers->from|number:0:'':'.'} km -
+                            {$item->kilometers->to|number:0:'':'.'} km
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="bullets">
+                        <li><strong>Tipo di veicolo</strong> {$item->models->name}</li>
+                        <li><strong>Cambio</strong> {$item->shift_types->name}</li>
+                        <li><strong>Porte</strong> {$item->doors->name} porte</li>
+                        <li><strong>Posti</strong> {$item->seats->seats_no}{if $item->seats->more}+{/if} posti</li>
+                        <li><strong>Classe</strong> {$item->euro_class->name}</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="card-text">
+              <small class="text-muted">
+                Inserito da <strong>{$item->users->name} {$item->users->surname}</strong>
+                il {$item->creation_time|date:'%d %B %Y'}
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{/block}
