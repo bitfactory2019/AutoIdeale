@@ -1,7 +1,7 @@
 <!-- Breadcrumbs-->
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
-        <a n:href="Dashboard:index">Dashboard</a>
+        <a n:href="Dashboard:{$user->groups->admin_index}">Dashboard</a>
     </li>
     {foreach $breadcrumbs ?? [] as $item}
         <li class="breadcrumb-item active">

@@ -1,0 +1,109 @@
+{layout '../@layout-administrator.latte'}
+
+{block breadcrumbs}
+    {include '../includes/breadcrumbs.latte', breadcrumbs => [
+        [url => '', label => 'Utenti']
+    ]}
+{/block}
+
+{block content}
+    {include parent}
+
+    <div class="box_general">
+			<h4>
+        Utenti registrati
+        <span class="badge badge-pill badge-primary">{$administrator->usersNo}</span>
+      </h4>
+
+      <div class="list_general table-responsive pb-5 mt-4">
+        <table id="data-table-users" class="data-table table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Gruppo</th>
+              <th scope="col">Nome e cognome</th>
+              <th scope="col">Email</th>
+              <th scope="col">Data registrazione</th>
+              <th scope="col">Attivo</th>
+              <th scope="col" class="sorting_disabled"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {foreach $users as $_user}
+              <tr>
+                <th scope="row">{$_user->id}</th>
+                <td>{$_user->groups->name|firstUpper}</td>
+                <td>{$_user->name} {$_user->surname}</td>
+                <td>{$_user->email}</td>
+                <td>{$_user->creation_time|date:'d/m/Y'}</td>
+                <td>
+                  <i n:if="$_user->enabled" class="fa fa-fw fa-check"></i>
+                  <i n:if="!$_user->enabled" class="fa fa-fw fa-times"></i>
+                </td>
+                <td>
+                  <a class="list-detail-button" n:href="Users:detail $_user->id"><i class="fa fa-arrow-circle-right"></i></a>
+                </td>
+              </tr>
+            {/foreach}
+          </tbody>
+        </table>
+			</div>
+		</div>
+		<!-- /box_general-->
+{/block}
+
+{block scripts}
+  {include parent}
+
+  <script>
+    $('#data-table-users thead tr').clone(true).appendTo('#data-table-users thead');
+    $('#data-table-users thead tr:eq(1) th').each(function(i) {
+        switch (i) {
+            case 1: $(this).html('<select class="form-control form-control-sm"></select>');
+                  $('select', this).append('<option value="">-- Tutti --</option>');
+                  $('select', this).append('<option value="admin">Admin</option>');
+                  $('select', this).append('<option value="private">Privato</option>');
+                  $('select', this).append('<option value="company">Azienda</option>');
+
+                  $('select', this).on('keyup change', function(e) {
+                      table.column(i).search(e.target.value).draw();
+                  });
+                  break;
+            case 2:
+            case 3: $(this).html('<input type="text" class="form-control" />');
+
+                    $('input', this).on('keyup change', function(e) {
+                        table.column(i).search(e.target.value).draw();
+                    });
+                    break;
+            case 5: $(this).html('<select class="form-control"></select>');
+                  $('select', this).append('<option value="">-- Tutti --</option>');
+                  $('select', this).append('<option value="1">Attivi</option>');
+                  $('select', this).append('<option value="0">Non attivi</option>');
+
+                  $('select', this).on('keyup change', function(e) {
+                      table.column(i).search(e.target.value).draw();
+                  });
+                  break;
+            default: $(this).html('');
+        }
+    });
+  </script>
+
+  <script>
+    var table = $("#data-table-users").DataTable({
+      'language': {
+        'url': '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json'
+      },
+      'columnDefs': [
+        { 'orderable': false, 'targets': 6 }
+      ],
+      'orderCellsTop': true,
+    });
+    console.log(table);
+
+    table.on( 'click', function ( e, dt, type, indexes ) {
+        table[ type ]( indexes ).nodes().to$().addClass( 'custom-selected' );
+    } );
+  </script>
+{/block}

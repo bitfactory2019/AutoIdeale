@@ -1,0 +1,48 @@
+{layout '../@layout-administrator.latte'}
+
+{block head}
+    {include parent}
+
+    <link rel="stylesheet" type="text/css" href="../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">
+    <link rel="stylesheet" type="text/css" href="../../bower_components/ublaboo-datagrid/assets/datagrid.css">
+    <link rel="stylesheet" type="text/css" href="../../bower_components/ublaboo-datagrid/assets/datagrid-spinners.css">
+
+    <script src="../../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../../bower_components/nette-forms/src/assets/netteForms.js"></script>
+    <script src="../../bower_components/nette.ajax.js/nette.ajax.js"></script>
+    <script src="../../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+    <script src="../../bower_components/jquery-ui-sortable/jquery-ui-sortable.js"></script>
+    <script src="../../bower_components/ublaboo-datagrid/assets/datagrid.js"></script>
+    <script src="../../bower_components/ublaboo-datagrid/assets/datagrid-instant-url-refresh.js"></script>
+    <script src="../../bower_components/ublaboo-datagrid/assets/datagrid-spinners.js"></script>
+    <script src="../../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../../bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+
+{/block}
+
+{block breadcrumbs}
+    {include '../includes/breadcrumbs.latte', breadcrumbs => [
+        [url => '', label => 'Annunci']
+    ]}
+{/block}
+
+{block content}
+    {include parent}
+
+    <div class="box_general">
+      <div class="header_box">
+  			<h4>
+          Annunci inseriti
+          <span class="badge badge-pill badge-primary">{$administrator->postsNo}</span>
+        </h4>
+      </div>
+
+      {control postsGrid}
+    </div>
+{/block}
+
+{block scripts}
+    <script>
+	      $.nette.init();
+    </script>
+{/block}

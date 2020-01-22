@@ -7,74 +7,25 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                <a class="nav-link" n:href="Dashboard:index">
+                <a class="nav-link" n:href="Dashboard:indexAdministrator">
                     <i class="fa fa-fw fa-dashboard"></i>
                     <span class="nav-link-text">Dashboard</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Messages">
-                <a class="nav-link" n:href="Messages:index">
-                    <i class="fa fa-fw fa-envelope-open"></i>
-                    <span class="nav-link-text">Messaggi</span>
-                    <span n:if="count($newMessages)" class="badge badge-pill badge-primary">{count($newMessages)}</span>
+                <a class="nav-link" n:href="Users:index">
+                    <i class="fa fa-fw fa-users"></i>
+                    <span class="nav-link-text">Utenti</span>
+                    <span class="badge badge-pill badge-primary">{$administrator->usersNo}</span>
                 </a>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Bookings">
-            <a class="nav-link" n:href="Requests:index">
-                <i class="fa fa-fw fa-calendar-check-o"></i>
-                <span class="nav-link-text">
-                    Appuntamenti
-                    <span class="badge badge-pill badge-primary">
-                        {if count($pendingRequests) > 0}{count($pendingRequests)} In attesa{else}{count($requests)}{/if}
-                    </span>
-                </span>
-            </a>
-            </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My listing">
-                <a class="nav-link" n:href="Posts:Listing">
-                    <i class="fa fa-fw fa-list"></i>
-                    <span class="nav-link-text">Le mie Auto</span>
-                    <span class="badge badge-pill badge-primary">{count($posts)}</span>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Messages">
+                <a class="nav-link" n:href="Posts:listingAdministrator">
+                    <i class="fa fa-fw fa-bullhorn"></i>
+                    <span class="nav-link-text">Annunci</span>
+                    <span class="badge badge-pill badge-primary">{$administrator->postsNo}</span>
                 </a>
             </li>
-            <!--
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My listings">
-                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMylistings" data-parent="#mylistings">
-                    <i class="fa fa-fw fa-list"></i>
-                    <span class="nav-link-text">Le mie Auto</span>
-                </a>
-                <ul class="sidenav-second-level collapse" id="collapseMylistings">
-                    <li>
-                        <a n:href="Posts:waiting">In attesa di approvazione <span class="badge badge-pill badge-primary">6</span></a>
-                    </li>
-                    <li>
-                        <a n:href="Posts:approved">Attivi <span class="badge badge-pill badge-success">6</span></a>
-                    </li>
-                </ul>
-            </li>
-            -->
-            <!--
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
-                <a class="nav-link" href="reviews.html">
-                    <i class="fa fa-fw fa-star"></i>
-                    <span class="nav-link-text">Recensioni</span>
-                </a>
-            </li>
-            -->
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add listing">
-                <a class="nav-link" n:href="Posts:Add">
-                    <i class="fa fa-fw fa-plus-circle"></i>
-                    <span class="nav-link-text">Aggiungi Auto</span>
-                </a>
-            </li>
-            <!--
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
-                <a class="nav-link" href="user-profile.html">
-                    <i class="fa fa-fw fa-user"></i>
-                    <span class="nav-link-text">Profilo</span>
-                </a>
-            </li>
-            -->
             </ul>
             <ul class="navbar-nav sidenav-toggler">
                 <li class="nav-item">

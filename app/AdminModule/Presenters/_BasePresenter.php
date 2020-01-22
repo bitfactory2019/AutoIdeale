@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\AdminModule\Presenters;
 
 use Nette;
+use \Nette\Application\Responses\JsonResponse;
 
 abstract class _BasePresenter extends Nette\Application\UI\Presenter
 {
@@ -12,6 +13,8 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     protected $dbWrapper;
     protected $filesWrapper;
     protected $utils;
+
+    protected $section;
 
     public function __construct(\Nette\Database\Context $database)
     {
@@ -30,27 +33,60 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     {
         parent::startup();
 
-        if (!$this->getSession("admin")->offsetGet("logged")) {
-            $this->redirect(":Registration:signIn");
+        $this->section = $this->getSession("admin");
 
-            return;
+        if (empty($this->section->user_id)) {
+            $this->redirect(":Account:index");
         }
 
-        $this->template->user = $this->getAdminUser();
-        $this->template->posts = $this->dbWrapper->getPosts($this->template->user['id']);
-        $this->template->messages = $this->dbWrapper->getMessages($this->template->user['id']);
-        $this->template->newMessages = $this->dbWrapper->getMessages($this->template->user['id'], true);
-        $this->template->requests = $this->dbWrapper->getRequests($this->template->user['id']);
-        $this->template->pendingRequests = $this->dbWrapper->getRequests($this->template->user['id'], 'pending');
-    }
+        $this->template->user = $this->dbWrapper->getUserById($this->section->user_id);
+        $this->template->posts = $this->dbWrapper->getPosts($this->section->user_id);
+        $this->template->messages = $this->dbWrapper->getMessages($this->section->user_id);
+        $this->template->newMessages = $this->dbWrapper->getMessages($this->section->user_id, true);
+        $this->template->requests = $this->dbWrapper->getRequests($this->section->user_id);
+        $this->template->pendingRequests = $this->dbWrapper->getRequests($this->section->user_id, 'pending');
 
-    protected function getAdminUser()
-    {
-        return $this->getSession('admin')->offsetGet('user');
+        if ($this->template->user->groups->name === 'admin') {
+          $administrator = new \StdClass();
+          $administrator->usersNo = $this->db->table('users')->count('*');
+          $administrator->postsNo = $this->db->table('posts')->count('*');
+
+          $administrator->newUsers = $this->db->table('users')
+            ->where('enabled = 1')
+            ->where('creation_time > ?', $this->template->user->last_login)
+            ->count('*');
+
+          $administrator->newPosts = $this->db->table('posts')
+            ->where('approved = 1')
+            ->where('creation_time > ?', $this->template->user->last_login)
+            ->count('*');
+
+          $this->template->administrator = $administrator;
+        }
     }
 
     public function getConfig()
     {
         return $this->context->getParameters();
+    }
+
+
+    public function handleAddTempImages()
+    {
+        $images = $this->getHttpRequest()->getFile('images');
+
+        $postFiles = $this->filesWrapper->uploadTempFiles(
+             $this->getHttpRequest()->getQuery('tempPath'),
+             $images
+        );
+
+        $this->sendResponse(new JsonResponse($postFiles));
+    }
+
+    public function handleDeleteTempImage($imageName)
+    {
+         $this->filesWrapper->deleteTempImage($imageName);
+
+         $this->sendResponse(new JsonResponse(['result' => true]));
     }
 }

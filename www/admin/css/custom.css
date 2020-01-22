@@ -30,3 +30,9 @@
 #addForm .dz-message {
 	text-align: center;
 }
+
+h4 span.badge {
+	font-size: small
+}
+
+.datepicker .datepicker-days {display: block !important;}

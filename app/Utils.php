@@ -37,7 +37,7 @@ class Utils
         return $hours;
     }
 
-    public function getDbOptions($table, $where = [])
+    public function getDbOptions($table, $where = [], $showEmpty = false)
     {
         $results = $this->db->table($table);
 
@@ -47,7 +47,13 @@ class Utils
 
         $results->order('name');
 
-        return $this->arrayKeyValue($results, 'id', 'name');
+        $options = $this->arrayKeyValue($results, 'id', 'name');
+
+        if ($showEmpty === true) {
+            $options = ["" => "-- Scegli --"] + $options;
+        }
+
+        return $options;
     }
 
     public function getKilometersOptions()
