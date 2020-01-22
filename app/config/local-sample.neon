@@ -1,1 +1,17 @@
+parameters:
 
+database:
+	dsn: 'mysql:host=autoideale.it;dbname=autoideale_develop'
+	user: 'autoideale_dev'
+	password: 'MEQSj2yQBf'
+
+session:
+	autoStart: true # default is 'smart'
+	debugger: true
+
+services:
+  nette.latteFactory:
+    setup:
+      - addFilter(month, @App\Filters\MonthFilter)
+
+  - App\Filters\MonthFilter
