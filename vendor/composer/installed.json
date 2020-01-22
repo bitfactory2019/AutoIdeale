@@ -1654,17 +1654,17 @@
     },
     {
         "name": "ublaboo/datagrid",
-        "version": "v6.2.7",
-        "version_normalized": "6.2.7.0",
+        "version": "v6.2.8",
+        "version_normalized": "6.2.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/contributte/datagrid.git",
-            "reference": "f0926d68002de7a121922e7f30d675e510198ef8"
+            "reference": "41de0dfc86093f5782358c319f5a5d142a6627ce"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/contributte/datagrid/zipball/f0926d68002de7a121922e7f30d675e510198ef8",
-            "reference": "f0926d68002de7a121922e7f30d675e510198ef8",
+            "url": "https://api.github.com/repos/contributte/datagrid/zipball/41de0dfc86093f5782358c319f5a5d142a6627ce",
+            "reference": "41de0dfc86093f5782358c319f5a5d142a6627ce",
             "shasum": ""
         },
         "require": {
@@ -1690,7 +1690,7 @@
             "tharos/leanmapper": "~3.4.1",
             "tracy/tracy": "~2.6.3"
         },
-        "time": "2020-01-15T17:19:51+00:00",
+        "time": "2020-01-21T21:40:06+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
