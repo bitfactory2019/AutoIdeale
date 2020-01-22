@@ -1,0 +1,17 @@
+{
+  "name": "Y",
+  "homepage": "https://github.com/bitfactory2019/AutoIdeale",
+  "description": "Vendita di auto nuove e usate",
+  "main": "",
+  "authors": [
+    "Mario Landolfo"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
