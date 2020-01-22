@@ -1,5 +1,5 @@
 {
-  "name": "Y",
+  "name": "AutoIdeale",
   "homepage": "https://github.com/bitfactory2019/AutoIdeale",
   "description": "Vendita di auto nuove e usate",
   "main": "",
@@ -13,5 +13,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "ublaboo-datagrid": "^6.2.8"
+  }
 }
