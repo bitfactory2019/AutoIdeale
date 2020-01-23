@@ -925,7 +925,6 @@ ul#top_menu li a:hover {
 }
 ul#top_menu li a.login, ul#top_menu li a.wishlist_bt_top {
   display: block;
-  width: 22px;
   height: 23px;
   position: relative;
   top: 8px;
@@ -940,32 +939,36 @@ ul#top_menu li a.login, ul#top_menu li a.wishlist_bt_top {
     top: 2px;
   }
 }
-ul#top_menu li a.login:before, ul#top_menu li a.wishlist_bt_top:before {
+ul#top_menu li a.login:after, ul#top_menu li a.wishlist_bt_top:before {
   font-family: 'Glyphter';
   font-size: 21px;
   font-size: 1.3125rem;
   text-indent: 0;
   position: absolute;
-  left: 0;
   top: 0;
   font-weight: normal;
   line-height: 1;
 }
-.sticky ul#top_menu li a.login:before, .sticky ul#top_menu li a.wishlist_bt_top:before {
+.sticky ul#top_menu li a.login:after, .sticky ul#top_menu li a.wishlist_bt_top:before {
   color: #444;
 }
 ul#top_menu li a.wishlist_bt_top {
   text-indent: -9999px;
+  width: 22px;
   overflow: hidden;
 }
 ul#top_menu li a.wishlist_bt_top:before {
+  left: 0;
   content: '\0043';
 }
 ul#top_menu li a.login {
-  text-indent: -9999px;
+  /*text-indent: -9999px;*/
   overflow: hidden;
+  padding-top: 4px;
+  padding-right: 30px;
 }
-ul#top_menu li a.login:before {
+ul#top_menu li a.login:after {
+  right: 0;
   content: '\0042';
 }
 
