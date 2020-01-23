@@ -6,5 +6,6 @@ www/utils.php
 app/Presenters/TestPresenter.php
 app/Presenters/templates/Test/index.latte
 /vendor
+app/config/local.neon
 /bower_components
 composer.lock

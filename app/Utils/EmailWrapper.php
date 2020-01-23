@@ -17,7 +17,7 @@ class EmailWrapper
         $this->db = $this->presenter->getDbService();
         $this->mailer = new Mail\SendmailMailer;
     }
-    
+
     public function sendNewUserConfirmation($values)
     {
         $template = new \Latte\Engine;
@@ -25,7 +25,7 @@ class EmailWrapper
         $config = $this->presenter->context->getParameters();
 
         $url = $this->_getBaseUrl();
-        $url->path .= '/registration/confirmation';
+        $url->path = '/registration/confirmation';
         $url->query = 'account='.base64_encode($values->email);
 
         $mail->setFrom('AutoIdeale <noreply@autoideale.it>')
@@ -43,9 +43,6 @@ class EmailWrapper
 
     private function _getBaseUrl()
     {
-        $url = new Url($this->presenter->getHttpRequest()->getUrl());
-        $url->path = '/AutoIdeale/www';
-
-        return $url;
+        return new Url($this->presenter->getHttpRequest()->getUrl());
     }
 }
