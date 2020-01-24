@@ -171,7 +171,7 @@
 	// Like Icon
     $('.wish_bt.online').on('click', function(e){
     	e.preventDefault();
-		$(this).toggleClass('liked');
+		//$(this).toggleClass('liked');
 	});
 
 	// Search Mobile aside

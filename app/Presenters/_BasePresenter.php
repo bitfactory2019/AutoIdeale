@@ -36,6 +36,8 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
 
         $this->template->logged = !empty($this->section_admin->user);
         $this->template->user = $this->dbWrapper->getUserById($this->section_admin->user_id);
+
+        $this->template->userWishlist = $this->dbWrapper->getUserWishlist($this->section_admin->user_id);
     }
 
     public function getDbService(): \Nette\Database\Context
@@ -71,5 +73,26 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     public function handleLoadTypeYearMonths($formName, $typeId, $year)
     {
         $this->formComponent->handleLoadTypeYearMonths($formName, $typeId, $year);
+    }
+
+    public function handleAddToWishlist($postId, $add, $redraw = "false")
+    {
+      if ($add === "true") {
+        $this->dbWrapper->addPostToWishlist($postId, $this->section_admin->user_id);
+      }
+      else {
+        $this->dbWrapper->removePostFromWishlist($postId, $this->section_admin->user_id);
+      }
+
+      if ($redraw === "true") {
+        $this->template->userWishlist = $this->dbWrapper->getUserWishlist($this->section_admin->user_id);
+
+        $this->redrawControl('wishlist');
+      }
+      else {
+        $this->sendJson([
+          'success' => true
+        ]);
+      }
     }
 }
