@@ -7,38 +7,7 @@
     <div id="reccomended" class="owl-carousel owl-theme">
         {foreach $posts as $post}
             <div class="item">
-                <div class="strip grid">
-                    <figure>
-                        <a n:if="$logged" class="wish_bt online"></a>
-                        <a n:if="!$logged" n:href="Account:index" id="sign-in" class="wish_bt"></a>
-
-                        <a n:href="Listing:detail $post[data]->id">
-                            <img n:if="$post[thumbnail]" src="{$post[thumbnail]->url}" class="img-fluid" alt="" width="400" height="266">
-                            <div class="read_more">
-                                <span>Scopri di più</span>
-                            </div>
-                        </a>
-                        <small>{$post[data]->brands->name}</small>
-                    </figure>
-                    <div class="wrapper">
-                        <h3><a n:href="Listing:detail $post[data]->id">{$post[data]->title}</a></h3>
-                        <p>{$post[data]->description}</p>
-                        <a class="address" href="https://www.google.com/maps/dir//Assistance+%E2%80%93+H%C3%B4pitaux+De+Paris,+3+Avenue+Victoria,+75004+Paris,+Francia/@48.8606548,2.3348734,14z/data=!4m15!1m6!3m5!1s0x47e66e1de36f4147:0xb6615b4092e0351f!2sAssistance+Publique+-+H%C3%B4pitaux+de+Paris+(AP-HP)+-+Si%C3%A8ge!8m2!3d48.8568376!4d2.3504305!4m7!1m0!1m5!1m1!1s0x47e67031f8c20147:0xa6a9af76b1e2d899!2m2!1d2.3504327!2d48.8568361">Mappa</a>
-                    </div>
-                    <ul>
-                        {if $post[isNotAvailable]}
-                            <li><span class="loc_closed">Non disponibile</span></li>
-                        {elseif $post[isNew]}
-                            <li n:if="$post[isNew]"><span class="loc_open">Nuovo</span></li>
-                        {/if}
-
-                        <li><div class="score">
-                            <!--
-                            <span>Ottimo<em>350 Recensioni</em></span><strong>8.9</strong>
-                            -->
-                        </div></li>
-                    </ul>
-                </div>
+                {include '../Listing/_item.latte' 'post' => $post}
             </div>
             <!-- /item -->
         {/foreach}
