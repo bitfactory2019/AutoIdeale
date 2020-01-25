@@ -61,6 +61,10 @@ class EmailWrapper
                 ])
             );
 
-        $this->mailer->send($mail);
+        try {
+          $this->mailer->send($mail);
+        }
+        catch (\Exception $e) {
+        }
     }
 }
