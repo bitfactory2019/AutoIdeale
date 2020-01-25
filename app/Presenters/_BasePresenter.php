@@ -79,6 +79,9 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     {
       if ($add === "true") {
         $this->dbWrapper->addPostToWishlist($postId, $this->section_admin->user_id);
+
+        $post = $this->dbWrapper->getPost($postId);
+        $this->emailWrapper->sendAddWishlist($post);
       }
       else {
         $this->dbWrapper->removePostFromWishlist($postId, $this->section_admin->user_id);

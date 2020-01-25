@@ -45,4 +45,22 @@ class EmailWrapper
     {
         return new Url($this->presenter->getHttpRequest()->getUrl());
     }
+
+    public function sendAddWishlist($post)
+    {
+        $template = new \Latte\Engine;
+        $mail = new Mail\Message;
+        $config = $this->presenter->context->getParameters();
+
+        $mail->setFrom('AutoIdeale <noreply@autoideale.it>')
+            ->addTo($post['data']->users->email)
+            ->setHtmlBody(
+                $template->renderToString(
+                    $config['templateEmailsDir'].'addWishlist.latte', [
+                    "post" => $post
+                ])
+            );
+
+        $this->mailer->send($mail);
+    }
 }
