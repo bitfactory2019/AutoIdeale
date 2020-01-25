@@ -12,6 +12,7 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     protected $db;
     protected $dbWrapper;
     protected $emailWrapper;
+    protected $statsWrapper;
     protected $utils;
     protected $formComponent;
 
@@ -23,6 +24,7 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         $this->db = $database;
         $this->dbWrapper = new \App\Utils\DbWrapper($this);
         $this->emailWrapper = new \App\Utils\EmailWrapper($this);
+        $this->statsWrapper = new \App\Utils\StatsWrapper($this);
         $this->utils = new \App\Utils($this);
         $this->formComponent = new Components\FormComponent($this);
     }
@@ -79,6 +81,7 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     {
       if ($add === "true") {
         $this->dbWrapper->addPostToWishlist($postId, $this->section_admin->user_id);
+        $this->statsWrapper->addWishlist($postId);
 
         $post = $this->dbWrapper->getPost($postId);
         $this->emailWrapper->sendAddWishlist($post);
