@@ -95,6 +95,7 @@ final class ListingPresenter extends _BasePresenter
 
         foreach ($results['posts'] as $i => $post) {
             $results['page'][] = $this->utils->formatPostResult($post);
+            $this->statsWrapper->addImpressionSearch($post->id);
         }
 
         $this->template->searchResults = $results;
@@ -170,6 +171,7 @@ final class ListingPresenter extends _BasePresenter
     public function renderDetail($postId)
     {
         $this->template->post = $this->dbWrapper->getPost($postId);
+        $this->statsWrapper->addImpressionDetail($postId);
     }
 
     public function renderRequestConfirmed($postId)

@@ -38,7 +38,7 @@ final class DashboardPresenter extends _BasePresenter
   {
     $labels = [];
 
-    for ($i = $days; $i >= 1; $i--) {
+    for ($i = $days; $i >= 0; $i--) {
       $date = \strtotime("-".$i." days");
       $labels[] = \date("D d", $date);
     }
@@ -50,12 +50,40 @@ final class DashboardPresenter extends _BasePresenter
   {
     $data = [];
 
-    for ($i = $days; $i >= 1; $i--) {
+    for ($i = $days; $i >= 0; $i--) {
       $date = \date("Y-m-d", \strtotime("-".$i." days"));
 
       $data[$date] = $stats[$date]['tot'] ?? 0;
     }
 
     return $data;
+  }
+
+  public function handleLoadPostsChartData($days = 30)
+  {
+    $impressionSearch = $this->_loadPostsStats('impression_search', $days);
+    $impressionDetail = $this->_loadPostsStats('impression_detail', $days);
+    $wishlist = $this->_loadPostsStats('wishlist', $days);
+
+    $this->sendJson([
+      'labels' => $this->_get_labels($days),
+      'stats' => [
+        'Risultati di ricerca' => $this->_parse_stats($days, $impressionSearch),
+        'Visualizzazioni' => $this->_parse_stats($days, $impressionDetail),
+        'Annunci salvati' => $this->_parse_stats($days, $wishlist)
+      ]
+    ]);
+  }
+
+  private function _loadPostsStats($event, $days)
+  {
+    return $this->db->table('posts_stats')
+      ->select('COUNT(*) AS tot, datetime, FROM_UNIXTIME(datetime, ?) AS datetime_formatted', '%Y-%m-%d')
+      ->where('posts.users_id', $this->section->user_id)
+      ->where('event', $event)
+      ->where('datetime >= ?', \strtotime("-".$days." days"))
+      ->order('datetime')
+      ->group('datetime_formatted')
+      ->fetchAssoc('datetime_formatted');
   }
 }

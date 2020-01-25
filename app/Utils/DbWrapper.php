@@ -546,4 +546,39 @@ class DbWrapper
             "post" => $this->utils->formatPostResult($row->posts)
         ];
     }
+
+    public function addPostToWishlist($postId, $userId)
+    {
+      $this->db->table('users_wishlists')
+        ->insert([
+          'posts_id' => $postId,
+          'users_id' => $userId,
+          'creation_time' => \time()
+        ]);
+    }
+
+    public function removePostFromWishlist($postId, $userId)
+    {
+      $this->db->table('users_wishlists')
+        ->where([
+          'posts_id' => $postId,
+          'users_id' => $userId
+        ])
+        ->delete();
+    }
+
+    public function getUserWishlist($userId)
+    {
+      $posts = [];
+
+      $rows = $this->db->table('users_wishlists')
+        ->where('users_id', $userId)
+        ->fetchPairs('posts_id');
+
+      foreach ($rows as $row) {
+          $posts[$row->posts_id] = $this->utils->formatPostResult($row->posts);
+      }
+
+      return $posts;
+    }
 }

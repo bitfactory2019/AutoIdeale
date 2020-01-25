@@ -10,6 +10,7 @@
 <body>
 	<div id="page">
 		{block header}{/block}
+
 		{block subheader}
 			<div class="sub_header_in sticky_header">
 				<div class="container">
@@ -33,6 +34,27 @@
 		<!-- COMMON SCRIPTS -->
 		<script src="js/functions.js"></script>
 		<script src="assets/validate.js"></script>
+
+    <script>
+      $('main').on('click', '.listing-post-item .wish_bt.online', function(e) {
+        e.preventDefault();
+
+        $.nette.ajax({
+          type: 'GET',
+          url: {link AddToWishlist!},
+          data: {
+            'postId': $(this).attr('data-post-id'),
+            'add': !$(this).hasClass('liked'),
+            'redraw': {$presenter->isLinkCurrent('Wishlist:index')}
+          },
+          success: (data) => {
+            if (data.success === true) {
+              $(this).toggleClass('liked');
+            }
+          }
+        });
+      });
+    </script>
 	{/block}
 </body>
 </html>
