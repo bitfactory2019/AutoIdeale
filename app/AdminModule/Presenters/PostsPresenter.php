@@ -444,6 +444,8 @@ final class PostsPresenter extends _BasePresenter
                          ->having('creation_date = ?', $value);
             	});
 
+        $grid->addFilterText('ip_address', 'IP inserimento: ');
+
       	$grid->addColumnText('title', 'Titolo');
         $grid->addColumnText('brands', 'Marca', 'brands.name')
             ->setSortable();
@@ -457,6 +459,7 @@ final class PostsPresenter extends _BasePresenter
         $grid->addColumnDateTime('creation_time', 'Data creazione')
             ->setSortable()
             ->setFormat('d/m/Y');
+        $grid->addColumnText('ip_address', 'IP inserimento');
         $grid->addColumnStatus('approved', '')
             ->addOption(1, 'Approvato')
             		->setIcon('check')

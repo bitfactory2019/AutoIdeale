@@ -163,7 +163,8 @@ class DbWrapper
                 'instagram' => $values->instagram,
                 'price' => $values->price,
                 'approved' => true,
-                'creation_time' => \time()
+                'creation_time' => \time(),
+                'ip_address' => $this->presenter->getHttpRequest()->getRemoteAddress()
             ]);
 
             return $post->getPrimary();
