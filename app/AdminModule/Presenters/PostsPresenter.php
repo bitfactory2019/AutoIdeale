@@ -176,25 +176,25 @@ final class PostsPresenter extends _BasePresenter
            ->setRequired('Inserisci il tuo nome')
            ->setHtmlAttribute('placeholder', 'Inserisci Nome')
            ->setHtmlAttribute('class', 'form-control')
-           ->setDefaultValue($this->template->post["data"]->name ?? "");
+           ->setDefaultValue($this->template->post["data"]->name ?? $this->template->user->name);
 
       $form->addText('surname', 'Cognome')
            ->setRequired('Inserisci il tuo cognome')
            ->setHtmlAttribute('placeholder', 'Inserisci Cognome')
            ->setHtmlAttribute('class', 'form-control')
-           ->setDefaultValue($this->template->post["data"]->surname ?? "");
+           ->setDefaultValue($this->template->post["data"]->surname ?? $this->template->user->surname);
 
       $form->addText('city', 'Città')
            ->setRequired('Inserisci la tua città')
            ->setHtmlAttribute('placeholder', 'Inserisci Città')
            ->setHtmlAttribute('class', 'form-control')
-           ->setDefaultValue($this->template->post["data"]->city ?? "");
+           ->setDefaultValue($this->template->post["data"]->city ?? $this->template->user->city);
 
       $form->addText('address', 'Indirizzo')
            ->setRequired('Inserisci il tuo indirizzo')
            ->setHtmlAttribute('placeholder', 'Via e numero civico')
            ->setHtmlAttribute('class', 'form-control')
-           ->setDefaultValue($this->template->post["data"]->address ?? "");
+           ->setDefaultValue($this->template->post["data"]->address ?? $this->template->user->address);
 
       $form->addText('county', 'Provincia')
            ->setRequired('Inserisci la tua provincia')
@@ -204,11 +204,11 @@ final class PostsPresenter extends _BasePresenter
       $form->addText('cap', 'Cap')
            ->setRequired('Inserisci il tuo CAP')
            ->setHtmlAttribute('class', 'form-control')
-           ->setDefaultValue($this->template->post["data"]->cap ?? "");
+           ->setDefaultValue($this->template->post["data"]->cap ?? $this->template->user->cap);
 
       $form->addText('telephone', 'Telefono')
            ->setHtmlAttribute('class', 'form-control')
-           ->setDefaultValue($this->template->post["data"]->telephone ?? "");
+           ->setDefaultValue($this->template->post["data"]->telephone ?? $this->template->user->telephone);
 
       $form->addText('website', 'Sito web')
            ->setHtmlAttribute('class', 'form-control')
@@ -217,7 +217,7 @@ final class PostsPresenter extends _BasePresenter
       $form->addText('email', 'E-mail')
            ->setRequired('Inserisci la tua e-mail')
            ->setHtmlAttribute('class', 'form-control')
-           ->setDefaultValue($this->template->post["data"]->email ?? "");
+           ->setDefaultValue($this->template->post["data"]->email ?? $this->template->user->email);
 
       $form->addText('facebook', 'Link di Facebook')
            ->setHtmlAttribute('class', 'form-control')
