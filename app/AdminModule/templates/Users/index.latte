@@ -24,6 +24,7 @@
               <th scope="col">Nome e cognome</th>
               <th scope="col">Email</th>
               <th scope="col">Data registrazione</th>
+              <th scope="col">IP registrazione</th>
               <th scope="col">Attivo</th>
               <th scope="col" class="sorting_disabled"></th>
             </tr>
@@ -36,6 +37,7 @@
                 <td>{$_user->name} {$_user->surname}</td>
                 <td>{$_user->email}</td>
                 <td>{$_user->creation_time|date:'d/m/Y'}</td>
+                <td>{$_user->ip_address}</td>
                 <td>
                   <i n:if="$_user->enabled" class="fa fa-fw fa-check"></i>
                   <i n:if="!$_user->enabled" class="fa fa-fw fa-times"></i>
@@ -70,13 +72,14 @@
                   });
                   break;
             case 2:
-            case 3: $(this).html('<input type="text" class="form-control" />');
+            case 3:
+            case 5: $(this).html('<input type="text" class="form-control" />');
 
                     $('input', this).on('keyup change', function(e) {
                         table.column(i).search(e.target.value).draw();
                     });
                     break;
-            case 5: $(this).html('<select class="form-control"></select>');
+            case 6: $(this).html('<select class="form-control"></select>');
                   $('select', this).append('<option value="">-- Tutti --</option>');
                   $('select', this).append('<option value="1">Attivi</option>');
                   $('select', this).append('<option value="0">Non attivi</option>');
@@ -96,7 +99,7 @@
         'url': '//cdn.datatables.net/plug-ins/1.10.20/i18n/Italian.json'
       },
       'columnDefs': [
-        { 'orderable': false, 'targets': 6 }
+        { 'orderable': false, 'targets': 7 }
       ],
       'orderCellsTop': true,
     });
