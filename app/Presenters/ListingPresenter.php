@@ -146,7 +146,7 @@ final class ListingPresenter extends _BasePresenter
         if ($checked === null) {
             $filters->$arg = $value;
         }
-        elseif ($checked === true) {
+        elseif ($checked == true) {
             $filters->$arg[] = $value;
         }
         else {
