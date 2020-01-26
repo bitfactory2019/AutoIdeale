@@ -10,6 +10,7 @@ use \Nette\Application\Responses\JsonResponse;
 abstract class _BasePresenter extends Nette\Application\UI\Presenter
 {
     protected $db;
+    protected $authWrapper;
     protected $dbWrapper;
     protected $filesWrapper;
     protected $utils;
@@ -19,6 +20,7 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
     public function __construct(\Nette\Database\Context $database)
     {
         $this->db = $database;
+        $this->authWrapper = new \App\Utils\AuthWrapper($this);
         $this->dbWrapper = new \App\Utils\DbWrapper($this);
         $this->filesWrapper = new \App\Utils\FilesWrapper($this);
         $this->utils = new \App\Utils($this);
@@ -46,7 +48,7 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         $this->template->requests = $this->dbWrapper->getRequests($this->section->user_id);
         $this->template->pendingRequests = $this->dbWrapper->getRequests($this->section->user_id, 'pending');
 
-        if ($this->template->user->groups->name === 'admin') {
+        if ($this->authWrapper->isAdmin()) {
           $administrator = new \StdClass();
           $administrator->usersNo = $this->db->table('users')->count('*');
           $administrator->postsNo = $this->db->table('posts')->count('*');

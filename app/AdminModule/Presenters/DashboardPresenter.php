@@ -23,6 +23,20 @@ final class DashboardPresenter extends _BasePresenter
     $this->template->todayStats = $todayStats;
   }
 
+  public function renderIndex()
+  {
+    if ($this->authWrapper->isAdmin()) {
+      $this->redirect(":Admin:Dashboard:indexAdministrator");
+    }
+  }
+
+  public function renderIndexAdministrator()
+  {
+    if (!$this->authWrapper->isAdmin()) {
+      $this->redirect(":Admin:Dashboard:index");
+    }
+  }
+
   public function handleLoadNewUsersChartData($days = 30)
   {
     $newUsers = $this->db->table('users')
