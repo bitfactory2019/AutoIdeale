@@ -36,7 +36,7 @@
 		<script src="assets/validate.js"></script>
 
     <script>
-      $('main').on('click', '.listing-post-item .wish_bt.online', function(e) {
+      $('main').on('click', '.wish_bt.online', function(e) {
         e.preventDefault();
 
         $.nette.ajax({
@@ -44,8 +44,7 @@
           url: {link AddToWishlist!},
           data: {
             'postId': $(this).attr('data-post-id'),
-            'add': !$(this).hasClass('liked'),
-            'redraw': {$presenter->isLinkCurrent('Wishlist:index')}
+            'add': !$(this).hasClass('liked')
           },
           success: (data) => {
             if (data.success === true) {

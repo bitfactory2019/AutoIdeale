@@ -88,3 +88,7 @@
     opacity: .9;
     transition: opacity .5s;
 }
+
+.btn_1.wishlist i.liked {
+  color: red;
+}

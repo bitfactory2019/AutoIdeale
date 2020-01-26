@@ -38,7 +38,35 @@
             {input book, class => "add_top_30 btn_1 full-width purchase"}
         {/form}
 
-        <a href="#" class="btn_1 full-width outline wishlist"><i class="icon_heart"></i> Aggiungi alla lista desideri</a>
+        {snippet wishlistButton}
+          <a
+              n:if="$user"
+              n:class="
+                true ? btn_1,
+                true ? full-width,
+                true ? outline,
+                true ? wishlist,
+                true ? wish_bt,
+                true ? online,
+                !empty($userWishlist[$post[data]->id]) ? liked"
+              data-post-id="{$post[data]->id}"
+              href="#"
+          >
+            <i
+              n:class="
+                true ? icon_heart,
+                !empty($userWishlist[$post[data]->id]) ? liked
+              "
+            ></i>
+            {empty($userWishlist[$post[data]->id])
+              ? "Aggiungi alla lista desideri"
+              : "Rimuovi dalla lista desideri"
+            }
+          </a>
+          <a n:if="!$user" n:href="Account:index" class="btn_1 full_width outline wishlist">
+            <i class="icon_heart"></i> Aggiungi alla lista desideri
+          </a>
+        {/snippet}
 
         <div class="text-center"><small>Prenotazione libera</small></div>
     </div>
