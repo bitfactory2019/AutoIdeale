@@ -41,4 +41,9 @@ class StatsWrapper
   {
     $this->_addPostStat($postId, "wishlist");
   }
+
+  public function addRequest($postId)
+  {
+    $this->_addPostStat($postId, "request");
+  }
 }
