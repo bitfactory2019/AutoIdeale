@@ -57,7 +57,8 @@ class DbWrapper
                 'email_pec' => $isCompany ? $values->email_pec : null,
                 'password' => \md5($values->password),
                 'enabled' => false,
-                'creation_time' => \time()
+                'creation_time' => \time(),
+                'ip_address' => $this->presenter->getHttpRequest()->getRemoteAddress()
             ]);
 
             return $user->getPrimary();
@@ -163,7 +164,8 @@ class DbWrapper
                 'instagram' => $values->instagram,
                 'price' => $values->price,
                 'approved' => true,
-                'creation_time' => \time()
+                'creation_time' => \time(),
+                'ip_address' => $this->presenter->getHttpRequest()->getRemoteAddress()
             ]);
 
             return $post->getPrimary();
