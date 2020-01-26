@@ -412,7 +412,7 @@ class DbWrapper
                 'status' => 'pending',
                 'name' => $values->name,
                 'email' => $values->email,
-                'telephone', $values->telephone,
+                'telephone' => $values->telephone,
                 'date_time' => $dateTime->getTimeStamp(),
                 'creation_time' => \time()
             ]);

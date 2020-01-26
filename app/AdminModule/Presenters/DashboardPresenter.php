@@ -64,13 +64,15 @@ final class DashboardPresenter extends _BasePresenter
     $impressionSearch = $this->_loadPostsStats('impression_search', $days);
     $impressionDetail = $this->_loadPostsStats('impression_detail', $days);
     $wishlist = $this->_loadPostsStats('wishlist', $days);
+    $requests = $this->_loadPostsStats('request', $days);
 
     $this->sendJson([
       'labels' => $this->_get_labels($days),
       'stats' => [
         'Risultati di ricerca' => $this->_parse_stats($days, $impressionSearch),
         'Visualizzazioni' => $this->_parse_stats($days, $impressionDetail),
-        'Annunci salvati' => $this->_parse_stats($days, $wishlist)
+        'Annunci salvati' => $this->_parse_stats($days, $wishlist),
+        'Richieste ricevute' => $this->_parse_stats($days, $requests)
       ]
     ]);
   }

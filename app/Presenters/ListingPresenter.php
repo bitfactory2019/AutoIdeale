@@ -199,7 +199,7 @@ final class ListingPresenter extends _BasePresenter
 
         $form->addText('telephone', 'Numero di cellulare')
             ->setRequired('Campo obbligatorio')
-            ->addRule(UI\Form::PATTERN, 'Inserisci un numero di telefono valido', '([0-9]\s*{8,}')
+            //->addRule(UI\Form::PATTERN, 'Inserisci un numero di telefono valido', '([0-9]\s*{8,}')
             ->setHtmlAttribute('placeholder', 'Numero di telefono...')
             ->setHtmlAttribute('class', 'form-control');
 
@@ -224,16 +224,16 @@ final class ListingPresenter extends _BasePresenter
     {
         $values = $form->getValues();
 
-        $result = $this->dbWrapper->sendPostRequest($form->getValues());
+        $result = $this->dbWrapper->sendPostRequest($values);
 
         if ($result === false) {
             $this->flashMessage("Richiesta non inviata, riprova.", "danger");
-            return;
         }
         else {
+            $this->statsWrapper->addRequest($values->postId);
+
             $this->flashMessage("La tua richiesta è stata inviata correttamente!", "success");
             $this->redirect('Listing:detail', $values->postId);
-            return;
         }
     }
 }
