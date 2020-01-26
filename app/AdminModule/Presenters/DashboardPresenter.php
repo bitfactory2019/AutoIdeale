@@ -9,6 +9,20 @@ use Nette;
 
 final class DashboardPresenter extends _BasePresenter
 {
+  public function startup()
+  {
+    parent::startup();
+
+    $todayStats = $this->db->table('posts_stats')
+      ->select('COUNT(*) AS tot, event, MAX(FROM_UNIXTIME(datetime, ?)) AS creation_date', '%Y-%m-%d')
+      ->where('posts.users_id', $this->section->user_id)
+      ->having('creation_date = ?', \date("Y-m-d"))
+      ->group('event')
+      ->fetchPairs('event');
+
+    $this->template->todayStats = $todayStats;
+  }
+
   public function handleLoadNewUsersChartData($days = 30)
   {
     $newUsers = $this->db->table('users')
@@ -71,8 +85,8 @@ final class DashboardPresenter extends _BasePresenter
       'stats' => [
         'Risultati di ricerca' => $this->_parse_stats($days, $impressionSearch),
         'Visualizzazioni' => $this->_parse_stats($days, $impressionDetail),
-        'Annunci salvati' => $this->_parse_stats($days, $wishlist),
-        'Richieste ricevute' => $this->_parse_stats($days, $requests)
+        'Richieste ricevute' => $this->_parse_stats($days, $requests),
+        'Annunci salvati' => $this->_parse_stats($days, $wishlist)
       ]
     ]);
   }
