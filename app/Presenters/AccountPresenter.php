@@ -101,8 +101,12 @@ final class AccountPresenter extends _BasePresenter
         $form->addSelect('country', 'Paese')
              ->setItems(['Europa', 'Stati Uniti', 'Asia'], false);
 
-        $form->addText('telephone', 'Telefono')->setRequired();
-        $form->addText('mobile', 'Cellulare')->setRequired();
+        $form->addText('telephone', 'Telefono')
+             ->addConditionOn($form['client_type'], Form::EQUAL, 'private')
+             ->setRequired();
+        $form->addText('mobile', 'Cellulare')
+             ->addConditionOn($form['client_type'], Form::EQUAL, 'private')
+             ->setRequired();
 
         $form->addSubmit('signUp', 'Registrati');
 
