@@ -33,7 +33,7 @@
                       <i class="fa fa-fw fa-eye"></i>
                   </div>
                   <div class="mr-5"><h5>
-                    {$todayStats[impression_detail]->tot + $todayStats[impression_search]->tot}
+                    {($todayStats[impression_detail]->tot ?? 0) + ($todayStats[impression_search]->tot ?? 0)}
                     Nuove Visualizzazioni!
                   </h5></div>
               </div>
@@ -54,7 +54,7 @@
                       <i class="fa fa-fw fa-calendar-check-o"></i>
                   </div>
                   <div class="mr-5"><h5>
-                    {$todayStats[request]->tot} Nuove Richieste!
+                    {$todayStats[request]->tot ?? 0} Nuove Richieste!
                   </h5></div>
               </div>
               <a class="card-footer text-white clearfix small z-1" n:href=":Admin:Requests:index">
