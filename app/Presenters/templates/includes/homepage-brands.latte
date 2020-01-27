@@ -7,15 +7,15 @@
         </div>
 
         <table class="homepage-brands" style="width: 100%;">
-            {foreach $brands as $brand}
+            {foreach $topBrands as $brand}
                 {first 3}<tr>{/first}
                     <td class="homepage-brands homepage-brands-model">
-                        <a n:href="Listing:SearchResults brands_id => $brand['data']->id">
-                            <img src="images/brands/{$brand["data"]->name}.png" alt="">
+                        <a n:href="Listing:SearchResults brands_id => $brand[data]->id">
+                            <img src="images/brands/{$brand[data]->name}.png" alt="">
                         </a>
                         <h5>{$brand["data"]->name}</h5>
                         {foreach $brand["models"] as $model}
-                            <a n:href="Listing:SearchResults brands_id => $brand['data']->id, brands_models_id => $model->id">
+                            <a n:href="Listing:SearchResults brands_id => $brand[data]->id, brands_models_id => $model->id">
                                 {$model->name}
                             </a><br>
                         {/foreach}

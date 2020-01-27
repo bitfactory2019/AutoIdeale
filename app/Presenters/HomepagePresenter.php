@@ -11,7 +11,6 @@ final class HomepagePresenter extends _BasePresenter
 {
     public function renderIndex()
     {
-        $this->template->brands = $this->dbWrapper->getTopBrands(6, 4);
         $this->template->showcase = $this->dbWrapper->getShowcase(6);
     }
 

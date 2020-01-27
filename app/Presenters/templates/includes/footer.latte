@@ -5,10 +5,15 @@
                 <h3 data-target="#collapse_ft_1">Link utili</h3>
                 <div class="collapse dont-collapse-sm" id="collapse_ft_1">
                     <ul class="links">
-                        <li><a href="#0">About us</a></li>
-                        <li><a href="#0">Il mio account</a></li>
-                        <li><a href="#0">Crea account</a></li>
-                        <li><a href="#0">Contatti</a></li>
+                        <li><a n:href="About:index">About us</a></li>
+                        <li>
+                          <a n:if="$user" n:href="Admin:Dashboard:{$user->groups->admin_index}">
+                            Il mio account
+                          </a>
+                          <a n:if="!$user" n:href="Account:index">Il mio account</a>
+                        </li>
+                        <li><a n:href="Account:index">Crea account</a></li>
+                        <li><a n:href="Contacts:index">Contatti</a></li>
                         <li><a href="#0">Marchi Auto</a></li>
                         <li><a href="#0">Cookie Policy</a></li>
                     </ul>
@@ -18,12 +23,11 @@
                 <h3 data-target="#collapse_ft_2">Categorie</h3>
                 <div class="collapse dont-collapse-sm" id="collapse_ft_2">
                     <ul class="links">
-                        <li><a href="#0">Audi</a></li>
-                        <li><a href="#0">Bmw</a></li>
-                        <li><a href="#0">Fiat</a></li>
-                        <li><a href="#0">Renault</a></li>
-                        <li><a href="#0">Ford</a></li>
-                        <li><a href="#0">Kia</a></li>
+                      {foreach $topBrands as $brand}
+                        <li>
+                          <a n:href="Listing:SearchResults brands_id => $brand[data]->id">{$brand[data]->name}</a>
+                        </li>
+                      {/foreach}
                     </ul>
                 </div>
             </div>

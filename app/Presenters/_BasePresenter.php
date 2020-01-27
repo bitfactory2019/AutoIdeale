@@ -39,6 +39,7 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         $this->template->logged = !empty($this->section_admin->user);
         $this->template->user = $this->dbWrapper->getUserById($this->section_admin->user_id);
 
+        $this->template->topBrands = $this->dbWrapper->getTopBrands(6, 4);
         $this->template->userWishlist = $this->dbWrapper->getUserWishlist($this->section_admin->user_id);
     }
 
