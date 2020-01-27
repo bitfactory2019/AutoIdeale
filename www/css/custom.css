@@ -16,11 +16,18 @@
 }
 
 .homepage-brands .homepage-brands-model {
+    vertical-align: top;
     text-align: center;
     width: 33%;
     padding: 10px 0 30px 0;
     background: #f6f6f6;
     border: solid 25px #ffffff;
+}
+
+.homepage-brands .brands-show-more {
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px dashed #CCC;
 }
 
 .hero_in.restaurant_detail:before {

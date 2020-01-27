@@ -7,18 +7,30 @@
         </div>
 
         <table class="homepage-brands" style="width: 100%;">
-            {foreach $topBrands as $brand}
+            {foreach $brands as $brand}
                 {first 3}<tr>{/first}
                     <td class="homepage-brands homepage-brands-model">
                         <a n:href="Listing:SearchResults brands_id => $brand[data]->id">
                             <img src="images/brands/{$brand[data]->name}.png" alt="">
                         </a>
-                        <h5>{$brand["data"]->name}</h5>
-                        {foreach $brand["models"] as $model}
+                        <h5>{$brand[data]->name}</h5>
+                        {foreach $brand[models] as $model}
+                          {if $iterator->getCounter() == 5}
+                            <div class="collapse multi-collapse" id="collapseBrand{$brand[data]->id}">
+                          {/if}
                             <a n:href="Listing:SearchResults brands_id => $brand[data]->id, brands_models_id => $model->id">
                                 {$model->name}
                             </a><br>
+                          {if $iterator->isLast() && $iterator->getCounter() > 5}
+                            </div>
+                          {/if}
                         {/foreach}
+
+                        <div class="brands-show-more" n:if="count($brand[models]) > 4">
+                          <a data-toggle="collapse" href="#collapseBrand{$brand[data]->id}" role="button" aria-expanded="false" aria-controls="collapseBrand{$brand[data]->id}">
+                            vedi altri {count($brand[models]) - 4} modelli
+                          </a>
+                        </div>
                     </td>
                 {last 3}</tr>{/last}
             {/foreach}

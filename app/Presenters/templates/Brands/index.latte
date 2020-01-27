@@ -1,0 +1,11 @@
+{layout '../@layout.latte'}
+
+{block header}
+    {include '../includes/header.latte' sticky => true}
+{/block}
+
+{block h1}I nostri marchi{/block}
+
+{block content}
+  {include '../includes/homepage-brands.latte', brands => $allBrands}
+{/block}

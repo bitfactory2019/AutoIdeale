@@ -427,66 +427,57 @@ class DbWrapper
         }
     }
 
-    public function getRandomBrands($brandsNo = false, $modelsNo = false)
+    public function getBrands($brandsNo = false, $modelsNo = false)
     {
-        $brands = [];
-
-        $brands_dbo = $this->db->table('brands')
-            ->order('RAND()');
-
-        if ($brandsNo !== false) {
-            $brands_dbo->limit($brandsNo);
-        }
-
-        $rows = $brands_dbo->fetchPairs('id');
-
-        foreach ($rows as $row) {
-            $models = $row->related('brands_models')
-                ->order('RAND()');
-
-            if ($modelsNo !== false) {
-                $models->limit($modelsNo);
-            }
-
-            $brands[] = [
-                "data" => $row,
-                "models" => $models->fetchPairs('id')
-            ];
-        }
-
-        return $brands;
+      return $this->_getBrands($brandsNo, $modelsNo);
     }
 
     public function getTopBrands($brandsNo = false, $modelsNo = false)
     {
-        $brands = [];
+      return $this->_getBrands($brandsNo, $modelsNo, true);
+    }
 
-        $brands_dbo = $this->db->table('brands')
-            ->where('top', true)
-            ->order('name');
+    public function getRandomBrands($brandsNo = false, $modelsNo = false)
+    {
+        return $this->_getBrands($brandsNo, $modelsNo, false, true);
+    }
 
-        if ($brandsNo !== false) {
-            $brands_dbo->limit($brandsNo);
+    private function _getBrands($brandsNo = false, $modelsNo = false, $top = false, $random = false)
+    {
+      $brands = [];
+
+      $brands_dbo = $this->db->table('brands')
+        ->order($random !== false ? 'RAND()' : 'name');
+
+      if ($top !== false) {
+        $brands_dbo->where('top', true);
+      }
+
+      if ($brandsNo !== false) {
+        $brands_dbo->limit($brandsNo);
+      }
+
+      $rows = $brands_dbo->fetchPairs('id');
+
+      foreach ($rows as $row) {
+        $models = $row->related('brands_models')
+          ->order('RAND()');
+
+        if ($top !== false) {
+          $models->where('top', true);
         }
 
-        $rows = $brands_dbo->fetchPairs('id');
-
-        foreach ($rows as $row) {
-            $models = $row->related('brands_models')
-                ->where('top', true)
-                ->order('name');
-
-            if ($modelsNo !== false) {
-                $models->limit($modelsNo);
-            }
-
-            $brands[] = [
-                "data" => $row,
-                "models" => $models->fetchPairs('id')
-            ];
+        if ($modelsNo !== false) {
+          $models->limit($modelsNo);
         }
 
-        return $brands;
+        $brands[] = [
+          "data" => $row,
+          "models" => $models->fetchPairs('id')
+        ];
+      }
+
+      return $brands;
     }
 
     public function getShowcase($postsNo = false)
