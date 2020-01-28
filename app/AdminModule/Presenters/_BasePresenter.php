@@ -48,6 +48,8 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         $this->template->requests = $this->dbWrapper->getRequests($this->section->user_id);
         $this->template->pendingRequests = $this->dbWrapper->getRequests($this->section->user_id, 'pending');
 
+        $this->template->isAdmin = $this->authWrapper->isAdmin();
+
         if ($this->authWrapper->isAdmin()) {
           $administrator = new \StdClass();
           $administrator->usersNo = $this->db->table('users')->count('*');

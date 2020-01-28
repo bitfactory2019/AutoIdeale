@@ -103,6 +103,31 @@ class DbWrapper
         }
     }
 
+    public function addUserImages($userId, $images)
+    {
+        $this->_addItemImage('user', $userId, $images);
+    }
+
+    private function _addItemImage($itemType, $itemId, $images)
+    {
+      $insertImages = [];
+
+      foreach ($images as $image) {
+          $img = \file_get_contents($image['path']);
+
+          $insertImages[] = [
+              $itemType.'s_id' => $itemId,
+              'name' => $image['name'],
+              'url' => $image['url'],
+              'path' => $image['path'],
+              'base64' => 'data:image/png;base64,'.\base64_encode($img),
+              'size' => \filesize($image['path'])
+          ];
+      }
+
+      $this->db->table($itemType.'s_images')->insert($insertImages);
+    }
+
     public function getUserLogin($values)
     {
         return $this->db->table('users')

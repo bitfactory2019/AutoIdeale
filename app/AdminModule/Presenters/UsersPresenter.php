@@ -104,11 +104,21 @@ final class UsersPresenter extends _BasePresenter
 
     public function submitEditUser(UI\Form $form): void
     {
+        $userId = $_POST["userId"];
         $values = $form->getValues();
 
         $result = $this->dbWrapper->editUser($values);
 
         if ($result) {
+            $userImages = $this->filesWrapper->moveTempUserImages(
+                $values->tempPath,
+                $userId
+            );
+
+            if (!empty($userImages)) {
+                $this->dbWrapper->addUserImages($userId, $userImages);
+            }
+
             $this->flashMessage("Utente salvato con successo!", "success");
         }
         else {

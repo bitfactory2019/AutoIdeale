@@ -125,7 +125,7 @@ final class TestPresenter extends _BasePresenter
             $postId = $post->getPrimary();
 
             $filesWrapper = new \App\Utils\FilesWrapper($this);
-            $files = $filesWrapper->moveTempFiles('bulk-images-'.\rand(1, 5), $postId, false);
+            $files = $filesWrapper->moveTempPostImages('bulk-images-'.\rand(1, 5), $postId, false);
             $this->dbWrapper->addPostFiles($postId, $files);
           }
         }

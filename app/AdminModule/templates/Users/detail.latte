@@ -1,4 +1,4 @@
-{layout '../@layout-administrator.latte'}
+  {layout $isAdmin ? '../@layout-administrator.latte' : '../@layout.latte'}
 
 {block breadcrumbs}
     {include '../includes/breadcrumbs.latte', breadcrumbs => [
@@ -10,7 +10,7 @@
 {block content}
   {include parent}
 
-  {form userDetailForm, id => "addForm"}
+  {form userDetailForm id => 'addForm'}
     {input userId}
     {input tempPath}
 
@@ -28,9 +28,7 @@
                   <p><i class="fa fa-picture-o fa-5x" aria-hidden="true"></i></p>
                   <p>Trascina qui l'immagine del tuo profilo</p>
                 </div>
-                <div class="dropzone-previews" id="user-image">
-                    {block images}{/block}
-                </div>
+                <div class="dropzone-previews" id="user-image"></div>
             </div>
 			    </div>
 				</div>
@@ -97,7 +95,7 @@
 						</div>
 					</div>
 					<!-- /row-->
-					<div class="row">
+					<div n:if="$isAdmin" class="row">
 						<div class="col-md-12">
 							<div class="form-group form-check">
                 {label enabled class => "form-check-label" /}
@@ -158,40 +156,65 @@
     Dropzone.autoDiscover = false;
 
     var dropZone = new Dropzone(".dropzone", {
-        paramName: "images",
-        previewsContainer: "#user-image",
-        clickable: ".dropzone",
-        url: {link addTempImages!, tempPath => $tempPath},
-        dictDefaultMessage: "",
-        uploadMultiple: false,
-        acceptedFiles: 'image/*',
-        addRemoveLinks: true,
-        init: function() {
-            this.on("addedfile", function(file) {
-                $(".dz-message").hide();
-            });
-
-            this.on("removedfile", function(file) {
-                if (this.files.length === 0) {
-                    $(".dz-message").show();
-                }
-
-                if (file.id) {
-                    $.nette.ajax({
-                        type: 'GET',
-                        url: {link deleteImage!},
-                        data: { 'imageId': file.id }
-                    });
-                }
-                else {
-                    $.nette.ajax({
-                        type: 'GET',
-                        url: {link deleteTempImage!},
-                        data: { 'imageName': {$tempPath}+'/'+file.name }
-                    });
-                }
-            });
+      paramName: "images",
+      previewsContainer: "#user-image",
+      clickable: ".dropzone",
+      url: {link addTempImages!, tempPath => $tempPath},
+      dictDefaultMessage: "",
+      uploadMultiple: false,
+      acceptedFiles: 'image/jpeg,image/jpg,image/png',
+      addRemoveLinks: true,
+      init: function() {
+        this.addCustomFile = function(file, thumbnail_url , response){
+          this.files.push(file);
+          this.emit("addedfile", file);
+          this.emit("thumbnail", file, thumbnail_url);
+          this.emit("processing", file);
+          this.emit("success", file, response , false);
+          this.emit("complete", file);
         }
+
+        {foreach $user->related('users_images') as $image}
+          this.addCustomFile(
+            { processing: true, accepted: true, name: {$image->name}, size: {$image->size}, type: 'image/jpeg', status: Dropzone.SUCCESS },
+            {$image->url},
+            { status: "success" }
+          );
+        {/foreach}
+
+        if (this.files.length > 0) {
+          $(".dz-message").hide();
+        }
+
+        this.on("addedfile", function(file) {
+          $(".dz-message").hide();
+
+          if (this.files[1] != null){
+            this.removeFile(this.files[0]);
+          }
+        });
+
+        this.on("removedfile", function(file) {
+          if (this.files.length === 0) {
+            $(".dz-message").show();
+          }
+
+          if (file.id) {
+            $.nette.ajax({
+              type: 'GET',
+              url: {link deleteImage!},
+              data: { 'imageId': file.id }
+            });
+          }
+          else {
+            $.nette.ajax({
+              type: 'GET',
+              url: {link deleteTempImage!},
+              data: { 'imageName': {$tempPath}+'/'+file.name }
+            });
+          }
+        });
+      }
     });
   </script>
 {/block}

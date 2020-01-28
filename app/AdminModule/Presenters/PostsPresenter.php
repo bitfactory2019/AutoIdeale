@@ -285,7 +285,7 @@ final class PostsPresenter extends _BasePresenter
              return;
         }
         else {
-             $postFiles = $this->filesWrapper->moveTempPostFiles(
+             $postFiles = $this->filesWrapper->moveTempPostImages(
                   $values->tempPath,
                   $postId
              );
@@ -317,7 +317,7 @@ final class PostsPresenter extends _BasePresenter
              $this->flashMessage("Post non salvato, riprova.", "danger");
         }
         else {
-             /*$postFiles = $this->filesWrapper->moveTempPostFiles(
+             /*$postFiles = $this->filesWrapper->moveTempPostImages(
                   $values->tempPath,
                   $postId
              );

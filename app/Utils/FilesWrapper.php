@@ -50,7 +50,7 @@ class FilesWrapper
             return [];
         }
 
-        $postFiles = [];
+        $tempFiles = [];
 
         // DIMENSIONI DA GENERARE
         // 461X307
@@ -63,7 +63,7 @@ class FilesWrapper
                 $relative = $config['tempImagesDir'].$temp_path.'/'.$imageName;
                 $file->move($config['wwwDir'].$relative);
 
-                $postFiles[] = [
+                $tempFiles[] = [
                     'name' => $imageName,
                     'url' => $this->presenter->getHttpRequest()->getUrl()->getBaseUrl().$relative,
                     'path' => $config['wwwDir'].$relative
@@ -71,7 +71,7 @@ class FilesWrapper
             }
         }
 
-        return $postFiles;
+        return $tempFiles;
     }
 
     public function uploadPostFiles($postId, $files)
@@ -104,41 +104,81 @@ class FilesWrapper
         return $postFiles;
     }
 
-    public function moveTempPostFiles($temp_path, $post_id, $deleteSource = true)
+    private function deleteUserImages($userId)
     {
-        $config = $this->presenter->getConfig();
-        $postFiles = [];
+      $this->_deleteItemImages('user', $userId);
+    }
 
-        $src = $config["wwwDir"].$config["tempImagesDir"].$temp_path;
-        $dst = $config["wwwDir"].$config['postsImagesDir'].$post_id;
+    private function _deleteItemImages($itemType, $itemId)
+    {
+      $images = $this->db->table($itemType.'s_images')
+        ->where($itemType.'s_id', $itemId)
+        ->fetchPairs('id');
 
-        $dir = opendir($src);
+      foreach ($images as $image) {
+        FileSystem::delete($image->path);
+      }
 
-        FileSystem::createDir($dst, 0755);
+      $this->db->table($itemType.'s_images')
+        ->where($itemType.'s_id', $itemId)
+        ->delete();
+    }
 
-        while ($file = readdir($dir)) {
-            if (($file == '.') || ($file == '..')) {
-                continue;
-            }
+    public function moveTempPostImages($tempPath, $postId, $deleteSource = true)
+    {
+      $config = $this->presenter->getConfig();
 
-            FileSystem::copy($src.'/'.$file, $dst.'/'.$file);
+      return $this->_moveTempImages($tempPath, $config['postsImagesDir'].$postId, $deleteSource);
+    }
 
-            $imageName = \basename($file);
-            $relative = $config['postsImagesDir'].$post_id.'/'.$imageName;
+    public function moveTempUserImages($tempPath, $userId, $deleteSource = true)
+    {
+      $config = $this->presenter->getConfig();
 
-            $postFiles[] = [
-                'name' => $imageName,
-                'url' => $this->presenter->getHttpRequest()->getUrl()->getBaseUrl().$relative,
-                'path' => $config["wwwDir"].$relative
-            ];
+      $this->deleteUserImages($userId);
+
+      return $this->_moveTempImages($tempPath, $config['usersImagesDir'].$userId, $deleteSource);
+    }
+
+    private function _moveTempImages($tempPath, $itemPath, $deleteSource)
+    {
+      $config = $this->presenter->getConfig();
+      $itemImages = [];
+
+      $src = $config["wwwDir"].$config["tempImagesDir"].$tempPath;
+      $dst = $config["wwwDir"].$itemPath;
+
+      $dir = @opendir($src);
+
+      if ($dir === false) {
+        return [];
+      }
+
+      FileSystem::createDir($dst, 0755);
+
+      while ($file = readdir($dir)) {
+        if (($file == '.') || ($file == '..')) {
+          continue;
         }
 
-        if ($deleteSource) {
-            FileSystem::delete($src);
-        }
+        FileSystem::copy($src.'/'.$file, $dst.'/'.$file);
 
-        closedir($dir);
+        $imageName = \basename($file);
+        $relative = $itemPath.'/'.$imageName;
 
-        return $postFiles;
+        $itemImages[] = [
+          'name' => $imageName,
+          'url' => $this->presenter->getHttpRequest()->getUrl()->getBaseUrl().$relative,
+          'path' => $config["wwwDir"].$relative
+        ];
+      }
+
+      if ($deleteSource) {
+        FileSystem::delete($src);
+      }
+
+      closedir($dir);
+
+      return $itemImages;
     }
 }

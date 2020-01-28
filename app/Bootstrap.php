@@ -29,6 +29,7 @@ class Bootstrap
 		$configurator->addParameters([
 			'tempImagesDir' => '/temp/images/',
 			'postsImagesDir' => '/images/posts/',
+			'usersImagesDir' => '/images/users/',
 			'templateEmailsDir' => '%appDir%/Presenters/templates/Emails/'
 		]);
 
