@@ -1,5 +1,6 @@
 _template
 .DS_Store
+www/.htaccess
 www/images/posts
 www/temp
 www/utils.php
