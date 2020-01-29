@@ -37,7 +37,7 @@ final class DashboardPresenter extends _BasePresenter
     }
   }
 
-  public function handleLoadNewUsersChartData($days = 30)
+  public function handleLoadAdministratorChartData($days = 30)
   {
     $newUsers = $this->db->table('users')
       ->select('COUNT(*) AS tot, FROM_UNIXTIME(creation_time, ?) AS creation_date', '%Y-%m-%d')
@@ -53,11 +53,20 @@ final class DashboardPresenter extends _BasePresenter
       ->group('creation_date')
       ->fetchAssoc('creation_date');
 
+    $impressionSearch = $this->_loadPostsStats('impression_search', $days, false);
+    $impressionDetail = $this->_loadPostsStats('impression_detail', $days, false);
+    $wishlist = $this->_loadPostsStats('wishlist', $days, false);
+    $requests = $this->_loadPostsStats('request', $days, false);
+
     $this->sendJson([
       'labels' => $this->_get_labels($days),
       'stats' => [
         'Nuovi utenti' => $this->_parse_stats($days, $newUsers),
-        'Nuovi annunci' => $this->_parse_stats($days, $newPosts)
+        'Nuovi annunci' => $this->_parse_stats($days, $newPosts),
+        'Risultati di ricerca' => $this->_parse_stats($days, $impressionSearch),
+        'Visualizzazioni' => $this->_parse_stats($days, $impressionDetail),
+        'Richieste ricevute' => $this->_parse_stats($days, $requests),
+        'Annunci salvati' => $this->_parse_stats($days, $wishlist)
       ]
     ]);
   }
@@ -105,15 +114,19 @@ final class DashboardPresenter extends _BasePresenter
     ]);
   }
 
-  private function _loadPostsStats($event, $days)
+  private function _loadPostsStats($event, $days, $checkUser = true)
   {
-    return $this->db->table('posts_stats')
+    $postsDbo = $this->db->table('posts_stats')
       ->select('COUNT(*) AS tot, datetime, FROM_UNIXTIME(datetime, ?) AS datetime_formatted', '%Y-%m-%d')
-      ->where('posts.users_id', $this->section->user_id)
       ->where('event', $event)
       ->where('datetime >= ?', \strtotime("-".$days." days"))
       ->order('datetime')
-      ->group('datetime_formatted')
-      ->fetchAssoc('datetime_formatted');
+      ->group('datetime_formatted');
+
+    if ($checkUser) {
+      $postsDbo->where('posts.users_id', $this->section->user_id);
+    }
+
+    return $postsDbo->fetchAssoc('datetime_formatted');
   }
 }
