@@ -174,6 +174,7 @@ final class ListingPresenter extends _BasePresenter
         $this->statsWrapper->addImpressionDetail($postId);
 
         $facebookShare = parent::_getFacebookShare();
+        $facebookShare->url = \urlencode($facebookShare->url);
         $facebookShare->title = $this->template->post['data']->title;
         $facebookShare->description = $this->template->post['data']->description;
         $facebookShare->image = $this->template->post['thumbnail']->url;
