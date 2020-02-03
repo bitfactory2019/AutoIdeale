@@ -1,11 +1,11 @@
 {if $post[thumbnail]}
   <div class="hero_in restaurant_detail">
     <div class="wrapper container">
-  		<span class="magnific-gallery">
+      <span class="magnific-gallery">
         {foreach $post[images] as $image}
           <a href="{$image->url}" n:class="$iterator->isFirst() ? btn_photos : d-none" data-effect="mfp-zoom-in">Galleria</a>
         {/foreach}
-  		</span>
+      </span>
     </div>
   </div>
   <style>
