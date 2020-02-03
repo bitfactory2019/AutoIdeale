@@ -221,11 +221,19 @@
 
             <div class="box_general padding_bottom">
                 <div class="header_box version_2">
-                    <h2><i class="fa fa-picture-o"></i>Galleria di immagini</h2>
+                    <h2><i class="fa fa-picture-o"></i>Galleria di foto</h2>
+                </div>
+                <div id="dropzone-clickable-button" class="row dropzone-clickable">
+                    <div class="dz-default dz-message">
+                      <button class="btn btn-default" type="button">
+                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                        Aggiungi immagini
+                      </button>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 dropzone">
-                        <div class="dz-default dz-message">
+                        <div id="dropzone-clickable-message" class="dz-default dz-message">
                           <p><i class="fa fa-picture-o fa-5x" aria-hidden="true"></i></p>
                           <p>Trascina qui le immagini del tuo annuncio</p>
                         </div>
@@ -442,7 +450,7 @@
         var dropZone = new Dropzone(".dropzone", {
             paramName: "images",
             previewsContainer: "#post-gallery",
-            clickable: "#post-gallery",
+            clickable: ".dropzone-clickable",
             url: {link addTempImages!, tempPath => $tempPath},
             dictDefaultMessage: "",
             uploadMultiple: true,
@@ -452,7 +460,7 @@
             addRemoveLinks: true,
             init: function() {
                 this.on("addedfile", function(file) {
-                    $(".dz-message").hide();
+                    //$(".dz-message").hide();
                 });
 
                 this.on("removedfile", function(file) {

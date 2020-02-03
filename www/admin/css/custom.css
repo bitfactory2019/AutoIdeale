@@ -23,6 +23,10 @@
 		padding: 0px;
 }
 
+#dropzone-clickable-button {
+	margin-bottom: 20px;
+}
+
 .message-request .fa {
 		margin-right: 10px;
 }
@@ -36,3 +40,15 @@ h4 span.badge {
 }
 
 .datepicker .datepicker-days {display: block !important;}
+
+
+
+
+/**********************************************/
+/***************** MOBILE *********************/
+/**********************************************/
+@media only screen and (max-width: 768px) {
+	#dropzone-clickable-message {
+		display: none;
+	}
+}
