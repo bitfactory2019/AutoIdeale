@@ -71,7 +71,8 @@ final class PostsPresenter extends _BasePresenter
 
       $form->addSelect('brands_models_id', 'Modello auto')
            //->setRequired('Scegli il modello di auto')
-           ->setPrompt('-- Scegli prima la Casa Automobilistica --')
+           ->setPrompt('---')
+           ->setDisabled()
            ->setItems(!empty($this->template->post)
               ? $this->utils->getDbOptions('brands_models', ["brands_id" => $this->template->post["data"]->brands_id])
               : []
@@ -81,7 +82,8 @@ final class PostsPresenter extends _BasePresenter
 
       $form->addSelect('brands_models_types_id', 'Configurazione')
            //->setRequired('Scegli il modello di auto')
-           ->setPrompt('-- Scegli prima il modello --')
+           ->setPrompt('---')
+           ->setDisabled()
            ->setItems(!empty($this->template->post)
               ? $this->utils->getModelTypesOptions($this->template->post["data"]->brands_models_id)
               : []
@@ -91,7 +93,8 @@ final class PostsPresenter extends _BasePresenter
 
       $form->addSelect('year', 'Anno')
            ->setRequired('Scegli l\'anno')
-           ->setPrompt('----')
+           ->setPrompt('---')
+           ->setDisabled()
            ->setItems(!empty($this->template->post)
               ? $this->utils->getTypeYearsOptions($this->template->post["data"]->brands_models_types_id)
               : []
@@ -101,7 +104,8 @@ final class PostsPresenter extends _BasePresenter
 
       $form->addSelect('month', 'Mese')
            ->setRequired('Scegli il mese')
-           ->setPrompt('--')
+           ->setPrompt('----')
+           ->setDisabled()
            ->setItems(!empty($this->template->post)
               ? $this->utils->getTypeYearMonthsOptions(
                   $this->template->post["data"]->brands_models_types_id,
@@ -335,12 +339,14 @@ final class PostsPresenter extends _BasePresenter
     {
         if ($brandId) {
              $this['addForm']['brands_models_id']
+                  ->setDisabled(false)
                   ->setPrompt("-- Scegli un modello --")
                   ->setItems($this->utils->getDbOptions("brands_models", ["brands_id" => $brandId]));
         }
         else {
              $this['addForm']['brands_models_id']
-                  ->setPrompt('-- Scegli prima la Casa Automobilistica --')
+                  ->setDisabled()
+                  ->setPrompt('----')
                   ->setItems([]);
         }
 
@@ -352,12 +358,14 @@ final class PostsPresenter extends _BasePresenter
     {
         if ($modelId) {
              $this['addForm']['brands_models_types_id']
+                  ->setDisabled(false)
                   ->setPrompt("-- Scegli una configurazione --")
                   ->setItems($this->utils->getModelTypesOptions($modelId));
         }
         else {
              $this['addForm']['brands_models_types_id']
-                  ->setPrompt('-- Scegli prima il modello --')
+                  ->setDisabled()
+                  ->setPrompt('----')
                   ->setItems([]);
         }
 
@@ -369,11 +377,13 @@ final class PostsPresenter extends _BasePresenter
     {
         if ($typeId) {
              $this['addForm']['year']
+                  ->setDisabled(false)
                   ->setPrompt("-- Anno --")
                   ->setItems($this->utils->getTypeYearsOptions($typeId));
         }
         else {
              $this['addForm']['year']
+                  ->setDisabled()
                   ->setPrompt('----')
                   ->setItems([]);
         }
@@ -386,11 +396,13 @@ final class PostsPresenter extends _BasePresenter
     {
         if ($typeId && $year) {
              $this['addForm']['month']
+                  ->setDisabled(false)
                   ->setPrompt("-- Mese --")
                   ->setItems($this->utils->getTypeYearMonthsOptions($typeId, $year));
         }
         else {
              $this['addForm']['month']
+                  ->setDisabled()
                   ->setPrompt('----')
                   ->setItems([]);
         }
