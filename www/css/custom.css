@@ -24,11 +24,18 @@
     border: solid 25px #ffffff;
 }
 
+.hero_in.restaurant_detail {
+  height: 200px;
+}
 .hero_in.restaurant_detail:before {
-    background-image: none;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+  background: none;
+}
+.hero_in.restaurant_detail .wrapper {
+  position:relative;
+  background-image: none;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 #description .bullets li::before {
