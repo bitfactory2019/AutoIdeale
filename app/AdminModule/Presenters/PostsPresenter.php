@@ -10,6 +10,7 @@ use App\Utils;
 
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Localization\SimpleTranslator;
+use Ublaboo\DataGrid\Column\Action\Confirmation\CallbackConfirmation;
 use Ublaboo\DataGrid\Column\Action\Confirmation\StringConfirmation;
 
 final class PostsPresenter extends _BasePresenter
@@ -422,11 +423,27 @@ final class PostsPresenter extends _BasePresenter
         /*$grid->addAction('edit', '')
 	           ->setIcon('pencil');*/
 
-        $grid->addAction('custom_callback', '', 'delete!')
-	           ->setIcon('trash')
-             ->setClass('btn btn-sm btn-danger ajax')
+        $grid->addAction('approve_callback', '', 'approve!', ['postId' => 'id'])
+             ->setIcon(function($item) { return $item->approved ? 'check' : 'close'; })
+             ->setClass(function($item) { return 'btn btn-xs ajax btn-'.($item->approved ? 'success' : 'danger'); })
              ->setConfirmation(
-            		new StringConfirmation('Do you really want to delete row %s?', 'title')
+               new CallbackConfirmation(
+                 function($item) {
+                   return $item->approved
+                    ? 'Vuoi disabilitare questo annuncio?'
+                    : 'Vuoi approvare questo annuncio?';
+                 }
+               )
+             );
+
+        $grid->addAction('delete_callback', '', 'delete!', ['postId' => 'id'])
+	           ->setIcon('trash')
+             ->setClass('btn btn-xs btn-danger ajax')
+             ->setConfirmation(
+            		new StringConfirmation(
+                  'Vuoi davvero cancellare l\'annuncio "%s"? L\'azione sarà IRREVERSIBILE!',
+                  'title'
+                )
              );
 
         /*$grid->addToolbarButton('this', 'Approvati', ['approved' => true])
@@ -472,53 +489,62 @@ final class PostsPresenter extends _BasePresenter
             ->setSortable()
             ->setFormat('d/m/Y');
         $grid->addColumnText('ip_address', 'IP inserimento');
-        $grid->addColumnStatus('approved', '')
-            ->addOption(1, 'Approvato')
-            		->setIcon('check')
-            		->setClass('btn-success')
-                ->setClassSecondary('btn btn-sm')
-            ->endOption()
-            ->addOption(0, 'Disattivato')
-            		->setIcon('close')
-            		->setClass('btn-danger')
-                ->setClassSecondary('btn btn-sm')
-            ->endOption()
-            ->onChange[] = function($id, $new_value) {
-                 $this->db->table('posts')
-                     ->where('id', $id)
-                     ->update(['approved' => $new_value]);
-            };
 
-          $translator = new SimpleTranslator([
-          		'ublaboo_datagrid.no_item_found_reset' => 'Nessun risultato disponibile, per annullare i filtri clicca ',
-          		'ublaboo_datagrid.no_item_found' => 'Nessun risultato',
-          		'ublaboo_datagrid.here' => 'qui',
-          		'ublaboo_datagrid.items' => 'Risultati',
-          		'ublaboo_datagrid.all' => 'tutti',
-          		'ublaboo_datagrid.from' => 'di',
-          		'ublaboo_datagrid.reset_filter' => 'Annulla filtro',
-          		'ublaboo_datagrid.group_actions' => 'Agione di gruppo',
-          		'ublaboo_datagrid.show_all_columns' => 'Mostra tutte le colonne',
-          		'ublaboo_datagrid.hide_column' => 'Nascondi colonna',
-          		'ublaboo_datagrid.action' => '',
-          		'ublaboo_datagrid.previous' => 'Precedente',
-          		'ublaboo_datagrid.next' => 'Successivo',
-          		'ublaboo_datagrid.choose' => 'Scegli',
-          		'ublaboo_datagrid.execute' => 'Esegui',
-          		'ublaboo_datagrid.perPage_submit' => 'Aggiorna',
+        $translator = new SimpleTranslator([
+        		'ublaboo_datagrid.no_item_found_reset' => 'Nessun risultato disponibile, per annullare i filtri clicca ',
+        		'ublaboo_datagrid.no_item_found' => 'Nessun risultato',
+        		'ublaboo_datagrid.here' => 'qui',
+        		'ublaboo_datagrid.items' => 'Risultati',
+        		'ublaboo_datagrid.all' => 'tutti',
+        		'ublaboo_datagrid.from' => 'di',
+        		'ublaboo_datagrid.reset_filter' => 'Annulla filtro',
+        		'ublaboo_datagrid.group_actions' => 'Agione di gruppo',
+        		'ublaboo_datagrid.show_all_columns' => 'Mostra tutte le colonne',
+        		'ublaboo_datagrid.hide_column' => 'Nascondi colonna',
+        		'ublaboo_datagrid.action' => '',
+        		'ublaboo_datagrid.previous' => 'Precedente',
+        		'ublaboo_datagrid.next' => 'Successivo',
+        		'ublaboo_datagrid.choose' => 'Scegli',
+        		'ublaboo_datagrid.execute' => 'Esegui',
+        		'ublaboo_datagrid.perPage_submit' => 'Aggiorna',
 
-          		'Name' => 'Nome',
-          		'Inserted' => 'Inserito'
-        	]);
+        		'Name' => 'Nome',
+        		'Inserted' => 'Inserito'
+      	]);
 
-        	$grid->setTranslator($translator);
+      	$grid->setTranslator($translator);
     }
 
     public function handleDelete($postId)
     {
-            $this->flashMessage('Cancellato post '.$postId, 'danger');
+      $post = $this->db->table('posts')->get($postId);
 
-            $this->redrawControl('flashes');
-            $this['postsGrid']->reload();
+      $this->db->table('posts')
+        ->where('id', $postId)
+        ->delete();
+
+      $this->flashMessage('Cancellato annuncio "'.$post->title.'"', 'danger');
+
+      $this->redrawControl('flashes');
+      $this['postsGrid']->reload();
+    }
+
+    public function handleApprove($postId)
+    {
+      $post = $this->db->table('posts')->get($postId);
+
+      $this->db->table('posts')
+        ->where('id', $postId)
+        ->update(['approved' => !$post->approved]);
+
+      if ($post->approved) {
+        $this->flashMessage('Disabilitato annuncio "'.$post->title.'"', 'danger');
+      }
+      else {
+        $this->flashMessage('Approvato annuncio "'.$post->title.'"', 'success');
+      }
+
+      $this->redrawControl('flashes');
+      $this['postsGrid']->reload();
     }
 }
