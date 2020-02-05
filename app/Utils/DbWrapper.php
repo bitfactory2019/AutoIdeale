@@ -135,6 +135,7 @@ class DbWrapper
             ->where('email', $values->email)
             ->where('password', \md5($values->password))
             ->where('enabled', true)
+            ->where('approved', true)
             ->fetch();
     }
 
