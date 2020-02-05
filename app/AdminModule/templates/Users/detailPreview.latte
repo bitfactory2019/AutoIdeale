@@ -1,0 +1,50 @@
+{block detail}
+  <div class="item_detail">
+    <div class="card mb-3 p-2">
+      <div class="row no-gutters">
+        <div class="col-md-12">
+          <div class="card-body">
+            <h5 n:if="$item->groups->name === 'private'" class="card-title">{$item->name} {$item->surname}</h5>
+            <h5 n:if="$item->groups->name === 'company'" class="card-title">{$item->company_name}</h5>
+            {*
+            <p class="card-text">
+              <a n:if="$item->address" class="address" target="_blank" href="https://www.google.com/maps/search/?api=1&query={$item->address} {$item->city}">{$item->address}, {$item->city}</a>
+            </p>
+            <p class="card-text">{$item->description|noescape|trim}</p>
+            *}
+
+            <div class="row add_bottom_30">
+              <div class="col-md-6">
+                <ul class="bullets">
+                  {if $item->groups->name === 'company'}
+                    <li><strong>Codice unico</strong> {$item->unique_code}</li>
+                    <li><strong>IBAN</strong> {$item->iban}</li>
+                    <li><strong>PEC</strong> {$item->email_pec}</li>
+                  {/if}
+
+                  <li><strong>Indirizzo</strong> {$item->address}</li>
+                  <li><strong>Città</strong> {$item->city}</li>
+                  <li><strong>CAP</strong> {$item->cap}</li>
+                  <li><strong>Nazione</strong> {$item->country}</li>
+                  <li><strong>Telefono</strong> {$item->telephone}</li>
+                  <li><strong>Cellulare</strong> {$item->mobile}</li>
+                  <li><strong>Email</strong> {$item->email}</li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul class="bullets">
+                  <li>
+                    <span n:if="$item->group->name === 'company'" class="badge badge-primary">Azienda</span>
+                    <span n:if="$item->group->name === 'private'" class="badge badge-secondary">Privato</span>
+                  </li>
+                  <li><strong>Data registrazione</strong> {$item->creation_time|date:'d/m/Y'}</li>
+                  <li><strong>IP di registrazione</strong> {$item->ip_address}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{/block}

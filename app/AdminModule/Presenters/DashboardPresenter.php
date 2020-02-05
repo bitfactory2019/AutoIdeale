@@ -3,9 +3,13 @@
 declare(strict_types=1);
 
 namespace App\AdminModule\Presenters;
-use \Nette\Application\Responses\JsonResponse;
 
 use Nette;
+use \Nette\Application\Responses\JsonResponse;
+
+use Ublaboo\DataGrid\DataGrid;
+use Ublaboo\DataGrid\Localization\SimpleTranslator;
+use Ublaboo\DataGrid\Column\Action\Confirmation\StringConfirmation;
 
 final class DashboardPresenter extends _BasePresenter
 {
@@ -35,6 +39,103 @@ final class DashboardPresenter extends _BasePresenter
     if (!$this->authWrapper->isAdmin()) {
       $this->redirect(":Admin:Dashboard:index");
     }
+
+    $this->template->administrator->usersToApproveNo = $this->db->table("users")
+      ->where("last_login", null)
+      ->where("enabled", true)
+      ->where("approved", false)
+      ->count("*");
+  }
+
+  public function createComponentNewUsersGrid($name)
+  {
+      $grid = new DataGrid($this, $name);
+
+      $grid->setDataSource(
+        $this->db->table("users")
+          ->where("last_login", null)
+          ->where("enabled", true)
+          ->where("approved", false)
+      );
+      $grid->setDefaultSort(['creation_time' => 'DESC']);
+      $grid->setItemsDetail(__DIR__ . '/../templates/Users/detailPreview.latte');
+
+      $grid->addAction('enable_callback', '', 'enableUser!', ['userId' => 'id'])
+           ->setIcon('check')
+           ->setClass('btn btn-xs ajax btn-success')
+           ->setConfirmation(
+             new StringConfirmation('Vuoi approvare questo utente?')
+           );
+
+      $grid->addFilterText('email', 'Indirizzo email: ');
+      $grid->addFilterDate('creation_time', '')
+           ->setFormat('d.m.Y', 'dd/mm/yyyy')
+           ->setCondition(function($fluent, $value) {
+                $fluent->select('*, FROM_UNIXTIME(creation_time, ?) AS creation_date', '%d/%m/%Y')
+                       ->having('creation_date = ?', $value);
+            });
+
+      $grid->addFilterText('ip_address', 'IP di registrazione: ');
+
+      $grid->addColumnText('name', 'Nome');
+      $grid->addColumnCallback('name', function($column, $item) {
+        $column->setRenderer(function() use ($item) {
+          return $item->groups->name === 'company'
+            ? $item->company_name
+            : $item->name.' '.$item->surname;
+        });
+      });
+
+      $grid->addColumnText('group', 'Gruppo');
+      $grid->addColumnCallback('group', function($column, $item) {
+        $column->setRenderer(function() use ($item) {
+          return $item->groups->name === 'company' ? 'Azienda' : 'Privato';
+        });
+      });
+
+      $grid->addColumnText('email', 'Email');
+      $grid->addColumnText('telephone', 'Telefono');
+
+      $grid->addColumnDateTime('creation_time', 'Data di registrazione')
+          ->setSortable()
+          ->setFormat('d/m/Y');
+      $grid->addColumnText('ip_address', 'Indirizzo IP');
+
+      $translator = new SimpleTranslator([
+          'ublaboo_datagrid.no_item_found_reset' => 'Nessun risultato disponibile, per annullare i filtri clicca ',
+          'ublaboo_datagrid.no_item_found' => 'Nessun risultato',
+          'ublaboo_datagrid.here' => 'qui',
+          'ublaboo_datagrid.items' => 'Risultati',
+          'ublaboo_datagrid.all' => 'tutti',
+          'ublaboo_datagrid.from' => 'di',
+          'ublaboo_datagrid.reset_filter' => 'Annulla filtro',
+          'ublaboo_datagrid.group_actions' => 'Agione di gruppo',
+          'ublaboo_datagrid.show_all_columns' => 'Mostra tutte le colonne',
+          'ublaboo_datagrid.hide_column' => 'Nascondi colonna',
+          'ublaboo_datagrid.action' => '',
+          'ublaboo_datagrid.previous' => 'Precedente',
+          'ublaboo_datagrid.next' => 'Successivo',
+          'ublaboo_datagrid.choose' => 'Scegli',
+          'ublaboo_datagrid.execute' => 'Esegui',
+          'ublaboo_datagrid.perPage_submit' => 'Aggiorna',
+
+          'Name' => 'Nome',
+          'Inserted' => 'Inserito'
+      ]);
+
+      $grid->setTranslator($translator);
+  }
+
+  public function handleEnableUser($userId)
+  {
+    $this->db->table('users')
+      ->where('id', $userId)
+      ->update(['approved' => true]);
+
+    $this->flashMessage('Utente abilitato con successo', 'success');
+
+    $this->redrawControl('flashes');
+    $this['newUsersGrid']->reload();
   }
 
   public function handleLoadAdministratorChartData($days = 30)

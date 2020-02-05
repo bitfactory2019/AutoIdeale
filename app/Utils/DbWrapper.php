@@ -57,6 +57,7 @@ class DbWrapper
                 'email_pec' => $isCompany ? $values->email_pec : null,
                 'password' => \md5($values->password),
                 'enabled' => false,
+                'approved' => false,
                 'creation_time' => \time(),
                 'ip_address' => $this->presenter->getHttpRequest()->getRemoteAddress()
             ]);
