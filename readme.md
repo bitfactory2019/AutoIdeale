@@ -1,3 +1,10 @@
+after clone:
+
+	composer update
+	cd www/admin
+	bower update
+
+
 Nette Web Project
 =================
 
@@ -49,7 +56,7 @@ via a web browser. See [security warning](https://nette.org/security-warning).**
 Notice: Composer PHP version
 ----------------------------
 
-This project forces PHP 5.6 (eventually 7.1) as your PHP version for Composer packages. If you have newer 
+This project forces PHP 5.6 (eventually 7.1) as your PHP version for Composer packages. If you have newer
 version on production server you should change it in `composer.json`:
 
 ```json
