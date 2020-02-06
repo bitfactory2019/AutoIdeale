@@ -1,79 +1,79 @@
 <section class="hero_single version_5">
-    <div class="wrapper">
-        <div class="container">
-            <div class="row justify-content-center pt-lg-5">
-                <div class="col-xl-5 col-lg-6">
-                    <div class="custom-search-input-2">
-                        <h3>Trova la tua auto!</h3>
-                        <p>Vendita di auto nuove e usate</p>
+  <div class="wrapper">
+    <div class="container">
+      <div class="row justify-content-center pt-lg-5">
+        <div class="col-xl-5 col-lg-6">
+          <div class="custom-search-input-2">
+            <h3>Trova la tua auto!</h3>
+            <p>Vendita di auto nuove e usate</p>
 
-                        {form searchForm}
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        {input place}
-                                        <i class="icon_pin_alt"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {input brands_id}
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {snippet brands_models}
-                                            {input brands_models_id}
-                                        {/snippet}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {input year}
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {input price}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {input search}
-
-                            <div class="row">
-                              <div class="col-md-6"></div>
-                              <div class="col-md-6 advanced-search-link">
-                                  <a n:href="Listing:advanced-search">Ricerca avanzata</a>
-                              </div>
-                            </div>
-                        {/form}
-                    </div>
+            {form searchForm}
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    {input place}
+                    <i class="icon_pin_alt"></i>
+                  </div>
                 </div>
-                <div class="col-xl-5 col-lg-6 text-right d-none d-lg-block">
-                    <img src="img/graphic_home_2.svg" alt="" class="img-fluid">
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    {input brands_id}
+                  </div>
                 </div>
-            </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    {snippet brands_models}
+                      {input brands_models_id}
+                    {/snippet}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    {input year}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    {input price}
+                  </div>
+                </div>
+              </div>
+
+              {input search}
+
+              <div class="row">
+              <div class="col-md-6"></div>
+              <div class="col-md-6 advanced-search-link">
+                <a n:href="Listing:advanced-search">Ricerca avanzata</a>
+              </div>
+              </div>
+            {/form}
+          </div>
         </div>
+        <div class="col-xl-5 col-lg-6 text-right d-none d-lg-block">
+          <img src="img/graphic_home_2.svg" alt="" class="img-fluid">
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 <!-- /hero_single -->
 
 <script>
-    $('#' + {$control['searchForm']['brands_id']->htmlId}).off('change').on('change', function () {
-        $("#brands-models-loading").show();
+  $('#' + {$control['searchForm']['brands_id']->htmlId}).off('change').on('change', function () {
+    $("#brands-models-loading").show();
 
-        $.nette.ajax({
-            type: 'GET',
-            url: {link LoadBrandModels!},
-            data: {
-                'formName': 'searchForm',
-                'brandId': $(this).val(),
-            }
-        });
+    $.nette.ajax({
+      type: 'GET',
+      url: {link LoadBrandModels!},
+      data: {
+        'formName': 'searchForm',
+        'brandId': $(this).val(),
+      }
     });
+  });
 </script>
