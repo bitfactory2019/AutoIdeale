@@ -67,6 +67,13 @@ final class DashboardPresenter extends _BasePresenter
              new StringConfirmation('Vuoi approvare questo utente?')
            );
 
+       $grid->addFilterSelect(
+         'group',
+         'Gruppo: ',
+         $this->utils->getDbOptions('groups'),
+         'groups_id'
+       );
+
       $grid->addFilterText('email', 'Indirizzo email: ');
       $grid->addFilterDate('creation_time', '')
            ->setFormat('d.m.Y', 'dd/mm/yyyy')
