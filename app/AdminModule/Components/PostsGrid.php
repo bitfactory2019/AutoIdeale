@@ -79,12 +79,6 @@ class PostsGrid extends DataGrid
     $this->addColumnText('brands_models', 'Modello', 'brands_models.name')
       ->setSortable();
 
-    /*$this->addColumnText('year_month', 'Immatricolazione')
-      ->setSortable('year')
-      ->setRenderer(function($post) {
-        return \App\Library::MONTHS[$post->month].' '.$post->year;
-      });
-    */
     $this->addColumnText('user', 'Utente')
       ->setRenderer(function($post) {
         return $post->users->name.' '.$post->users->surname.' '.$post->users->telephone;
