@@ -6,6 +6,7 @@ namespace App\AdminModule\Presenters;
 
 use Nette;
 use \Nette\Application\Responses\JsonResponse;
+use Ublaboo\DataGrid\Localization\SimpleTranslator;
 
 abstract class _BasePresenter extends Nette\Application\UI\Presenter
 {
@@ -92,5 +93,30 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
          $this->filesWrapper->deleteTempImage($imageName);
 
          $this->sendResponse(new JsonResponse(['result' => true]));
+    }
+
+    protected function _getUblabooDatagridTranslator()
+    {
+      return new SimpleTranslator([
+        'ublaboo_datagrid.no_item_found_reset' => 'Nessun risultato disponibile, per annullare i filtri clicca ',
+        'ublaboo_datagrid.no_item_found' => 'Nessun risultato',
+        'ublaboo_datagrid.here' => 'qui',
+        'ublaboo_datagrid.items' => 'Risultati',
+        'ublaboo_datagrid.all' => 'tutti',
+        'ublaboo_datagrid.from' => 'di',
+        'ublaboo_datagrid.reset_filter' => 'Annulla filtro',
+        'ublaboo_datagrid.group_actions' => 'Agione di gruppo',
+        'ublaboo_datagrid.show_all_columns' => 'Mostra tutte le colonne',
+        'ublaboo_datagrid.hide_column' => 'Nascondi colonna',
+        'ublaboo_datagrid.action' => '',
+        'ublaboo_datagrid.previous' => 'Precedente',
+        'ublaboo_datagrid.next' => 'Successivo',
+        'ublaboo_datagrid.choose' => 'Scegli',
+        'ublaboo_datagrid.execute' => 'Esegui',
+        'ublaboo_datagrid.perPage_submit' => 'Aggiorna',
+
+        'Name' => 'Nome',
+        'Inserted' => 'Inserito'
+      ]);
     }
 }

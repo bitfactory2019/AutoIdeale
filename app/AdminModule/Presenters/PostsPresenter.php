@@ -490,29 +490,7 @@ final class PostsPresenter extends _BasePresenter
             ->setFormat('d/m/Y');
         $grid->addColumnText('ip_address', 'IP inserimento');
 
-        $translator = new SimpleTranslator([
-        		'ublaboo_datagrid.no_item_found_reset' => 'Nessun risultato disponibile, per annullare i filtri clicca ',
-        		'ublaboo_datagrid.no_item_found' => 'Nessun risultato',
-        		'ublaboo_datagrid.here' => 'qui',
-        		'ublaboo_datagrid.items' => 'Risultati',
-        		'ublaboo_datagrid.all' => 'tutti',
-        		'ublaboo_datagrid.from' => 'di',
-        		'ublaboo_datagrid.reset_filter' => 'Annulla filtro',
-        		'ublaboo_datagrid.group_actions' => 'Agione di gruppo',
-        		'ublaboo_datagrid.show_all_columns' => 'Mostra tutte le colonne',
-        		'ublaboo_datagrid.hide_column' => 'Nascondi colonna',
-        		'ublaboo_datagrid.action' => '',
-        		'ublaboo_datagrid.previous' => 'Precedente',
-        		'ublaboo_datagrid.next' => 'Successivo',
-        		'ublaboo_datagrid.choose' => 'Scegli',
-        		'ublaboo_datagrid.execute' => 'Esegui',
-        		'ublaboo_datagrid.perPage_submit' => 'Aggiorna',
-
-        		'Name' => 'Nome',
-        		'Inserted' => 'Inserito'
-      	]);
-
-      	$grid->setTranslator($translator);
+        $grid->setTranslator($this->_getUblabooDatagridTranslator());
     }
 
     public function handleDelete($postId)
