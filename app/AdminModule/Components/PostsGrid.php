@@ -55,6 +55,15 @@ class PostsGrid extends DataGrid
       );
     }
 
+    $this->addFilterText('user', 'Utente: ')
+      ->setCondition(function($fluent, $value) {
+        $fluent->whereOr([
+          'users.name LIKE ?' => '%'.$value.'%',
+          'users.surname LIKE ?' => '%'.$value.'%',
+          'users.telephone LIKE ?' => '%'.$value.'%'
+        ]);
+      });
+
     $this->addFilterDate('creation_time', '')
       ->setFormat('d.m.Y', 'dd/mm/yyyy')
       ->setCondition(function($fluent, $value) {
@@ -69,10 +78,16 @@ class PostsGrid extends DataGrid
       ->setSortable();
     $this->addColumnText('brands_models', 'Modello', 'brands_models.name')
       ->setSortable();
-    $this->addColumnText('year_month', 'Immatricolazione')
+
+    /*$this->addColumnText('year_month', 'Immatricolazione')
       ->setSortable('year')
       ->setRenderer(function($post) {
         return \App\Library::MONTHS[$post->month].' '.$post->year;
+      });
+    */
+    $this->addColumnText('user', 'Utente')
+      ->setRenderer(function($post) {
+        return $post->users->name.' '.$post->users->surname.' '.$post->users->telephone;
       });
     $this->addColumnDateTime('creation_time', 'Data creazione')
       ->setSortable()
