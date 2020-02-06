@@ -75,6 +75,10 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         return $this->context->getParameters();
     }
 
+    public function getUtils()
+    {
+      return $this->utils;
+    }
 
     public function handleAddTempImages()
     {
@@ -95,7 +99,49 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
          $this->sendResponse(new JsonResponse(['result' => true]));
     }
 
-    protected function _getUblabooDatagridTranslator()
+    public function handleApprovePost($postId)
+    {
+      $post = $this->db->table('posts')->get($postId);
+
+      $this->db->table('posts')
+        ->where('id', $postId)
+        ->update(['approved' => !$post->approved]);
+
+      if ($post->approved) {
+        $this->flashMessage('Disabilitato annuncio "'.$post->title.'"', 'danger');
+      }
+      else {
+        $this->flashMessage('Approvato annuncio "'.$post->title.'"', 'success');
+      }
+
+      $this->template->administrator->postsToApproveNo = $this->_getPostsToApprove()->count("*");
+
+      $this->redrawControl('flashes');
+      $this->redrawControl('postsToApproveNo');
+      $this['postsGrid']->reload();
+    }
+
+    protected function _getPostsToApprove()
+    {
+      return $this->db->table("posts")
+        ->where("approved", false);
+    }
+
+    public function handleDeletePost($postId)
+    {
+      $post = $this->db->table('posts')->get($postId);
+
+      $this->db->table('posts')
+        ->where('id', $postId)
+        ->delete();
+
+      $this->flashMessage('Cancellato annuncio "'.$post->title.'"', 'danger');
+
+      $this->redrawControl('flashes');
+      $this['postsGrid']->reload();
+    }
+
+    public function _getUblabooDatagridTranslator()
     {
       return new SimpleTranslator([
         'ublaboo_datagrid.no_item_found_reset' => 'Nessun risultato disponibile, per annullare i filtri clicca ',

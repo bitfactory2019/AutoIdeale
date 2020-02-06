@@ -7,11 +7,7 @@ namespace App\AdminModule\Presenters;
 use Nette\Application\UI;
 use Nette\Application\Responses\JsonResponse;
 use App\Utils;
-
-use Ublaboo\DataGrid\DataGrid;
-use Ublaboo\DataGrid\Localization\SimpleTranslator;
-use Ublaboo\DataGrid\Column\Action\Confirmation\CallbackConfirmation;
-use Ublaboo\DataGrid\Column\Action\Confirmation\StringConfirmation;
+use App\AdminModule\Components;
 
 final class PostsPresenter extends _BasePresenter
 {
@@ -414,85 +410,14 @@ final class PostsPresenter extends _BasePresenter
 
     public function createComponentPostsGrid($name)
     {
-      	$grid = new DataGrid($this, $name);
+      $grid = new Components\PostsGrid($this, $name);
 
-      	$grid->setDataSource($this->db->table('posts'));
-        $grid->setDefaultSort(['creation_time' => 'DESC']);
-        $grid->setItemsDetail(__DIR__ . '/../templates/Posts/detailPreview.latte');
-
-        /*$grid->addAction('edit', '')
-	           ->setIcon('pencil');*/
-
-        $grid->addAction('approve_callback', '', 'approve!', ['postId' => 'id'])
-             ->setIcon(function($item) { return $item->approved ? 'check' : 'close'; })
-             ->setClass(function($item) { return 'btn btn-xs ajax btn-'.($item->approved ? 'success' : 'danger'); })
-             ->setConfirmation(
-               new CallbackConfirmation(
-                 function($item) {
-                   return $item->approved
-                    ? 'Vuoi disabilitare questo annuncio?'
-                    : 'Vuoi approvare questo annuncio?';
-                 }
-               )
-             );
-
-        $grid->addAction('delete_callback', '', 'delete!', ['postId' => 'id'])
-	           ->setIcon('trash')
-             ->setClass('btn btn-xs btn-danger ajax')
-             ->setConfirmation(
-            		new StringConfirmation(
-                  'Vuoi davvero cancellare l\'annuncio "%s"? L\'azione sarà IRREVERSIBILE!',
-                  'title'
-                )
-             );
-
-        /*$grid->addToolbarButton('this', 'Approvati', ['approved' => true])
-            ->setClass('btn btn-xs btn-light');*/
-
-        $grid->addFilterText('title', 'Titolo: ');
-        $grid->addFilterSelect(
-            'brands',
-            'Marca: ',
-            $this->utils->getDbOptions('brands', [], true),
-            'brands_id'
-        );
-
-        if (!empty($grid->filter['brands'])) {
-            $grid->addFilterSelect(
-                'brands_models',
-                'Modello: ',
-                $this->utils->getDbOptions('brands_models', ['brands_id' => $grid->filter['brands']], true),
-                'brands_models_id'
-            );
-        }
-
-        $grid->addFilterDate('creation_time', '')
-	           ->setFormat('d.m.Y', 'dd/mm/yyyy')
-             ->setCondition(function($fluent, $value) {
-                  $fluent->select('*, FROM_UNIXTIME(creation_time, ?) AS creation_date', '%d/%m/%Y')
-                         ->having('creation_date = ?', $value);
-            	});
-
-        $grid->addFilterText('ip_address', 'IP inserimento: ');
-
-      	$grid->addColumnText('title', 'Titolo');
-        $grid->addColumnText('brands', 'Marca', 'brands.name')
-            ->setSortable();
-        $grid->addColumnText('brands_models', 'Modello', 'brands_models.name')
-            ->setSortable();
-        $grid->addColumnText('year_month', 'Immatricolazione')
-            ->setSortable('year')
-            ->setRenderer(function($post) {
-                return \App\Library::MONTHS[$post->month].' '.$post->year;
-            });
-        $grid->addColumnDateTime('creation_time', 'Data creazione')
-            ->setSortable()
-            ->setFormat('d/m/Y');
-        $grid->addColumnText('ip_address', 'IP inserimento');
-
-        $grid->setTranslator($this->_getUblabooDatagridTranslator());
+      $grid->setDataSource(
+        $this->db->table("posts")
+      );
     }
 
+    /*
     public function handleDelete($postId)
     {
       $post = $this->db->table('posts')->get($postId);
@@ -525,4 +450,5 @@ final class PostsPresenter extends _BasePresenter
       $this->redrawControl('flashes');
       $this['postsGrid']->reload();
     }
+    */
 }

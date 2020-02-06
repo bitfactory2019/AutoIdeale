@@ -80,13 +80,24 @@
         <canvas id="statsChart" width="100%" height="30" style="margin:45px 0 15px 0;"></canvas>
 
         <div class="header_box">
-    			<h4>
-            Ultimi utenti registrati
-            <span class="badge badge-pill badge-primary">{$administrator->usersToApproveNo}</span>
-          </h4>
+          {snippet usersToApproveNo}
+      			<h4>
+              Ultimi utenti registrati
+              <span class="badge badge-pill badge-primary">{$administrator->usersToApproveNo}</span>
+            </h4>
+          {/snippet}
         </div>
-
         {control newUsersGrid}
+
+        <div class="header_box">
+          {snippet postsToApproveNo}
+    			  <h4>
+              Annunci da approvare
+              <span class="badge badge-pill badge-primary">{$administrator->postsToApproveNo}</span>
+            </h4>
+          {/snippet}
+        </div>
+        {control postsGrid}
     </div>
 {/block}
 

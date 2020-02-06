@@ -6,6 +6,7 @@ namespace App\AdminModule\Presenters;
 
 use Nette;
 use \Nette\Application\Responses\JsonResponse;
+use App\AdminModule\Components;
 
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Column\Action\Confirmation\StringConfirmation;
@@ -39,23 +40,23 @@ final class DashboardPresenter extends _BasePresenter
       $this->redirect(":Admin:Dashboard:index");
     }
 
-    $this->template->administrator->usersToApproveNo = $this->db->table("users")
+    $this->template->administrator->usersToApproveNo = $this->_getUsersToApprove()->count("*");
+    $this->template->administrator->postsToApproveNo = $this->_getPostsToApprove()->count("*");
+  }
+
+  private function _getUsersToApprove()
+  {
+    return $this->db->table("users")
       ->where("last_login", null)
       ->where("enabled", true)
-      ->where("approved", false)
-      ->count("*");
+      ->where("approved", false);
   }
 
   public function createComponentNewUsersGrid($name)
   {
       $grid = new DataGrid($this, $name);
 
-      $grid->setDataSource(
-        $this->db->table("users")
-          ->where("last_login", null)
-          ->where("enabled", true)
-          ->where("approved", false)
-      );
+      $grid->setDataSource($this->_getUsersToApprove());
       $grid->setDefaultSort(['creation_time' => 'DESC']);
       $grid->setItemsDetail(__DIR__ . '/../templates/Users/detailPreview.latte');
 
@@ -110,6 +111,12 @@ final class DashboardPresenter extends _BasePresenter
       $grid->setTranslator($this->_getUblabooDatagridTranslator());
   }
 
+  public function createComponentPostsGrid($name)
+  {
+    $grid = new Components\PostsGrid($this, $name);
+    $grid->setDataSource($this->_getPostsToApprove());
+  }
+
   public function handleEnableUser($userId)
   {
     $this->db->table('users')
@@ -118,7 +125,10 @@ final class DashboardPresenter extends _BasePresenter
 
     $this->flashMessage('Utente abilitato con successo', 'success');
 
+    $this->template->administrator->usersToApproveNo = $this->_getUsersToApprove()->count("*");
+
     $this->redrawControl('flashes');
+    $this->redrawControl('usersToApproveNo');
     $this['newUsersGrid']->reload();
   }
 
