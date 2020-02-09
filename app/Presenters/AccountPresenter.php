@@ -59,7 +59,7 @@ final class AccountPresenter extends _BasePresenter
                 $this->flashMessage("Utente non riconosciuto", "danger");
             }
             else {
-                $password = $this->utils->generateNewPassword();
+                $password = $this->utils->generatePassword();
 
                 $this->db->table("users")
                     ->where("id", $user->id)
