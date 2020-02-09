@@ -20,15 +20,17 @@
 		{/block}
 
 		<main>
-      <div class="container margin_30">
-        {snippet flashes}
-          {foreach $flashes as $flash}
-            <div class="alert alert-{$flash->type}" role="alert">
-              {$flash->message}
-            </div>
-          {/foreach}
-        {/snippet}
-      </div>
+      {if !$presenter->isLinkCurrent('Homepage:index')}
+        <div class="container margin_30">
+          {snippet flashes}
+            {foreach $flashes as $flash}
+              <div class="alert alert-{$flash->type}" role="alert">
+                {$flash->message}
+              </div>
+            {/foreach}
+          {/snippet}
+        </div>
+      {/if}
 
 			{block content}{/block}
 		</main>
