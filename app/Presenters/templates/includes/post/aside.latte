@@ -1,5 +1,5 @@
 <aside class="col-lg-4" id="sidebar">
-    <div class="box_detail booking">
+    <div n:if="$post[data]->users->groups->name === 'company'" class="box_detail booking">
         {form requestForm}
             <div class="price">
                 <h5 class="d-inline">Appuntamento</h5>
