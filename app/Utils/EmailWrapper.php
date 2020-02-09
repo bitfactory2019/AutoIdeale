@@ -79,6 +79,7 @@ class EmailWrapper
             ->setHtmlBody(
                 $template->renderToString(
                     $config['templateEmailsDir'].'userNewPassword.latte', [
+                    "user" => $user,
                     "password" => $password
                 ])
             );
