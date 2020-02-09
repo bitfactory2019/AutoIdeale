@@ -51,6 +51,26 @@ final class AccountPresenter extends _BasePresenter
         $form->addSubmit('recovery', 'Reset Password');
 
         $form->onSuccess[] = function() use ($form) {
+            $values = $form->getValues();
+
+            $user = $this->dbWrapper->getUserByEmail($values->email);
+
+            if (empty($user)) {
+                $this->flashMessage("Utente non riconosciuto", "danger");
+            }
+            else {
+                $password = $this->utils->generateNewPassword();
+
+                $this->db->table("users")
+                    ->where("id", $user->id)
+                    ->update(["password" => \md5($password)]);
+
+                $this->emailWrapper->sendUserNewPassword($user, $password);
+
+                $this->flashMessage("Una nuova password è stata inviata alla tua casella di posta", "success");
+            }
+
+            $this->redrawControl("flashes");
         };
 
         return $form;

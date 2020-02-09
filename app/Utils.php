@@ -157,4 +157,18 @@ class Utils
             "isNotAvailable" => !$post->approved
         ];
     }
+
+    public function generatePassword()
+    {
+        $chars = "abcdefghijklmnopqrstuvwxyz1234567890";
+
+        $password = "";
+
+        for ($i = 0; $i < 8; $i++)
+        {
+            $password .= $chars[\rand(0, \strlen($chars))];
+        }
+
+        return $password;
+    }
 }

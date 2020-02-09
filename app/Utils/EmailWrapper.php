@@ -67,4 +67,26 @@ class EmailWrapper
         catch (\Exception $e) {
         }
     }
+
+    public function sendUserNewPassword($user, $password)
+    {
+        $template = new \Latte\Engine;
+        $mail = new Mail\Message;
+        $config = $this->presenter->context->getParameters();
+
+        $mail->setFrom('AutoIdeale <noreply@autoideale.it>')
+            ->addTo($user->email)
+            ->setHtmlBody(
+                $template->renderToString(
+                    $config['templateEmailsDir'].'userNewPassword.latte', [
+                    "password" => $password
+                ])
+            );
+
+        try {
+          $this->mailer->send($mail);
+        }
+        catch (\Exception $e) {
+        }
+    }
 }
