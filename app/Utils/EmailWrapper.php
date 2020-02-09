@@ -80,7 +80,8 @@ class EmailWrapper
                 $template->renderToString(
                     $config['templateEmailsDir'].'userNewPassword.latte', [
                     "user" => $user,
-                    "password" => $password
+                    "password" => $password,
+                    "accountLink" => $this->presenter->link("Account:index")
                 ])
             );
 
