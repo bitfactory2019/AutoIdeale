@@ -10,3 +10,4 @@ app/Presenters/templates/Test/index.latte
 app/config/local.neon
 /www/admin/bower_components
 composer.lock
+deploy.sh
