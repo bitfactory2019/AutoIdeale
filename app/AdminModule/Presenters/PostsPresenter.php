@@ -318,13 +318,13 @@ final class PostsPresenter extends _BasePresenter
          $this->flashMessage("Post non salvato, riprova.", "danger");
       }
       else {
-        $postFiles = $this->filesWrapper->moveTempPostImages(
+        $postImages = $this->filesWrapper->moveTempPostImages(
            $values->tempPath,
            $postId
         );
 
-        if (!empty($postFiles)) {
-           $this->dbWrapper->addPostFiles($postId, $postFiles);
+        if (!empty($postImages)) {
+           $this->dbWrapper->addPostImages($postId, $postImages);
         }
 
         $this->flashMessage("Post salvato con successo!", "success");

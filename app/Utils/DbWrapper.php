@@ -203,24 +203,9 @@ class DbWrapper
         }
     }
 
-    public function addPostFiles($postId, $files)
+    public function addPostImages($postId, $images)
     {
-        $insertFiles = [];
-
-        foreach ($files as $file) {
-            $img = \file_get_contents($file['path']);
-
-            $insertFiles[] = [
-                'post_id' => $postId,
-                'name' => $file['name'],
-                'url' => $file['url'],
-                'path' => $file['path'],
-                'base64' => 'data:image/png;base64,'.\base64_encode($img),
-                'size' => \filesize($file['path'])
-            ];
-        }
-
-        $this->db->table('posts_images')->insert($insertFiles);
+        $this->_addItemImage('post', $postId, $images);
     }
 
     public function editPost($postId, $values)
