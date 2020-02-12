@@ -69,7 +69,7 @@ final class PostsPresenter extends _BasePresenter
       $form->addSelect('brands_models_id', 'Modello auto')
            //->setRequired('Scegli il modello di auto')
            ->setPrompt('---')
-           ->setDisabled()
+           ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
               ? $this->utils->getDbOptions('brands_models', ["brands_id" => $this->template->post["data"]->brands_id])
               : []
@@ -80,7 +80,7 @@ final class PostsPresenter extends _BasePresenter
       $form->addSelect('brands_models_types_id', 'Configurazione')
            //->setRequired('Scegli il modello di auto')
            ->setPrompt('---')
-           ->setDisabled()
+           ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
               ? $this->utils->getModelTypesOptions($this->template->post["data"]->brands_models_id)
               : []
@@ -91,7 +91,7 @@ final class PostsPresenter extends _BasePresenter
       $form->addSelect('year', 'Anno')
            ->setRequired('Scegli l\'anno')
            ->setPrompt('---')
-           ->setDisabled()
+           ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
               ? $this->utils->getTypeYearsOptions($this->template->post["data"]->brands_models_types_id)
               : []
@@ -102,7 +102,7 @@ final class PostsPresenter extends _BasePresenter
       $form->addSelect('month', 'Mese')
            ->setRequired('Scegli il mese')
            ->setPrompt('----')
-           ->setDisabled()
+           ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
               ? $this->utils->getTypeYearMonthsOptions(
                   $this->template->post["data"]->brands_models_types_id,
