@@ -37,6 +37,16 @@ class FilesWrapper
 
   public function uploadTempFiles($temp_path, $files)
   {
+    return $this->_uploadFiles($config['tempImagesDir'].$temp_path, $files)
+  }
+
+  public function uploadPostFiles($postId, $files)
+  {
+    return $this->_uploadFiles($config['postsImagesDir'].$postId, $files);
+  }
+
+  public function _uploadFiles($path, $files)
+  {
     if (!is_array($files)) {
       $files = [$files];
     }
@@ -55,7 +65,7 @@ class FilesWrapper
     foreach ($files as $file) {
       if ($file->isOk() && $file->isImage()) {
         $imageName = $file->getSanitizedName();
-        $relative = $config['tempImagesDir'].$temp_path.'/'.$imageName;
+        $relative = $path.'/'.$imageName;
         $file->move($config['wwwDir'].$relative);
 
         $tempFiles[] = [
@@ -67,36 +77,6 @@ class FilesWrapper
     }
 
     return $tempFiles;
-  }
-
-  public function uploadPostFiles($postId, $files)
-  {
-    if (empty($files[0])) {
-      return [];
-    }
-
-    $postFiles = [];
-
-    // DIMENSIONI DA GENERARE
-    // 461X307
-    // 801x304
-    $config = $this->presenter->getConfig();
-
-    foreach ($files as $file) {
-      if ($file->isOk() && $file->isImage()) {
-        $imageName = $file->getSanitizedName();
-        $relative = $config['postsImagesDir'].$postId.'/'.$imageName;
-        $file->move($config['wwwDir'].$relative);
-
-        $postFiles[] = [
-          'name' => $imageName,
-          'url' => $this->presenter->getHttpRequest()->getUrl()->getBaseUrl().$relative,
-          'path' => $config['wwwDir'].$relative
-        ];
-      }
-    }
-
-    return $postFiles;
   }
 
   private function deleteUserImages($userId)
