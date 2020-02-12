@@ -303,33 +303,33 @@ final class PostsPresenter extends _BasePresenter
 
     public function submitEditPost(UI\Form $form): void
     {
-        $postId = $_POST["postId"];
-        $values = $form->getValues();
+      $postId = $_POST["postId"];
+      $values = $form->getValues();
 
-        // hack necessario per select dinamico
-        $values->brands_models_id = $_POST["brands_models_id"];
-        $values->brands_models_types_id = $_POST["brands_models_types_id"];
-        $values->year = $_POST["year"];
-        $values->month = $_POST["month"];
+      // hack necessario per select dinamico
+      $values->brands_models_id = $_POST["brands_models_id"];
+      $values->brands_models_types_id = $_POST["brands_models_types_id"];
+      $values->year = $_POST["year"];
+      $values->month = $_POST["month"];
 
-        $result = $this->dbWrapper->editPost($postId, $values);
+      $result = $this->dbWrapper->editPost($postId, $values);
 
-        if ($result === false) {
-             $this->flashMessage("Post non salvato, riprova.", "danger");
+      if ($result === false) {
+         $this->flashMessage("Post non salvato, riprova.", "danger");
+      }
+      else {
+        $postFiles = $this->filesWrapper->moveTempPostImages(
+           $values->tempPath,
+           $postId
+        );
+
+        if (!empty($postFiles)) {
+           $this->dbWrapper->addPostFiles($postId, $postFiles);
         }
-        else {
-             /*$postFiles = $this->filesWrapper->moveTempPostImages(
-                  $values->tempPath,
-                  $postId
-             );
 
-             if (!empty($postFiles)) {
-                  $this->dbWrapper->addPostFiles($postId, $postFiles);
-             }*/
-
-             $this->flashMessage("Post salvato con successo!", "success");
-             $this->redirect('Posts:Listing');
-        }
+        $this->flashMessage("Post salvato con successo!", "success");
+        $this->redirect('Posts:Listing');
+      }
     }
 
     public function handleLoadBrandModels($brandId)
