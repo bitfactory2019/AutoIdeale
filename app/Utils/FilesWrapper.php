@@ -37,7 +37,7 @@ class FilesWrapper
 
   public function uploadTempFiles($temp_path, $files)
   {
-    return $this->_uploadFiles($config['tempImagesDir'].$temp_path, $files)
+    return $this->_uploadFiles($config['tempImagesDir'].$temp_path, $files);
   }
 
   public function uploadPostFiles($postId, $files)
