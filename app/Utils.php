@@ -166,7 +166,7 @@ class Utils
 
         for ($i = 0; $i < 8; $i++)
         {
-            $password .= $chars[\rand(0, \strlen($chars))];
+            $password .= $chars[\rand(0, \strlen($chars) - 1)];
         }
 
         return $password;
