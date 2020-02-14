@@ -292,7 +292,7 @@ final class PostsPresenter extends _BasePresenter
              );
 
              if (!empty($postFiles)) {
-                  $this->dbWrapper->addPostFiles($postId, $postFiles);
+                  $this->dbWrapper->addPostImages($postId, $postFiles);
              }
 
              $this->flashMessage("Post salvato con successo!", "success");

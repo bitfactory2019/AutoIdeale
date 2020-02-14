@@ -37,11 +37,13 @@ class FilesWrapper
 
   public function uploadTempFiles($temp_path, $files)
   {
+    $config = $this->presenter->getConfig();
     return $this->_uploadFiles($config['tempImagesDir'].$temp_path, $files);
   }
 
   public function uploadPostFiles($postId, $files)
   {
+    $config = $this->presenter->getConfig();
     return $this->_uploadFiles($config['postsImagesDir'].$postId, $files);
   }
 
