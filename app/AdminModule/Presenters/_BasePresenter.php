@@ -80,6 +80,11 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
       return $this->utils;
     }
 
+    public function getAuthWrapper()
+    {
+      return $this->authWrapper;
+    }
+
     public function handleAddTempImages()
     {
         $images = $this->getHttpRequest()->getFile('images');

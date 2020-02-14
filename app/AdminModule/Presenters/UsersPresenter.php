@@ -31,7 +31,7 @@ final class UsersPresenter extends _BasePresenter
         $form->addHidden('tempPath')
             ->setDefaultValue($this->template->tempPath ?? "");
 
-       $form->addUpload('image', 'Foto profilo')
+        $form->addUpload('image', 'Foto profilo')
             ->addRule(UI\Form::IMAGE, 'La foto deve essere JPEG, PNG or GIF');
 
         $form->addText('name', 'Nome')
@@ -68,13 +68,16 @@ final class UsersPresenter extends _BasePresenter
              ->setHtmlAttribute('class', 'form-control')
              ->setDefaultValue($this->template->user->mobile ?? "");
 
-         $form->addTextArea('info', 'Informazioni personali')
+        $form->addTextArea('info', 'Informazioni personali')
               ->setHtmlAttribute('class', 'form-control')
               ->setHtmlAttribute('placeholder', 'Scrivi qualcosa su di te')
               ->setDefaultValue($this->template->user->info ?? "");
 
-          $form->addCheckbox('enabled', 'Abilitato')
+        $form->addCheckbox('enabled', 'Abilitato')
               ->setValue($this->template->user->enabled);
+
+        $form->addHidden('enabledHidden', '')
+          ->setValue($this->template->user->enabled);
 
          $form->addPassword('new_password', 'Nuova password')
               ->setHtmlAttribute('class', 'form-control');

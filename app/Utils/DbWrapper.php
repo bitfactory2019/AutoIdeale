@@ -82,7 +82,9 @@ class DbWrapper
                 "cap" => $values->cap,
                 "telephone" => $values->telephone,
                 "info" => $values->info,
-                "enabled" => $values->enabled
+                "enabled" => $this->presenter->getAuthWrapper()->isAdmin()
+                  ? $values->enabled
+                  : $values->enabledHidden
             ];
 
             if (!empty($values->new_password) && ($values->new_password === $values->confirm_password)) {
