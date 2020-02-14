@@ -13,7 +13,11 @@ final class PostsPresenter extends _BasePresenter
 {
     public function renderListing()
     {
-        $this->template->posts = $this->dbWrapper->getPosts($this->template->user['id']);
+      if ($this->isAjax()) {
+        return;
+      }
+
+      $this->template->posts = $this->dbWrapper->getPosts($this->template->user['id']);
     }
 
     public function renderEdit(int $id)
@@ -29,14 +33,14 @@ final class PostsPresenter extends _BasePresenter
 
     public function handleSortPosts($order)
     {
-       $this->template->requests = $this->dbWrapper->getPosts($this->template->user['id'], $order);
+       $this->template->posts = $this->dbWrapper->getPosts($this->template->user['id'], $order);
 
        $this->presenter->redrawControl('posts');
     }
 
-    public function handleDeletePost($postId)
+    public function handleDeletePost($id)
     {
-       $result = $this->dbWrapper->deletePost($postId);
+       $result = $this->dbWrapper->deletePost($id);
 
        if ($result === true) {
            $this->flashMessage("Post cancellato correttamente", "success");

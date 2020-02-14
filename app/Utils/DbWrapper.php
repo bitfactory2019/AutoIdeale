@@ -248,7 +248,7 @@ class DbWrapper
     public function deletePost($postId)
     {
         try {
-            $post = $this->db->table('posts')
+            $this->db->table('posts')
                 ->where('id', $postId)
                 ->delete();
 

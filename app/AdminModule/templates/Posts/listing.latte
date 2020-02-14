@@ -39,7 +39,7 @@
                                         <a n:href="Posts:edit $post[data][id]" class="btn_1 gray"><i class="fa fa-fw fa-edit"></i> Modifica</a>
                                     </p>
                                     <ul class="buttons">
-                                        <li><a href="#{$post[data][id]}" class="btn_1 gray delete wishlist_close delete-post"><i class="fa fa-fw fa-times-circle-o"></i> Cancella</a></li>
+                                        <li><a n:href="deletePost! id => $post[data][id]" class="btn_1 gray delete wishlist_close delete-post"><i class="fa fa-fw fa-times-circle-o"></i> Cancella</a></li>
                                     </ul>
                                 </li>
                             {/foreach}
@@ -80,23 +80,6 @@
                 url: {link sortPosts!},
                 data: {
                     'order': $(this).val(),
-                },
-                success: () => {
-                    $(".list_general").css('opacity', '1');
-                }
-            });
-        });
-
-        $('#posts-list').on('click', 'a.delete-post', function(e) {
-            e.preventDefault();
-
-            $(".list_general").css('opacity', '0.5');
-
-            $.nette.ajax({
-                type: 'GET',
-                url: {link deletePost!},
-                data: {
-                    'id': $(this).attr('href').substr(1),
                 },
                 success: () => {
                     $(".list_general").css('opacity', '1');
