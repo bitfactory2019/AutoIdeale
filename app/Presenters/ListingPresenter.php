@@ -176,7 +176,10 @@ final class ListingPresenter extends _BasePresenter
         $facebookShare = parent::_getFacebookShare();
         $facebookShare->title = $this->template->post['data']->title;
         $facebookShare->description = $this->template->post['data']->description;
-        $facebookShare->image = $this->template->post['thumbnail']->url;
+
+        if (!empty($this->template->post['thumbnail'])) {
+          $facebookShare->image = $this->template->post['thumbnail']->url;
+        }
 
         $this->template->facebookShare = $facebookShare;
     }
