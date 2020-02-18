@@ -97,21 +97,28 @@ final class PostsPresenter extends _BasePresenter
            ->setPrompt('---')
            ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
-              ? $this->utils->getTypeYearsOptions($this->template->post["data"]->brands_models_types_id)
+           //? $this->utils->getTypeYearsOptions($this->template->post["data"]->brands_models_types_id)
+           ? $this->utils->getSequentialKeyValues(1950, 2020)
               : []
            )
            ->setHtmlAttribute('class', 'wide')
            ->setDefaultValue($this->template->post["data"]->year ?? null);
+
+      $months = $this->utils->getSequentialKeyValues(1, 12);
+      foreach ($months as $i => $num) {
+       $months[$i] = \App\Library::MONTHS[$num];
+      }
 
       $form->addSelect('month', 'Mese')
            ->setRequired('Scegli il mese')
            ->setPrompt('----')
            ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
-              ? $this->utils->getTypeYearMonthsOptions(
+              /*? $this->utils->getTypeYearMonthsOptions(
                   $this->template->post["data"]->brands_models_types_id,
                   $this->template->post["data"]->year
-              )
+              )*/
+              ? $months
               : []
            )
            ->setHtmlAttribute('class', 'wide')
@@ -380,7 +387,8 @@ final class PostsPresenter extends _BasePresenter
              $this['addForm']['year']
                   ->setDisabled(false)
                   ->setPrompt("-- Anno --")
-                  ->setItems($this->utils->getTypeYearsOptions($typeId));
+                  //->setItems($this->utils->getTypeYearsOptions($typeId));
+                  ->setItems($this->utils->getSequentialKeyValues(1950, 2020));
         }
         else {
              $this['addForm']['year']
@@ -396,10 +404,17 @@ final class PostsPresenter extends _BasePresenter
     public function handleLoadTypeYearMonths($typeId, $year)
     {
         if ($typeId && $year) {
-             $this['addForm']['month']
-                  ->setDisabled(false)
-                  ->setPrompt("-- Mese --")
-                  ->setItems($this->utils->getTypeYearMonthsOptions($typeId, $year));
+            $months = $this->utils->getSequentialKeyValues(1, 12);
+
+            foreach ($months as $i => $num) {
+              $months[$i] = \App\Library::MONTHS[$num];
+            }
+
+            $this['addForm']['month']
+                ->setDisabled(false)
+                ->setPrompt("-- Mese --")
+                //->setItems($this->utils->getTypeYearMonthsOptions($typeId, $year));
+                ->setItems($months);
         }
         else {
              $this['addForm']['month']

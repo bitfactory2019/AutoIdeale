@@ -171,4 +171,15 @@ class Utils
 
         return $password;
     }
+
+    public function getSequentialKeyValues($from, $to, $step = 1)
+    {
+      $values = [];
+
+      for ($i = $from; $i <= $to; $i = $i + $step) {
+        $values[$i] = $i;
+      }
+
+      return $values;
+    }
 }
