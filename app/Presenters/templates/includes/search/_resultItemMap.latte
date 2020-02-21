@@ -1,0 +1,36 @@
+  <div class="strip map_view" id="result-item-{$post[data]->id}">
+      <div class="row no-gutters">
+          <div class="col-4">
+              <figure>
+                  <a href="#0" class="wish_bt"></a>
+                  <a n:href="Listing:detail $post[data]->id">
+                      <img n:if="$post[thumbnail]" src="{$post[thumbnail]->url}" class="img-fluid" alt="">
+                      <div class="read_more"><span>Scopri</span></div>
+                  </a>
+                  <small>{$post['data']->brands->name}</small>
+              </figure>
+          </div>
+          <div class="col-lg-8">
+              <div class="wrapper">
+                  <a href="#0" class="wish_bt"></a>
+                  <h3><a n:href="Listing:detail $post[data]->id">{$post['data']->title}</a></h3>
+                  <small>{$post['data']->address} {$post['data']->city}</small>
+                  <!--<p>{$post['data']->brands_models->name} del {$post['data']->year}</p>-->
+                  <p>{$post['data']->description|stripHtml|truncate:100}</p>
+                  <a n:if="$post[data]->address" class="address" href="https://www.google.com/maps/search/?api=1&query={$post[data]->address} {$post[data]->city}">Mappa</a>
+              </div>
+              <ul class="post-status">
+                  {if $post['isNotAvailable']}
+                      <li><span class="loc_closed">Non disponibile</span></li>
+                  {elseif $post['isNew']}
+                      <li><span class="loc_open">Nuovo</span></li>
+                  {/if}
+
+                  <!--
+                  <li><div class="score"><span>Superb<em>350 Reviews</em></span><strong>8.9</strong></div></li>
+                  -->
+                  <li></li>
+              </ul>
+          </div>
+      </div>
+  </div>

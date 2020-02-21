@@ -1,95 +1,92 @@
-<aside class="col-lg-3" id="sidebar">
-    <div id="filters_col">
-        <a data-toggle="collapse" href="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters" id="filters_col_bt">Filtri </a>
-        <div class="collapse show" id="collapseFilters">
-            <div id="filters-brands" class="filter_type">
-                <h6>Case automobilistiche</h6>
-                <ul>
-                    {foreach $searchResults['brands'] as $row}
-                        <li>
-                            <label class="container_check">
-                                {$row->brands->name}
-                                <small>{$row->tot}</small>
-                                <input type="checkbox" name="brands_id" value="{$row->brands_id}">
-                                <span class="checkmark"></span>
-                            </label>
-                        </li>
-                    {/foreach}
-                </ul>
-            </div>
+{default $collapse = false}
 
-            <div id="filters-price" class="filter_type">
-                <h6>Prezzo</h6>
-                <div class="distance">Fino a <span></span> €</div>
-                <input type="range" name="price" min="0" max="20000" step="1000" value="20000" data-orientation="horizontal">
-            </div>
+{dump $collapse}
+<div n:class="true ? collapse, true ? map_view, $collapse ? force-hide" id="collapseFilters">
+  <div id="filters-brands" class="filter_type">
+    <h6>Case automobilistiche</h6>
+    <ul>
+      {foreach $searchResults['brands'] as $row}
+        <li>
+          <label class="container_check">
+            {$row->brands->name}
+            <small>{$row->tot}</small>
+            <input type="checkbox" name="brands_id" value="{$row->brands_id}">
+            <span class="checkmark"></span>
+          </label>
+        </li>
+      {/foreach}
+    </ul>
+  </div>
 
-            <div id="filters-fuel-types" class="filter_type">
-                <h6>Carburante</h6>
-                <ul>
-                    {foreach $searchResults['fuel_types'] as $row}
-                        <li>
-                            <label class="container_check">
-                                {$row->fuel_types->name}
-                                <small>{$row->tot}</small>
-                                <input type="checkbox" name="fuel_types_id" value="{$row->fuel_types_id}">
-                                <span class="checkmark"></span>
-                            </label>
-                        </li>
-                    {/foreach}
-                </ul>
-            </div>
-        </div>
-        <!--/collapse -->
-    </div>
-    <!--/filters col-->
-</aside>
+  <div id="filters-price" class="filter_type">
+    <h6>Prezzo</h6>
+    <div class="distance">Fino a <span></span> €</div>
+    <input type="range" name="price" min="0" max="20000" step="1000" value="20000" data-orientation="horizontal">
+  </div>
+
+  <div id="filters-fuel-types" class="filter_type">
+    <h6>Carburante</h6>
+    <ul>
+      {foreach $searchResults['fuel_types'] as $row}
+        <li>
+          <label class="container_check">
+            {$row->fuel_types->name}
+            <small>{$row->tot}</small>
+            <input type="checkbox" name="fuel_types_id" value="{$row->fuel_types_id}">
+            <span class="checkmark"></span>
+          </label>
+        </li>
+      {/foreach}
+    </ul>
+  </div>
+</div>
+<!--/collapse -->
 
 <script>
-    $('#filters-brands input').on('click', function (e) {
-        $('#search-results-wrapper .loading').addClass('active');
+  $('#filters-brands input').on('click', function (e) {
+    $('#search-results-wrapper .loading').addClass('active');
 
-        $.nette.ajax({
-            type: 'GET',
-            url: {link filterBrandsResults!},
-            data: {
-                'brands_id': e.target.value,
-                'checked': e.target.checked ? 1 : 0
-            },
-            success: function(data) {
-                $('#search-results-wrapper .loading').removeClass('active');
-            }
-        });
+    $.nette.ajax({
+      type: 'GET',
+      url: {link filterBrandsResults!},
+      data: {
+        'brands_id': e.target.value,
+        'checked': e.target.checked ? 1 : 0
+      },
+      success: function(data) {
+        $('#search-results-wrapper .loading').removeClass('active');
+      }
     });
+  });
 
-    $('#filters-price input').on('change', function(e) {
-        $('#search-results-wrapper .loading').addClass('active');
+  $('#filters-price input').on('change', function(e) {
+    $('#search-results-wrapper .loading').addClass('active');
 
-        $.nette.ajax({
-            type: 'GET',
-            url: {link filterPriceResults!},
-            data: {
-                'price': e.target.value
-            },
-            success: function(data) {
-                $('#search-results-wrapper .loading').removeClass('active');
-            }
-        });
+    $.nette.ajax({
+      type: 'GET',
+      url: {link filterPriceResults!},
+      data: {
+        'price': e.target.value
+      },
+      success: function(data) {
+        $('#search-results-wrapper .loading').removeClass('active');
+      }
     });
+  });
 
-    $('#filters-fuel-types input').on('click', function (e) {
-        $('#search-results-wrapper .loading').addClass('active');
+  $('#filters-fuel-types input').on('click', function (e) {
+    $('#search-results-wrapper .loading').addClass('active');
 
-        $.nette.ajax({
-            type: 'GET',
-            url: {link filterFuelTypesResults!},
-            data: {
-                'fuel_types_id': e.target.value,
-                'checked': e.target.checked ? 1 : 0
-            },
-            success: function(data) {
-                $('#search-results-wrapper .loading').removeClass('active');
-            }
-        });
+    $.nette.ajax({
+      type: 'GET',
+      url: {link filterFuelTypesResults!},
+      data: {
+        'fuel_types_id': e.target.value,
+        'checked': e.target.checked ? 1 : 0
+      },
+      success: function(data) {
+        $('#search-results-wrapper .loading').removeClass('active');
+      }
     });
+  });
 </script>

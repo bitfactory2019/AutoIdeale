@@ -7,27 +7,122 @@
 {block subheader}{/block}
 
 {block content}
-    <div class="container-fluid full-height">
-        <div class="row row-height">
-            {include './_list.latte', 'width' => 5 }
+  <div class="container-fluid full-height">
+    <div class="row row-height">
+      {snippetArea resultsWrapper}
+        {include './_list.latte', 'width' => 5 }
+      {/snippetArea}
 
-            <div class="col-lg-7 map-right">
-                <div id="map_right_listing"></div>
-                <!-- map-->
-            </div>
-			<!-- /map-right-->
-        </div>
-        <!-- /row-->
+      <div class="col-lg-7 map-right">
+        <div id="map_right_listing"></div>
+      </div>
     </div>
-    <!-- /container-fluid -->
+  </div>
 {/block}
 
 {block scripts}
-    {include parent}
+  {include parent}
 
+  {snippet resultsMap}
 	<!-- Map -->
-	<script src="https://maps.googleapis.com/maps/api/js"></script>
-	<script src="js/markerclusterer.js"></script>
-	<script src="js/listing_map.js"></script>
-	<script src="js/infobox.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
+  <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYXV0b2lkZWFsZSIsImEiOiJjazZreGhjZHQwMzYwM2Zxc2Iza2QzenB5In0.gSyjkkYqOh8ngSMnLvz3Aw';
+    var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+    var map = new mapboxgl.Map({
+      container: 'map_right_listing',
+      style: 'mapbox://styles/mapbox/streets-v11'
+    });
+
+    // Create a popup, but don't add it to the map yet.
+    var popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false
+    });
+
+    map.on('mouseenter', 'places', function(e) {
+      // Change the cursor style as a UI indicator.
+      map.getCanvas().style.cursor = 'pointer';
+
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      var description = e.features[0].properties.description;
+
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+      // Populate the popup and set its coordinates
+      // based on the feature found.
+      popup
+        .setLngLat(coordinates)
+        .setHTML(description)
+        .addTo(map);
+    });
+
+    var bounds = [];
+    var minBound = [];
+    var maxBound = [];
+
+    {foreach $searchResults['page'] as $post}
+      mapboxClient.geocoding.forwardGeocode({
+          query: {$post[data]->address.' '.$post[data]->city.' '.$post[data]->cap},
+          types:  ['address'],
+          language: ['it'],
+          countries: ['it'],
+          limit: 2
+        })
+        .send()
+        .then(response => {
+          var resultItem = document.getElementById('result-item-{$post[data]->id}').cloneNode(true);
+          var popup = new mapboxgl.Popup({ offset: 25 })
+            .setDOMContent(resultItem)
+            .setMaxWidth('450px');
+
+          var marker = new mapboxgl.Marker()
+            .setLngLat(response.body.features[0].center)
+            .setPopup(popup)
+            .addTo(map);
+
+          bounds.push(response.body.features[0].center);
+
+          minBound = [getMinBound(bounds, 0), getMinBound(bounds, 1)];
+          maxBound = [getMaxBound(bounds, 0), getMaxBound(bounds, 1)];
+
+          map.fitBounds([minBound, maxBound]);
+        });
+      {/foreach}
+
+      function getMinBound(bounds, index)
+      {
+        var min = false;
+
+        for (var i = 0; i < bounds.length; i++) {
+          if (!min || bounds[i][index] < min) {
+            min = bounds[i][index];
+          }
+        }
+
+        return min;
+      }
+
+      function getMaxBound(bounds, index)
+      {
+        var max = false;
+
+        for (var i = 0; i < bounds.length; i++) {
+          if (!max || bounds[i][index] > max) {
+            max = bounds[i][index];
+          }
+        }
+
+        return max;
+      }
+  </script>
+  {/snippet}
 {/block}

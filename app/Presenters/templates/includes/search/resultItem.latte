@@ -1,5 +1,7 @@
 {if $view == 'list'}
-    {include './_resultItemList.latte', 'post' => $post}
+  {include './_resultItemList.latte', 'post' => $post}
+{elseif $view == 'map'}
+  {include './_resultItemMap.latte', 'post' => $post}
 {else}
-    {include './_resultItemGrid.latte', 'post' => $post}
+  {include './_resultItemGrid.latte', 'post' => $post}
 {/if}

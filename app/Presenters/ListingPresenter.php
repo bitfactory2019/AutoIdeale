@@ -9,6 +9,10 @@ use Nette\Application\UI;
 
 final class ListingPresenter extends _BasePresenter
 {
+  public function renderIndex()
+  {
+    $this->renderSearchResults();
+  }
     public function createComponentSearchForm(): UI\Form
     {
         return $this->formComponent->createComponentSearchForm();
@@ -165,6 +169,8 @@ final class ListingPresenter extends _BasePresenter
 
         $this->template->searchResults = $results;
 
+        $this->redrawControl('resultsWrapper');
+        $this->redrawControl('resultsTotal');
         $this->redrawControl('results');
     }
 

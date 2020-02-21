@@ -120,6 +120,22 @@
   color: red;
 }
 
+.collapse.force-hide {
+  display: none !important;
+}
+
+.mapboxgl-popup-content .strip.map_view {
+  margin-top: 5px;
+  min-width: 430px;
+  margin-bottom: 0px;
+}
+.mapboxgl-popup-content .strip.map_view .post-status {
+  display: none;
+}
+.mapboxgl-popup-content .strip.map_view .address {
+  display: none;
+}
+
 @media (max-width: 767px) {
   .hero_single.version_5 {
     height: 610px;
