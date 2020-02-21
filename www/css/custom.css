@@ -44,7 +44,7 @@
 }
 
 .hero_in.restaurant_detail {
-  height: 200px;
+  height: 300px;
 }
 .hero_in.restaurant_detail:before {
   background: none;
