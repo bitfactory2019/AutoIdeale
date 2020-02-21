@@ -119,3 +119,13 @@
 .btn_1.wishlist i.liked {
   color: red;
 }
+
+@media (max-width: 767px) {
+  .hero_single.version_5 {
+    height: 610px;
+  }
+
+  .hero_single.version_5 .wrapper {
+    padding-top: 30px;
+  }
+}
