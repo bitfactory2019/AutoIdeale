@@ -444,6 +444,27 @@ class DbWrapper
         }
     }
 
+    public function sendPostMessage($values)
+    {
+        try {
+            $message = $this->db->table('posts_messages')->insert([
+                'posts_id' => $values->postId,
+                'status' => 'pending',
+                'name' => $values->name,
+                'email' => $values->email,
+                'telephone' => $values->telephone,
+                'message' => $values->message,
+                'creation_time' => \time()
+            ]);
+
+            return $message->getPrimary();
+        }
+        catch (\PDOException $e) {
+            Debugger::dump($e);
+            return false;
+        }
+    }
+
     public function getBrands($brandsNo = false, $modelsNo = false)
     {
       return $this->_getBrands($brandsNo, $modelsNo);

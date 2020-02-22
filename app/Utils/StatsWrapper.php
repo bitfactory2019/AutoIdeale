@@ -46,4 +46,9 @@ class StatsWrapper
   {
     $this->_addPostStat($postId, "request");
   }
+
+  public function addMessage($postId)
+  {
+    $this->_addPostStat($postId, "message");
+  }
 }

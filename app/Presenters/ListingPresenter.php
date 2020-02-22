@@ -252,4 +252,57 @@ final class ListingPresenter extends _BasePresenter
             $this->redirect('Listing:detail', $values->postId);
         }
     }
+
+    public function createComponentContactForm(): UI\Form
+    {
+        $form = new UI\Form;
+
+        $form->addHidden('postId')
+             ->setDefaultValue($this->template->post['data']->id ?? '');
+
+        $form->addText('name', 'Nome e cognome')
+            ->setRequired('Inserisci nome e cognome')
+            ->setHtmlAttribute('placeholder', 'Il tuo nome...')
+            ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('email', 'Indirizzo e-mail')
+            ->setRequired('Campo obbligatorio')
+            ->addRule(UI\Form::EMAIL, 'Inserisci un indirizzo email valido')
+            ->setHtmlAttribute('placeholder', 'La tua email...')
+            ->setHtmlAttribute('class', 'form-control');
+
+        $form->addText('telephone', 'Numero di cellulare')
+            ->setRequired('Campo obbligatorio')
+            //->addRule(UI\Form::PATTERN, 'Inserisci un numero di telefono valido', '([0-9]\s*{8,}')
+            ->setHtmlAttribute('placeholder', 'Numero di telefono...')
+            ->setHtmlAttribute('class', 'form-control');
+
+        $form->addTextArea('message', 'Scrivi un messaggio')
+          ->setRequired('Campo obbligatorio')
+          ->setHtmlAttribute('placeholder', 'Scrivi un messaggio...')
+          ->setHtmlAttribute('class', 'form-control');
+
+        $form->addSubmit('contact', 'Invia');
+
+        $form->onSubmit[] = [$this, 'submitSendMessage'];
+
+        return $form;
+    }
+
+    public function submitSendMessage(UI\Form $form): void
+    {
+        $values = $form->getValues();
+
+        $result = $this->dbWrapper->sendPostMessage($values);
+
+        if ($result === false) {
+            $this->flashMessage("Messaggio non inviato, riprova.", "danger");
+        }
+        else {
+            $this->statsWrapper->addMessage($values->postId);
+
+            $this->flashMessage("Il tuo messaggio è stato inviato correttamente!", "success");
+            $this->redirect('Listing:detail', $values->postId);
+        }
+    }
 }

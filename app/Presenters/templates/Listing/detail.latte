@@ -12,12 +12,6 @@
     {include '../includes/post/description.latte'}
 
     <div class="container margin_60_35">
-        {foreach $flashes as $flash}
-            <div class="alert alert-{$flash->type}" role="alert">
-                {$flash->message}
-            </div>
-        {/foreach}
-
         <div class="row">
             <div class="box_detail col-lg-8">
                 {include '../includes/post/details.latte', 'post' => $post}
