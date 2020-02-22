@@ -145,3 +145,10 @@
     padding-top: 30px;
   }
 }
+
+#sidebar a.wishlist {
+  width: 100%;
+}
+#sidebar a.wishlist:hover {
+  color: #FFF !important;
+}
