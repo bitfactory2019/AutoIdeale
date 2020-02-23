@@ -282,6 +282,9 @@ final class ListingPresenter extends _BasePresenter
           ->setHtmlAttribute('placeholder', 'Scrivi un messaggio...')
           ->setHtmlAttribute('class', 'form-control');
 
+        $form->addInvisibleReCaptcha('recaptcha')
+          ->setMessage('Are you a bot?');
+
         $form->addSubmit('contact', 'Invia');
 
         $form->onSubmit[] = [$this, 'submitSendMessage'];

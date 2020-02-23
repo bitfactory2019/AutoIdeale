@@ -17,10 +17,10 @@
 		"nette/mail": "^3.0",
 		"nette/robot-loader": "^3.0",
 		"nette/security": "^3.0",
-		"nette/utils": "^3.0",
 		"latte/latte": "^2.5",
 		"tracy/tracy": "^2.6",
-		"ublaboo/datagrid": "^6.2"
+		"ublaboo/datagrid": "^6.2",
+		"contributte/recaptcha": "^3.2"
 	},
 	"require-dev": {
 		"nette/tester": "^2.0"
