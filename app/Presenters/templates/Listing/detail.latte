@@ -29,26 +29,20 @@
 {/block}
 
 {block scripts}
-    {include parent}
-
-	<!-- Map -->
-	<script src="https://maps.googleapis.com/maps/api/js"></script>
-	<script src="js/map_single_restaurant.js"></script>
-	<script src="js/infobox.js"></script>
-
+  {include parent}
 	<!-- DATEPICKER  -->
 	<script>
-        $('#request-date').daterangepicker({
-            "singleDatePicker": true,
-            "parentEl": '#input-dates',
-            "opens": "left",
-            "locale": {
-              "format": "dddd DD/MM/YYYY",
-              "daysOfWeek": ['Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa', 'Do'],
-              "monthNames": ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic']
-            }
-        }, function(start, end, label) {
-            console.log('New date range selected: ' + start.format('DD/MM/YYYY') + ' to ' + end.format('DD-MM-YYYY') + ' (predefined range: ' + label + ')');
-        });
-    </script>
+    $('#request-date').daterangepicker({
+      "singleDatePicker": true,
+      "parentEl": '#input-dates',
+      "opens": "left",
+      "locale": {
+        "format": "dddd DD/MM/YYYY",
+        "daysOfWeek": ['Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa', 'Do'],
+        "monthNames": ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic']
+      }
+    }, function(start, end, label) {
+      console.log('New date range selected: ' + start.format('DD/MM/YYYY') + ' to ' + end.format('DD-MM-YYYY') + ' (predefined range: ' + label + ')');
+    });
+  </script>
 {/block}

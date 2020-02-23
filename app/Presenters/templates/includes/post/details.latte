@@ -75,3 +75,36 @@
     {/if}
 </section>
 <!-- /section -->
+
+
+<!-- Map -->
+<script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
+<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiYXV0b2lkZWFsZSIsImEiOiJjazZreGhjZHQwMzYwM2Zxc2Iza2QzenB5In0.gSyjkkYqOh8ngSMnLvz3Aw';
+  var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+
+
+  mapboxClient.geocoding.forwardGeocode({
+    query: {$post[data]->cap.' '.$post[data]->address.' '.$post[data]->city},
+    types:  ['address', 'postcode'],
+    language: ['it'],
+    countries: ['it'],
+    limit: 5
+  })
+  .send()
+  .then(response => {
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: response.body.features[0].center,
+      zoom: 15
+    });
+
+    var marker = new mapboxgl.Marker()
+      .setLngLat(response.body.features[0].center)
+      .addTo(map);
+  });
+</script>
