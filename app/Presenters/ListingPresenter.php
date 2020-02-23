@@ -229,6 +229,9 @@ final class ListingPresenter extends _BasePresenter
              ->setItems($this->utils->getHours(), false)
              ->setHtmlAttribute('class', 'form-control wide');
 
+        $form->addInvisibleReCaptcha('recaptcha')
+          ->setMessage('Are you a bot?');
+
         $form->addSubmit('book', 'Prenota');
 
         $form->onSubmit[] = [$this, 'submitSendRequest'];
