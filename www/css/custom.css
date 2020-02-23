@@ -152,3 +152,7 @@
 #sidebar a.wishlist:hover {
   color: #FFF !important;
 }
+
+.g-recaptcha .grecaptcha-badge {
+  left: -9999px;
+}
