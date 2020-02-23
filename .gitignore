@@ -6,7 +6,7 @@ www/temp
 www/utils.php
 app/Presenters/TestPresenter.php
 app/Presenters/templates/Test/index.latte
-#/vendor
+/vendor
 app/config/local.neon
 /www/admin/bower_components
 composer.lock
