@@ -1,0 +1,24 @@
+parameters:
+
+database:
+	dsn: 'mysql:host=autoideale.it;dbname=autoideale_develop'
+	user: 'autoideale_dev'
+	password: 'MEQSj2yQBf'
+
+session:
+	autoStart: true # default is 'smart'
+	debugger: true
+
+services:
+  nette.latteFactory:
+    setup:
+      - addFilter(month, @App\Filters\MonthFilter)
+
+  - App\Filters\MonthFilter
+
+extensions:
+    recaptcha: Contributte\ReCaptcha\DI\ReCaptchaExtension
+
+recaptcha:
+    secretKey: '6LfNm9gUAAAAAN4W_qSf9FiliIxseGKewmRLl0FI'
+    siteKey: '6LfNm9gUAAAAAKOofoad-0hzBZp_wKqDyd8DI9Ed'
