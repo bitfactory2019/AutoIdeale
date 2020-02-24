@@ -2,7 +2,6 @@
 
 namespace App\Utils;
 
-use Nette\Diagnostic\Debugger;
 use Tracy\Debugger;
 use Nette\Utils\DateTime;
 use Nette\Utils\Random;
