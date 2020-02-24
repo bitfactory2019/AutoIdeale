@@ -91,4 +91,40 @@ class EmailWrapper
         catch (\Exception $e) {
         }
     }
+
+    public function sendNewMessageUser($threadId)
+    {
+      $thread = $this->db->table("posts_threads")->get($threadId);
+      $lastMessage = $thread->related('posts_threads_messages')
+        ->where('from', 'visitor')
+        ->where('new', true)
+        ->order('datetime DESC')
+        ->limit(1)
+        ->fetch();
+
+      $template = new \Latte\Engine;
+      $mail = new Mail\Message;
+      $config = $this->presenter->context->getParameters();
+      $user = $this->db->table('users')->get($thread->posts->users->id);
+
+      $mail->setFrom('AutoIdeale <noreply@autoideale.it>')
+        ->addTo($user->email)
+        ->setHtmlBody(
+          $template->renderToString($config['templateEmailsDir'].'newMessageUser.latte', [
+            "user" => $thread->posts->users,
+            "thread" => $thread,
+            "message" => $lastMessage,
+            "postLink" => $this->presenter->link("//Listing:detail", ["postId" => $thread->posts_id]),
+            "messagesLink" => $this->presenter->link("//Admin:Messages:detail", $threadId)
+          ])
+        );
+
+      try {
+        $this->mailer->send($mail);
+      }
+      catch (\Exception $e) {
+        dump($e);
+        exit;
+      }
+    }
 }

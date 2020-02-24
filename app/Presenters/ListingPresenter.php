@@ -299,12 +299,13 @@ final class ListingPresenter extends _BasePresenter
     {
         $values = $form->getValues();
 
-        $result = $this->dbWrapper->sendPostMessage($values);
+        $threadId = $this->dbWrapper->sendPostMessage($values);
 
-        if ($result === false) {
+        if ($threadId === false) {
             $this->flashMessage("Messaggio non inviato, riprova.", "danger");
         }
         else {
+            $this->emailWrapper->sendNewMessageUser($threadId);
             $this->statsWrapper->addMessage($values->postId);
 
             $this->flashMessage("Il tuo messaggio è stato inviato correttamente!", "success");

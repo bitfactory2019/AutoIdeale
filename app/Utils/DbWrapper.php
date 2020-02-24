@@ -3,7 +3,9 @@
 namespace App\Utils;
 
 use Nette\Diagnostic\Debugger;
+use Tracy\Debugger;
 use Nette\Utils\DateTime;
+use Nette\Utils\Random;
 
 class DbWrapper
 {
@@ -449,6 +451,7 @@ class DbWrapper
       try {
         $thread = $this->db->table('posts_threads')->insert([
           'posts_id' => $values->postId,
+          'hash' => Random::generate(45),
           'name' => $values->name,
           'email' => $values->email,
           'telephone' => $values->telephone,
@@ -459,13 +462,13 @@ class DbWrapper
 
         $message = $this->db->table('posts_threads_messages')->insert([
           'posts_threads_id' => $threadId,
-        'status' => 'pending',
-        'from' => 'visitor',
-        'message' => $values->message,
-        'datetime' => \time()
-        ]);
+          'new' => true,
+          'from' => 'visitor',
+          'message' => $values->message,
+          'datetime' => \time()
+          ]);
 
-        return $message;
+        return $threadId;
       }
       catch (\PDOException $e) {
         Debugger::dump($e);
