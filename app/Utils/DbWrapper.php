@@ -446,23 +446,50 @@ class DbWrapper
 
     public function sendPostMessage($values)
     {
-        try {
-            $message = $this->db->table('posts_messages')->insert([
-                'posts_id' => $values->postId,
-                'status' => 'pending',
-                'name' => $values->name,
-                'email' => $values->email,
-                'telephone' => $values->telephone,
-                'message' => $values->message,
-                'creation_time' => \time()
-            ]);
+      try {
+        $thread = $this->db->table('posts_threads')->insert([
+          'posts_id' => $values->postId,
+          'name' => $values->name,
+          'email' => $values->email,
+          'telephone' => $values->telephone,
+          'creation_time' => \time()
+        ]);
 
-            return $message->getPrimary();
-        }
-        catch (\PDOException $e) {
-            Debugger::dump($e);
-            return false;
-        }
+        $threadId = $thread->getPrimary();
+
+        $message = $this->db->table('posts_threads_messages')->insert([
+          'posts_threads_id' => $threadId,
+        'status' => 'pending',
+        'from' => 'visitor',
+        'message' => $values->message,
+        'datetime' => \time()
+        ]);
+
+        return $message;
+      }
+      catch (\PDOException $e) {
+        Debugger::dump($e);
+        return false;
+      }
+    }
+
+    public function addThreadMessage($values)
+    {
+      try {
+        $message = $this->db->table('posts_threads_messages')->insert([
+          'posts_threads_id' => $values->threadId,
+          'new' => $values->new,
+          'from' => $values->from,
+          'message' => $values->message,
+          'datetime' => \time()
+        ]);
+
+        return $message;
+      }
+      catch (\PDOException $e) {
+          Debugger::dump($e);
+          return false;
+      }
     }
 
     public function getBrands($brandsNo = false, $modelsNo = false)
@@ -538,9 +565,34 @@ class DbWrapper
         return $posts;
     }
 
-    public function getMessages($userId, $only_new = false)
+    public function getThreads($userId, $only_new = false)
     {
-        return [];
+      return $this->db->table("posts_threads")
+        ->where("posts.users_id", $userId);
+    }
+
+    public function getThread($threadId)
+    {
+      return $this->db->table("posts_threads")->get($threadId);
+    }
+
+    public function getThreadMessages($threadId)
+    {
+      return $this->db->table("posts_threads_messages")
+        ->where("posts_threads_id", $threadId);
+    }
+
+    public function getMessages($userId)
+    {
+      return $this->db->table('posts_threads_messages')
+        ->group('posts_threads.posts.users_id');
+    }
+
+    public function saveAllRead($threadId)
+    {
+      $this->db->table('posts_threads_messages')
+        ->where('posts_threads_id', $threadId)
+        ->update(['new' => false]);
     }
 
     public function getRequests($userId, $status = 'all')

@@ -13,20 +13,21 @@
 			<h4>In Arrivo</h4>
 			<div class="list_general">
 				<ul>
-          {foreach $messages as $message}
+          {foreach $threads as $thread}
+            {var $lastMessage = $thread->related('posts_threads_messages')->order('datetime DESC')->limit(1)->fetch()}
   					<li>
-  						<span>{$message[data]->creation_time|date:'%d/%m/%Y alle %H:%m'}</span>
-  						<figure><img src="{$message[post][thumbnail]}" alt=""></figure>
+  						<span>{$lastMessage->datetime|date:'%d/%m/%Y alle %H:%M'}</span>
+  						<figure><img src="{$thread->posts->related('posts_images')->limit(1)->fetch()->url}" alt=""></figure>
   						<h4>
-                {$message[data]->name}
-                <i n:if="$message[data]->new" class="unread">Nuovo</i>
+                {$thread->name}
+                per
+                <a n:href=":Listing:detail $thread->posts->id" target="_blank">{$thread->posts->title} <i class="fa fa-external-link"></i></a>
+                <i n:if="$lastMessage->new" class="unread">Nuovo</i>
               </h4>
               <p class="message-request">
-                Richiesta appuntamento per l'annuncio
-                <strong><a n:href=":Listing:detail $message[data]->posts->id" target="_blank">{$message[data]->posts->title} <i class="fa fa-external-link"></i></a></strong><br />
-                <i class="fa fa-calendar-o"></i><strong>{$message[data]->date_time|date:'%d/%m/%Y'}</strong><br />
-                <i class="fa fa-clock-o"></i><strong>{$message[data]->date_time|date:'%H:%M'}</strong>
+                {$lastMessage->message}
               </p>
+              <p><a n:href="Messages:detail threadId => $thread->id" class="btn_1 gray"><i class="fa fa-fw fa-envelope"></i> Invia messaggio</a></p>
   					</li>
           {/foreach}
 				</ul>
