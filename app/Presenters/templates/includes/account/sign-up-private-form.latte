@@ -1,15 +1,83 @@
-<div class="private box row no-gutters">
-  <div class="col-6 pr-1">
-    <div class="form-group">
-      {label name /}
-      {input name class => 'form-control'}
+{form signUpPrivateForm}
+  <div class="row no-gutters">
+    <div class="col-6 pr-1">
+      <div class="form-group">
+        {label name /}
+        {input name class => 'form-control'}
+      </div>
+    </div>
+    <div class="col-6 pl-1">
+      <div class="form-group">
+        {label surname /}
+        {input surname class => 'form-control'}
+      </div>
     </div>
   </div>
-  <div class="col-6 pl-1">
-    <div class="form-group">
-      {label surname /}
-      {input surname class => 'form-control'}
+  <!-- /row -->
+  <div class="row no-gutters">
+    <div class="col-12">
+      <div class="form-group">
+        {label address /}
+        {input address class => 'form-control'}
+      </div>
     </div>
   </div>
-</div>
-<!-- /row -->
+
+  <div class="row no-gutters">
+    <div class="col-6 pr-1">
+      <div class="form-group">
+        {label city /}
+        {input city class => 'form-control'}
+      </div>
+    </div>
+    <div class="col-6 pl-1">
+      <div class="form-group">
+        {label cap /}
+        {input cap class => 'form-control'}
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-group">
+        {label country /}
+        {input country class => "form-control wide add_bottom_10"}
+      </div>
+    </div>
+  </div>
+  <!-- /row -->
+  <div class="row no-gutters">
+    <div class="col-6 pr-1">
+      <div class="form-group">
+        {label telephone /}
+        {input telephone class => 'form-control'}
+      </div>
+    </div>
+    <div class="col-6 pl-1">
+      <div class="form-group">
+        {label mobile /}
+        {input mobile class => 'form-control'}
+      </div>
+    </div>
+  </div>
+  <!-- /row -->
+
+  <hr>
+  <div class="form-group">
+    {label email /}
+    {input email class => 'form-control'}
+  </div>
+  <div class="form-group">
+    {label password /}
+    {input password class => 'form-control'}
+  </div>
+  <hr>
+
+  <div class="form-group">
+    <label class="container_check">Accetta i <a href="#0">Termini e condizioni d'uso</a>
+      <input type="checkbox" name="accept_tos">
+      <span class="checkmark"></span>
+    </label>
+  </div>
+  <div class="text-center">
+    {input signUp class => "btn_1 full-width"}
+  </div>
+{/form}

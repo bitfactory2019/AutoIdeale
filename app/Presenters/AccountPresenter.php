@@ -76,86 +76,99 @@ final class AccountPresenter extends _BasePresenter
         return $form;
     }
 
-    protected function createComponentSignUpForm()
+    protected function createComponentSignUpPrivateForm()
     {
-        $form = new Form();
+      $form = new Form();
 
-        $form->addEmail('email', 'Email')->setRequired();
-        $form->addPassword('password', 'Password')->setRequired();
+      $form->addHidden('client_type')
+        ->setDefaultValue('private');
 
-        $form->addRadioList('client_type')
-             ->setItems([
-               'private' => 'Privato',
-               'company' => 'Azienda'
-             ])
-             ->setDefaultValue('private');
+      $form->addText('name', 'Nome')->setRequired();
+      $form->addText('surname', 'Cognome')->setRequired();
 
-        $form->addText('name', 'Nome')
-             ->addConditionOn($form['client_type'], Form::EQUAL, 'private')
-             ->setRequired();
+      $form->addText('address', 'Indirizzo')->setRequired();
+      $form->addText('city', 'Città')->setRequired();
+      $form->addText('cap', 'Codice postale')->setRequired();
 
-        $form->addText('surname', 'Cognome')
-             ->addConditionOn($form['client_type'], Form::EQUAL, 'private')
-             ->setRequired();
+      $form->addSelect('country', 'Paese')
+        ->setItems(['Europa', 'Stati Uniti', 'Asia'], false);
 
-        $form->addText('company_name', 'Ragione Sociale')
-             ->addConditionOn($form['client_type'], Form::EQUAL, 'company')
-             ->setRequired();
+      $form->addText('telephone', 'Telefono')->setRequired();
+      $form->addText('mobile', 'Cellulare')->setRequired();
 
-        $form->addText('unique_code', 'Codice Univoco')
-             ->addConditionOn($form['client_type'], Form::EQUAL, 'company')
-             ->setRequired();
+      $form->addEmail('email', 'Email')->setRequired();
+      $form->addPassword('password', 'Password')->setRequired();
 
-        $form->addText('email_pec', 'Indirizzo e-mail PEC')
-             ->addConditionOn($form['client_type'], Form::EQUAL, 'company')
-             ->setRequired();
+      $form->addSubmit('signUp', 'Registrati');
 
-        $form->addText('iban', 'Codice IBAN')
-             ->addConditionOn($form['client_type'], Form::EQUAL, 'company')
-             ->setRequired();
-
-        $form->addText('address', 'Indirizzo')->setRequired();
-        $form->addText('city', 'Città')->setRequired();
-        $form->addText('cap', 'Codice postale')->setRequired();
-
-        $form->addSelect('country', 'Paese')
-             ->setItems(['Europa', 'Stati Uniti', 'Asia'], false);
-
-        $form->addText('telephone', 'Telefono')
-             ->addConditionOn($form['client_type'], Form::EQUAL, 'private')
-             ->setRequired();
-        $form->addText('mobile', 'Cellulare')
-             ->addConditionOn($form['client_type'], Form::EQUAL, 'private')
-             ->setRequired();
-
-        $form->addSubmit('signUp', 'Registrati');
-
-        $form->onSuccess[] = function() use ($form) {
-            $values = $form->getValues();
-
-            $user = $this->dbWrapper->getUserByEmail($values->email);
-
-            if ($user) {
-                $this->flashMessage("L'email inserita è già registrata. Prova il recupero dei dati di accesso.", "danger");
-            }
-            else {
-                $userId = $this->dbWrapper->addUser($values);
-
-                if ($userId === false) {
-                    $this->flashMessage("Si è verificato un errore con la registrazione, contatta l'assistenza.", "danger");
-                }
-                else {
-                    $this->emailWrapper->sendNewUserConfirmation($values);
-
-                    $this->flashMessage("La registrazione è avvenuta con successo!", "success");
-                    $this->flashMessage("Un amministratore attiverà il tuo account appena possibile.", "success");
-
-                    //$this->redirect("Registration:signIn");
-                }
-            }
-        };
+      $form->onSuccess[] = [$this, 'submitSignUp'];
 
       return $form;
+    }
+
+    protected function createComponentSignUpCompanyForm()
+    {
+      $form = new Form();
+
+      $form->addHidden('client_type')
+        ->setDefaultValue('company');
+
+      $form->addText('company_name', 'Ragione Sociale')
+        ->setRequired();
+
+      $form->addText('unique_code', 'Codice Univoco')
+        ->setRequired();
+
+      $form->addText('email_pec', 'Indirizzo e-mail PEC')
+        ->setRequired();
+
+      $form->addText('iban', 'Codice IBAN')
+        ->setRequired();
+
+      $form->addText('address', 'Indirizzo')->setRequired();
+      $form->addText('city', 'Città')->setRequired();
+      $form->addText('cap', 'Codice postale')->setRequired();
+
+      $form->addSelect('country', 'Paese')
+        ->setItems(['Europa', 'Stati Uniti', 'Asia'], false);
+
+      $form->addText('telephone', 'Telefono');
+      $form->addText('mobile', 'Cellulare');
+
+      $form->addEmail('email', 'Email')->setRequired();
+      $form->addPassword('password', 'Password')->setRequired();
+
+      $form->addSubmit('signUp', 'Registrati');
+
+      $form->onSuccess[] = [$this, 'submitSignUp'];
+
+      return $form;
+    }
+
+    public function submitSignUp($form)
+    {
+      $values = $form->getValues();
+
+      $user = $this->dbWrapper->getUserByEmail($values->email);
+
+      if ($user) {
+        $this->flashMessage("L'email inserita è già registrata. Prova il recupero dei dati di accesso.", "danger");
+      }
+      else {
+        $userId = $this->dbWrapper->addUser($values);
+
+        if ($userId === false) {
+          $this->flashMessage("Si è verificato un errore con la registrazione, contatta l'assistenza.", "danger");
+        }
+        else {
+          $this->emailWrapper->sendNewUserConfirmation($values);
+
+          $this->flashMessage("La registrazione è avvenuta con successo!", "success");
+          $this->flashMessage("Un amministratore attiverà il tuo account appena possibile.", "success");
+
+          //$this->redirect("Registration:signIn");
+        }
+      }
     }
 
     public function renderSignOut()

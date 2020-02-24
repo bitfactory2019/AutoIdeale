@@ -112,7 +112,7 @@
 	// Account switch client type
 	$('input[name="client_type"]').click(function () {
 		var inputValue = $(this).attr("value");
-		var targetBox = $("." + inputValue);
+		var targetBox = $(".box." + inputValue);
 		$(".box").not(targetBox).hide();
 		$(targetBox).show();
 	});
