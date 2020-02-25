@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Hai ricevuto un nuovo messaggio</title>
+    </head>
+
+    <body>
+        <div style="text-align: center;">
+            <img src="https://www.autoideale.it/img/logo_sticky.svg" width="142" >
+        </div>
+
+        <h3 align="center">NUOVO MESSAGGIO SU AUTOIDEALE!</h3>
+        <img src="https://www.autoideale.it/img/autoideale-slide-email.jpg" >
+        <p>
+            Ciao {$thread->name}!<br/>
+            È appena arrivato un messaggio in merito all'annuncio
+            <a href="{$postLink}">{$thread->posts->title}</a>
+        </p>
+        <p>
+          {$user->name} {$user->surname} scrive:<br />
+          <i>{$message->message}</i>
+        </p>
+        <p style="background: #ededed; padding: 20px 20px;">
+            <a href="{$messagesLink}">Clicca qui per rispondere</a>
+        </p>
+    </body>
+</html>

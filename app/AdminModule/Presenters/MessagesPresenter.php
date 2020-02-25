@@ -62,6 +62,8 @@ final class MessagesPresenter extends _BasePresenter
     }
     else {
       $this->flashMessage("Il tuo messaggio è stato inviato correttamente!", "success");
+      $this->emailWrapper->sendNewMessageVisitor($threadId);
+
       $this->redirect('Messages:detail', $values->threadId);
     }
   }
