@@ -32,8 +32,8 @@
 
                                 <figure><img src="{$request[post][thumbnail]}" alt=""></figure>
                                 <h4>
-                                    {$request[data]->name} 
-                                    
+                                    {$request[data]->name}
+
                                     {switch $request[data]->status}
                                         {case pending}
                                             <i class="pending">In attesa</i>
@@ -47,7 +47,7 @@
                                 <ul class="booking_list">
                                     <li><strong>Data richiesta</strong> {$request[data]->date_time|date:'%d/%m/%Y alle %H:%M'}</li>
                                     <li>
-                                        <strong>Annuncio</strong> 
+                                        <strong>Annuncio</strong>
                                         <a n:href=":Listing:detail $request[data]->posts->id" target="_blank">
                                             {$request[data]->posts->title}
                                             <i class="fa fa-external-link"></i>
@@ -74,20 +74,6 @@
         {/snippet}
     </div>
     <!-- /box_general-->
-    <nav aria-label="...">
-        <ul class="pagination pagination-sm add_bottom_30">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1">Precedente</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Successivo</a>
-            </li>
-        </ul>
-    </nav>
-    <!-- /pagination-->
 {/block}
 
 {block scripts}
