@@ -2290,19 +2290,22 @@ a.grid_item.small figure img {
 }
 
 /*Carousel home page*/
-#reccomended {
+.showcase-homepage {
   margin-top: 40px;
 }
 @media (max-width: 767px) {
-  #reccomended {
+  .showcase-homepage {
     margin-top: 0;
   }
+  .showcase-homepage.showcase-homepage-more {
+    display: none !important;
+  }
 }
-#reccomended .item {
+.showcase-homepage .item {
   margin: 0 15px;
 }
 
-#reccomended .owl-item {
+.showcase-homepage .owl-item {
   opacity: 0.5;
   transform: scale(0.85);
   -webkit-backface-visibility: hidden;
@@ -2315,7 +2318,7 @@ a.grid_item.small figure img {
   overflow: hidden;
 }
 
-#reccomended .owl-item.active.center {
+.showcase-homepage .owl-item.active.center {
   opacity: 1;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
@@ -2326,8 +2329,8 @@ a.grid_item.small figure img {
   transform: scale(1);
 }
 
-#reccomended .owl-item.active.center .item .title h4,
-#reccomended .owl-item.active.center .item .views {
+.showcase-homepage .owl-item.active.center .item .title h4,
+.showcase-homepage .owl-item.active.center .item .views {
   opacity: 1;
 }
 

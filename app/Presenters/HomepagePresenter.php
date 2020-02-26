@@ -11,7 +11,9 @@ final class HomepagePresenter extends _BasePresenter
 {
     public function renderIndex()
     {
-        $this->template->showcase = $this->dbWrapper->getShowcase(6);
+      $showcase = $this->dbWrapper->getShowcase(12);
+      $this->template->showcase = \array_slice($showcase, 0, 6);
+      $this->template->showcaseMore = \array_slice($showcase, 6, 6);
     }
 
     public function createComponentSearchForm(): UI\Form

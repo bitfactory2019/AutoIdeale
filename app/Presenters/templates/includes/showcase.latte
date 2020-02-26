@@ -1,21 +1,31 @@
 <div class="container-fluid margin_80_55">
-    <div class="main_title_2">
-        <span><em></em></span>
-        <h2>Vetrina</h2>
-        <p>Scopri come mettere in vetrina la tua auto</p>
+  <div class="main_title_2">
+    <span><em></em></span>
+    <h2>Vetrina</h2>
+    <p>Scopri come mettere in vetrina la tua auto</p>
+  </div>
+  <div class="showcase-homepage owl-carousel owl-theme">
+    {foreach $showcase as $post}
+      <div class="item">
+        {include '../Listing/_item.latte' 'post' => $post}
+      </div>
+      <!-- /item -->
+    {/foreach}
+  </div>
+  <div class="showcase-homepage showcase-homepage-more owl-carousel owl-theme">
+    {foreach $showcaseMore as $post}
+      <div class="item">
+        {include '../Listing/_item.latte' 'post' => $post}
+      </div>
+      <!-- /item -->
+    {/foreach}
+  </div>
+  <!-- /carousel -->
+  <div class="container">
+    <div class="btn_home_align">
+      <a href="listing-map.html" class="btn_1 rounded">Vetrina completa</a>
     </div>
-    <div id="reccomended" class="owl-carousel owl-theme">
-        {foreach $posts as $post}
-            <div class="item">
-                {include '../Listing/_item.latte' 'post' => $post}
-            </div>
-            <!-- /item -->
-        {/foreach}
-    </div>
-    <!-- /carousel -->
-    <div class="container">
-        <div class="btn_home_align"><a href="listing-map.html" class="btn_1 rounded">Vetrina completa</a></div>
-    </div>
-    <!-- /container -->
+  </div>
+  <!-- /container -->
 </div>
 <!-- /container -->
