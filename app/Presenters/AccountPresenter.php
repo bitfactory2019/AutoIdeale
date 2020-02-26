@@ -164,7 +164,10 @@ final class AccountPresenter extends _BasePresenter
           $this->emailWrapper->sendNewUserConfirmation($values);
 
           $this->flashMessage("La registrazione è avvenuta con successo!", "success");
-          $this->flashMessage("Un amministratore attiverà il tuo account appena possibile.", "success");
+
+          if ($values->client_type === "company") {
+            $this->flashMessage("Un amministratore attiverà il tuo account appena possibile.", "success");
+          }
 
           //$this->redirect("Registration:signIn");
         }
