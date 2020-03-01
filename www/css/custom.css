@@ -12,22 +12,24 @@
 }
 
 .hero_single .wrapper .container .custom-search-input-2 input[type=submit] {
-  border-color: #004dda;
-  background-color: #004dda;
+  border-color: #ffb600;
+  background-color: #ffc107;
+	font-size: 24px;
   color: #ffffff;
 }
 .hero_single .wrapper .container .custom-search-input-2 input[type=submit]:hover {
-  border-color: #0069d9;
-  background-color: #0069d9;
+  border-color: #32a067;
+  background-color: #32a067;
 }
 
 .hero_single .btn.btn-lg {
-  border-color: #ffb600;
-  background-color: #ffc107;
+  border-color: #004dda;
+  background-color: #004dda;
+	font-size: 15px;
 }
 .hero_single .btn.btn-lg:hover {
-  border-color: #32a067;
-  background-color: #32a067;
+  border-color: #0069d9;
+  background-color: #0069d9;
 }
 
 .homepage-brands {
