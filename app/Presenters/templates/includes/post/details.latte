@@ -6,6 +6,8 @@
 
     <h3><i>{$post[data]->price}€</i></h3>
 
+    {include './gallery.latte', 'post' => $post}
+
     <p>{$post[data]->description|noescape|trim}</p>
 
     <h5 class="add_bottom_15">Informazioni</h5>

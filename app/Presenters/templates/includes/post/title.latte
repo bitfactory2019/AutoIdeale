@@ -1,0 +1,12 @@
+<div class="container margin_60_35">
+  <div class="row">
+    <div class="box_detail col-lg-8">
+      <div class="detail_title_1">
+        <h1>{$post[data]->title}</h1>
+        <a n:if="$post[data]->address" class="address" href="https://www.google.com/maps/search/?api=1&query={$post[data]->address} {$post[data]->city}">{$post[data]->address}, {$post[data]->city}</a>
+      </div>
+
+      <h3><i>{$post[data]->price}€</i></h3>
+    </div>
+  </div>
+</div>
