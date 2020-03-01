@@ -4,7 +4,7 @@
         <a n:if="$post[data]->address" class="address" href="https://www.google.com/maps/search/?api=1&query={$post[data]->address} {$post[data]->city}">{$post[data]->address}, {$post[data]->city}</a>
     </div>
 
-    <h3><i>{$post[data]->price}€</i></h3>
+    <h3><i>€ {$post[data]->price|number:0:',':'.'}</i></h3>
 
     {include './gallery.latte', 'post' => $post}
 
