@@ -236,6 +236,18 @@ class DbWrapper
                     'seats_id' => $values->seats_id,
                     'title' => $brand->name.' '.$brand_model->name,
                     'description' => $values->description,
+                    'name' => $values->name,
+                    'surname' => $values->surname,
+                    'city' => $values->city,
+                    'address' => $values->address,
+                    'county' => $values->county,
+                    'cap' => $values->cap,
+                    'telephone' => $values->telephone,
+                    'website' => $values->website,
+                    'email' => $values->email,
+                    'facebook' => $values->facebook,
+                    'twitter' => $values->twitter,
+                    'instagram' => $values->instagram,
                     'price' => $values->price
                 ]);
 
