@@ -86,26 +86,14 @@
 <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
 <script>
   mapboxgl.accessToken = 'pk.eyJ1IjoiYXV0b2lkZWFsZSIsImEiOiJjazZreGhjZHQwMzYwM2Zxc2Iza2QzenB5In0.gSyjkkYqOh8ngSMnLvz3Aw';
-  var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
-
-  mapboxClient.geocoding.forwardGeocode({
-    query: {$post[data]->cap.' '.$post[data]->address.' '.$post[data]->city},
-    types:  ['address', 'postcode'],
-    language: ['it'],
-    countries: ['it'],
-    limit: 5
-  })
-  .send()
-  .then(response => {
-    var map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: response.body.features[0].center,
-      zoom: 15
-    });
-
-    var marker = new mapboxgl.Marker()
-      .setLngLat(response.body.features[0].center)
-      .addTo(map);
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [{$post[data]->lat}, {$post[data]->long}],
+    zoom: 15
   });
+
+  var marker = new mapboxgl.Marker()
+    .setLngLat([{$post[data]->lat}, {$post[data]->long}])
+    .addTo(map);
 </script>
