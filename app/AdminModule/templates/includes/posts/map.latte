@@ -1,0 +1,78 @@
+<div class="row">
+  <div id="map" style="height: 400px; width: 100%;"></div>
+</div>
+
+<input id="map-coords-lat" type="hidden" name="map_coords_lat" value={$post->lat ?? ''} />
+<input id="map-coords-long" type="hidden" name="map_coords_long" value={$post->long ?? ''} />
+
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css" rel="stylesheet" />
+<link
+  rel="stylesheet"
+  href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css"
+  type="text/css"
+/>
+<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiYXV0b2lkZWFsZSIsImEiOiJjazZreGhjZHQwMzYwM2Zxc2Iza2QzenB5In0.gSyjkkYqOh8ngSMnLvz3Aw';
+
+  var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    zoom: 15
+  });
+
+  var geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
+    countries: 'it',
+    language: 'it-IT',
+    marker: false
+  });
+  geocoder.on('result', data => {
+    marker.setLngLat(data.result.center);
+
+    document.getElementById("map-coords-lat").value = data.result.center[0];
+    document.getElementById("map-coords-long").value = data.result.center[1];
+  });
+  map.addControl(geocoder);
+
+  var marker = new mapboxgl.Marker({ draggable: true });
+  marker.on('dragend', () => {
+    var lngLat = marker.getLngLat();
+
+    document.getElementById("map-coords-lat").value = lngLat.lat;
+    document.getElementById("map-coords-long").value = lngLat.lng;
+  });
+
+  {if !empty($post->lat) && !empty($post->long)}
+    map.setCenter([{$post->long}, {$post->lat}]);
+    marker.setLngLat([{$post->long}, {$post->lat}])
+      .addTo(map);
+  {else}
+    mapboxClient.geocoding.forwardGeocode({
+      query: {$post->cap.' '.$post->address.' '.$post->city},
+      types:  ['address', 'postcode'],
+      language: ['it'],
+      countries: ['it'],
+      limit: 5
+    })
+    .send()
+    .then(response => {
+      document.getElementById("map-coords-lat").value = response.body.features[0].center[0];
+      document.getElementById("map-coords-long").value = response.body.features[0].center[1];
+
+      map.setCenter(response.body.features[0].center);
+
+      marker.setLngLat(response.body.features[0].center)
+        .addTo(map);
+    });
+  {/if}
+</script>

@@ -7,487 +7,70 @@
 {/block}
 
 {block content}
-    {include parent}
+  {include parent}
 
-    {snippetArea wrapper}
-        {form addForm, id => "addForm"}
-            {input postId}
-            {input tempPath}
+  {snippetArea wrapper}
+    {form addForm, id => "addForm"}
+      {input postId}
+      {input tempPath}
 
-            <div class="box_general padding_bottom">
-                <div class="header_box version_2">
-                    <h2><i class="fa fa-file"></i>Informazioni</h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {label brands_id /}
-                            <div class="styled-select">
-                                <div class="input-group">
-                                    <span class="input-group-addon input-group-addon-elegant">&#x64;</span>
-                                    {input brands_id}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {snippet brands_models}
-                                {label brands_models_id /}
-                                <div class="styled-select">
-                                    <div class="input-group">
-                                        <span class="input-group-addon input-group-addon-elegant">&#x66;</span>
-                                        {input brands_models_id}
-                                        <span id="brands-models-loading" class="input-group-addon" style="display:none">
-                                            <i class="fa fa-refresh fa-spin"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            {/snippet}
-                            <small class="form-text text-muted">Scegli prima la Casa Automobilistica.</small>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {snippet brands_models_types}
-                                {label brands_models_types_id /}
-                                <div class="styled-select">
-                                    <div class="input-group">
-                                        <span class="input-group-addon input-group-addon-elegant">&#x66;</span>
-                                        {input brands_models_types_id}
-                                        <span id="brands-models-types-loading" class="input-group-addon" style="display:none">
-                                            <i class="fa fa-refresh fa-spin"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            {/snippet}
-                            <small class="form-text text-muted">Scegli prima il Modello.</small>
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            {snippet type_years}
-                                {label year /}
-                                <div class="styled-select">
-                                    <div class="input-group">
-                                        <span class="input-group-addon input-group-addon-elegant">&#xe023;</span>
-                                        {input year}
-                                        <span id="brands-models-types-year-loading" class="input-group-addon" style="display:none">
-                                            <i class="fa fa-refresh fa-spin"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            {/snippet}
-                            <small class="form-text text-muted">Scegli la Configurazione.</small>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            {snippet type_months}
-                                {label month /}
-                                <div class="styled-select">
-                                    <div class="input-group">
-                                        <span class="input-group-addon input-group-addon-elegant">&#xe023;</span>
-                                        {input month}
-                                        <span id="brands-models-types-year-month-loading" class="input-group-addon" style="display:none">
-                                            <i class="fa fa-refresh fa-spin"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            {/snippet}
-                            <small class="form-text text-muted">Scegli prima l'anno.</small>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {label fuel_types_id /}
-                            <div class="styled-select">
-                                <div class="input-group">
-                                    <span class="input-group-addon input-group-addon-elegant">&#xe007;</span>
-                                    {input fuel_types_id}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {label kilometers_id /}
-                            <div class="styled-select">
-                                <div class="input-group">
-                                    <span class="input-group-addon input-group-addon-elegant">&#xe01c;</span>
-                                    {input kilometers_id}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
+      <div class="box_general padding_bottom">
+        <div class="header_box version_2">
+          <h2><i class="fa fa-file"></i>Informazioni</h2>
+        </div>
+        {include '../includes/posts/data.latte'}
+      </div>
+      <!-- /box_general-->
+
+      <div class="box_general padding_bottom">
+        <div class="header_box version_2">
+          <h2><i class="fa fa-picture-o"></i>Galleria di foto</h2>
+        </div>
+        {include '../includes/posts/gallery.latte'}
+      </div>
+      <!-- /box_general-->
+
+      <div class="box_general padding_bottom">
+        <div class="header_box version_2">
+          <h2><i class="fa fa-map-marker"></i>Dove si trova</h2>
+        </div>
+        {include '../includes/posts/map.latte' post => $post[data] ?? $user}
+      </div>
+
+      <div class="box_general padding_bottom">
+        <div class="header_box version_2">
+          <h2><i class="fa fa-address-card"></i>Informazione di contatto</h2>
+        </div>
+        {include '../includes/posts/contacts.latte'}
+      </div>
+      <!-- /box_general-->
+
+      <div class="box_general padding_bottom">
+        <div class="header_box version_2">
+          <h2><i class="fa fa-euro"></i>Prezzo</h2>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <table id="pricing-list-container" style="width:100%;">
+              <tr class="pricing-list-item">
+                <td>
+                  <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            {label vehicle_types_id /}
-                            <div class="styled-select">
-                                <div class="input-group">
-                                    <span class="input-group-addon input-group-addon-elegant">&#xe0ef;</span>
-                                    {input vehicle_types_id}
-                                </div>
-                            </div>
-                        </div>
+                      <div class="form-group">
+                        {input price}
+                      </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                        {label colors_id /}
-                            <div class="styled-select">
-                                <div class="input-group">
-                                    <span class="input-group-addon input-group-addon-elegant">&#xe104;</span>
-                                    {input colors_id}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {label models_id /}
-                            <div class="styled-select">
-                                <div class="input-group">
-                                    <span class="input-group-addon input-group-addon-elegant">&#x65;</span>
-                                    {input models_id}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {label shift_types_id /}
-                                <div class="styled-select">
-                                    <div class="input-group">
-                                        <span class="input-group-addon input-group-addon-elegant">&#x5f;</span>
-                                        {input shift_types_id}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {label euro_class_id /}
-                            <div class="styled-select">
-                                <div class="input-group">
-                                    <span class="input-group-addon input-group-addon-elegant">&#x73;</span>
-                                    {input euro_class_id}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {label doors_id /}
-                            <div class="styled-select">
-                                <div class="input-group">
-                                    <span class="input-group-addon input-group-addon-elegant">&#x64;</span>
-                                    {input doors_id}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {label seats_id /}
-                            <div class="styled-select">
-                                <div class="input-group">
-                                    <span class="input-group-addon input-group-addon-elegant">&#x37;</span>
-                                    {input seats_id}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            {label description /}
-                            {input description}
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-            </div>
-            <!-- /box_general-->
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <!-- /row-->
+      </div>
+      <!-- /box_general-->
 
-            <div class="box_general padding_bottom">
-                <div class="header_box version_2">
-                    <h2><i class="fa fa-picture-o"></i>Galleria di foto</h2>
-                </div>
-                <div id="dropzone-clickable-button" class="row dropzone-clickable">
-                    <div class="dz-default dz-message">
-                      <button class="btn btn-default" type="button">
-                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                        Aggiungi immagini
-                      </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 dropzone">
-                        <div id="dropzone-clickable-message" class="dz-default dz-message">
-                          <p><i class="fa fa-picture-o fa-5x" aria-hidden="true"></i></p>
-                          <p>Trascina qui le immagini del tuo annuncio</p>
-                        </div>
-                        <div class="dropzone-previews" id="post-gallery">
-                            {block images}{/block}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /box_general-->
-
-            <div class="box_general padding_bottom">
-                <div class="header_box version_2">
-                    <h2><i class="fa fa-map-marker"></i>Informazione di contatto</h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {label name /}
-                            {input name}
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {label surname /}
-                            {input surname}
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {label city /}
-                            {input city}
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {label address /}
-                            {input address}
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {label county /}
-                            {input county}
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {label cap /}
-                            {input cap}
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {label telephone /}
-                            {input telephone}
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {label website /}
-                            {input website}
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {label email /}
-                            {input email}
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {label facebook /}
-                            {input facebook}
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {label twitter /}
-                            {input twitter}
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {label instagram /}
-                            {input instagram}
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-            </div>
-            <!-- /box_general-->
-
-            <div class="box_general padding_bottom">
-                <div class="header_box version_2">
-                    <h2><i class="fa fa-euro"></i>Prezzo</h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <table id="pricing-list-container" style="width:100%;">
-                            <tr class="pricing-list-item">
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                {input price}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        </div>
-                </div>
-                <!-- /row-->
-            </div>
-            <!-- /box_general-->
-
-            <p>{input save class => "btn_1 medium", id => "save-post-button"}</p>
-        {/form}
-    {/snippetArea}
-{/block}
-
-{block scripts}
-    {include parent}
-
-    <!-- Custom scripts for this page-->
-    <script src="vendor/dropzone.min.js"></script>
-    <link href="vendor/dropzone.css" rel="stylesheet">
-
-	<script src="vendor/bootstrap-datepicker.js"></script>
-	<script>$('input.date-pick').datepicker();</script>
-
-	<!-- WYSIWYG Editor -->
-	<script src="js/editor/summernote-bs4.min.js"></script>
-    <script>
-        $('.editor').summernote({
-            fontSizes: ['10', '14'],
-            toolbar: [
-                // [groupName, [list of button]]
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough']],
-                ['fontsize', ['fontsize']],
-                ['para', ['ul', 'ol', 'paragraph']]
-            ],
-            placeholder: 'Inserisci una descrizione breve...',
-            tabsize: 2,
-            height: 200
-        });
-
-        $('#' + {$control['addForm']['brands_id']->htmlId}).off('change').on('change', function () {
-            $("#brands-models-loading").show();
-
-            $.nette.ajax({
-                type: 'GET',
-                url: {link LoadBrandModels!},
-                data: {
-                    'brandId': $(this).val(),
-                }
-            });
-        });
-
-        $('#addForm').on('change', '#' + {$control['addForm']['brands_models_id']->htmlId}, function () {
-            $("#brands-models-types-loading").show();
-
-            $.nette.ajax({
-                type: 'GET',
-                url: {link LoadModelTypes!},
-                data: {
-                    'modelId': $(this).val(),
-                }
-            });
-        });
-
-        $('#addForm').on('change', '#' + {$control['addForm']['brands_models_types_id']->htmlId}, function () {
-            $("#brands-models-types-year-loading").show();
-
-            $.nette.ajax({
-                type: 'GET',
-                url: {link LoadTypeYears!},
-                data: {
-                    'typeId': $(this).val(),
-                }
-            });
-        });
-
-        $('#addForm').on('change', '#' + {$control['addForm']['year']->htmlId}, function () {
-            $("#brands-models-types-year-month-loading").show();
-
-            $.nette.ajax({
-                type: 'GET',
-                url: {link LoadTypeYearMonths!},
-                data: {
-                    'typeId': $('#' + {$control['addForm']['brands_models_types_id']->htmlId}).val(),
-                    'year': $(this).val(),
-                }
-            });
-        });
-
-        Dropzone.autoDiscover = false;
-
-        var dropZone = new Dropzone(".dropzone", {
-            paramName: "images",
-            previewsContainer: "#post-gallery",
-            clickable: ".dropzone-clickable",
-            url: {link addTempImages!, tempPath => $tempPath},
-            dictDefaultMessage: "",
-            uploadMultiple: true,
-            parallelUploads: 100,
-            maxFiles: 100,
-            acceptedFiles: 'image/*',
-            addRemoveLinks: true,
-            init: function() {
-                this.on("addedfile", function(file) {
-                    //$(".dz-message").hide();
-                });
-
-                this.on("removedfile", function(file) {
-                    if (this.files.length === 0) {
-                        $(".dz-message").show();
-                    }
-
-                    if (file.id) {
-                        $.nette.ajax({
-                            type: 'GET',
-                            url: {link deleteImage!},
-                            data: { 'imageId': file.id }
-                        });
-                    }
-                    else {
-                        $.nette.ajax({
-                            type: 'GET',
-                            url: {link deleteTempImage!},
-                            data: { 'imageName': {$tempPath}+'/'+file.name }
-                        });
-                    }
-                });
-            }
-        });
-    </script>
+      <p>{input save class => "btn_1 medium", id => "save-post-button"}</p>
+    {/form}
+  {/snippetArea}
 {/block}

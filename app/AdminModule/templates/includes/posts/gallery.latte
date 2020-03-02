@@ -1,0 +1,64 @@
+<div id="dropzone-clickable-button" class="row dropzone-clickable">
+  <div class="dz-default dz-message">
+    <button class="btn btn-default" type="button">
+      <i class="fa fa-picture-o" aria-hidden="true"></i>
+      Aggiungi immagini
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 dropzone">
+    <div id="dropzone-clickable-message" class="dz-default dz-message">
+      <p><i class="fa fa-picture-o fa-5x" aria-hidden="true"></i></p>
+      <p>Trascina qui le immagini del tuo annuncio</p>
+    </div>
+    <div class="dropzone-previews" id="post-gallery">
+        {block images}{/block}
+    </div>
+  </div>
+</div>
+
+<script src="vendor/dropzone.min.js"></script>
+<link href="vendor/dropzone.css" rel="stylesheet">
+<script>
+  Dropzone.autoDiscover = false;
+
+  var dropZone = new Dropzone(".dropzone", {
+    paramName: "images",
+    previewsContainer: "#post-gallery",
+    clickable: ".dropzone-clickable",
+    url: {link addTempImages!, tempPath => $tempPath},
+    dictDefaultMessage: "",
+    uploadMultiple: true,
+    parallelUploads: 100,
+    maxFiles: 100,
+    acceptedFiles: 'image/*',
+    addRemoveLinks: true,
+    init: function() {
+      this.on("addedfile", function(file) {
+        //$(".dz-message").hide();
+      });
+
+      this.on("removedfile", function(file) {
+        if (this.files.length === 0) {
+          $(".dz-message").show();
+        }
+
+        if (file.id) {
+          $.nette.ajax({
+            type: 'GET',
+            url: {link deleteImage!},
+            data: { 'imageId': file.id }
+          });
+        }
+        else {
+          $.nette.ajax({
+            type: 'GET',
+            url: {link deleteTempImage!},
+            data: { 'imageName': {$tempPath}+'/'+file.name }
+          });
+        }
+      });
+    }
+  });
+</script>

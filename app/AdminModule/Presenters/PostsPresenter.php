@@ -323,6 +323,10 @@ final class PostsPresenter extends _BasePresenter
       $values->year = $_POST["year"];
       $values->month = $_POST["month"];
 
+      // aggiungo le coordinate della mappa
+      $values->mapCoordsLat = $_POST['map_coords_lat'];
+      $values->mapCoordsLong = $_POST['map_coords_long'];
+
       $result = $this->dbWrapper->editPost($postId, $values);
 
       if ($result === false) {
