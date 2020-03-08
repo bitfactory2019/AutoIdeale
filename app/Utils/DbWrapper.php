@@ -314,8 +314,37 @@ class DbWrapper
 
         $posts = [];
 
-        $search_dbo = $this->db->table('posts')
-            ->order('creation_time DESC');
+        $search_dbo = $this->db->table('posts');
+
+        if (!empty($search->place)) {
+          $mapbox = new \App\Components\Mapbox\Mapbox('pk.eyJ1IjoiYXV0b2lkZWFsZSIsImEiOiJjazZreGhjZHQwMzYwM2Zxc2Iza2QzenB5In0.gSyjkkYqOh8ngSMnLvz3Aw');
+          $address = $search->place;
+        	$res = $mapbox->geocode($address)->getData();
+
+          $search_dbo->select("*")
+            ->select("(
+              6371 * acos(
+                cos(
+                  radians(".$res[0]['center'][0].")
+                ) * cos(
+                  radians(posts.lat)
+                ) * cos(
+                  radians(posts.long) - radians(".$res[0]['center'][1].")
+                ) + sin(
+                  radians(".$res[0]['center'][0].")
+                ) * sin(
+                  radians(posts.lat)
+                )
+              )
+            ) AS distance ")
+            ->where("posts.lat IS NOT NULL")
+            ->where("posts.long IS NOT NULL")
+            ->having("distance < ?", 25)
+            ->order('distance ASC');
+        }
+        else {
+          $search_dbo->order('creation_time DESC');
+        }
 
         if (!empty($search->brands_id)) {
             $search_dbo->where('brands_id', $search->brands_id);
