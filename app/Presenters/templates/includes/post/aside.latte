@@ -1,5 +1,25 @@
 <aside class="col-lg-4" id="sidebar">
   <div class="box_detail booking">
+    <div class="price">
+      <h5 class="d-inline">Contatti diretti</h5>
+    </div>
+
+    <ul class="share-buttons">
+      <li>
+        <a class="fb-share" href="tel://{$post[data]->users->telephone}">
+          <i class="icon_phone"></i>
+          Telefono
+        </a>
+      </li>
+      <li>
+        <a class="twitter-share" href="mailto:{$post[data]->users->email}">
+          <i class="icon_mail_alt"></i>
+          E-mail
+        </a></li>
+    </ul>
+  </div>
+
+  <div class="box_detail booking">
     {if $post[data]->users->groups->name === 'company'}
       {form requestForm}
         <div class="price">
