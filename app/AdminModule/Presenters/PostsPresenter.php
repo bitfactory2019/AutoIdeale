@@ -289,6 +289,8 @@ final class PostsPresenter extends _BasePresenter
         $values->brands_models_types_id = $_POST["brands_models_types_id"];
         $values->year = $_POST["year"];
         $values->month = $_POST["month"];
+        $values->mapCoordsLat = $_POST["map_coords_lat"];
+        $values->mapCoordsLong = $_POST["map_coords_long"];
 
         $postId = $this->dbWrapper->addNewPost($this->template->user['id'], $values);
 
