@@ -82,18 +82,16 @@
 <!-- Map -->
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js"></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css" rel="stylesheet" />
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
-<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
 <script>
-  mapboxgl.accessToken = 'pk.eyJ1IjoiYXV0b2lkZWFsZSIsImEiOiJjazZreGhjZHQwMzYwM2Zxc2Iza2QzenB5In0.gSyjkkYqOh8ngSMnLvz3Aw';
+  mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZG9scyIsImEiOiJjazdsZzA1eGMwNnphM2VtdGl1bjd1ZGppIn0.dsThp_5T7w_YA4zxJcNnZA';
   var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
-    center: [{$post[data]->lat}, {$post[data]->long}],
+    center: [{$post[data]->long}, {$post[data]->lat}],
     zoom: 15
   });
 
   var marker = new mapboxgl.Marker()
-    .setLngLat([{$post[data]->lat}, {$post[data]->long}])
+    .setLngLat([{$post[data]->long}, {$post[data]->lat}])
     .addTo(map);
 </script>
