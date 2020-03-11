@@ -69,7 +69,7 @@
     <!-- /row -->
     *}
 
-    {if $post[data]->address}
+    {if $post[data]->long && $post[data]->lat}
       <hr>
       <h3>Dove sono</h3>
       <div id="map" class="map map_single add_bottom_45"></div>
@@ -80,18 +80,20 @@
 
 
 <!-- Map -->
-<script src="https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js"></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css" rel="stylesheet" />
-<script>
-  mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZG9scyIsImEiOiJjazdsZzA1eGMwNnphM2VtdGl1bjd1ZGppIn0.dsThp_5T7w_YA4zxJcNnZA';
-  var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
-    center: [{$post[data]->long}, {$post[data]->lat}],
-    zoom: 15
-  });
+{if $post[data]->long && $post[data]->lat}
+  <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css" rel="stylesheet" />
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZG9scyIsImEiOiJjazdsZzA1eGMwNnphM2VtdGl1bjd1ZGppIn0.dsThp_5T7w_YA4zxJcNnZA';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [{$post[data]->long}, {$post[data]->lat}],
+      zoom: 15
+    });
 
-  var marker = new mapboxgl.Marker()
-    .setLngLat([{$post[data]->long}, {$post[data]->lat}])
-    .addTo(map);
-</script>
+    var marker = new mapboxgl.Marker()
+      .setLngLat([{$post[data]->long}, {$post[data]->lat}])
+      .addTo(map);
+  </script>
+{/if}
