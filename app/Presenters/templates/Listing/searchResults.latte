@@ -15,7 +15,7 @@
         {include '../includes/search/filtersTop.latte'}
     {/snippetArea}
 
-    {include '../includes/search/collapseMap.latte'}
+    {*include '../includes/search/collapseMap.latte'*}
 
     <div class="container margin_60_35">
         <div class="row">
@@ -69,10 +69,7 @@
 
 {block scripts}
 	<!-- Map -->
-	<script src="https://maps.googleapis.com/maps/api/js"></script>
-	<script src="js/markerclusterer.js"></script>
-	<script src="js/listing_map.js"></script>
-	<script src="js/infobox.js"></script>
+  {*include './map.latte' posts => $searchResults['page']*}
 
   <script>
       $('input[type="range"]').rangeslider({
