@@ -170,8 +170,10 @@ final class ListingPresenter extends _BasePresenter
         $this->template->searchResults = $results;
 
         $this->redrawControl('resultsWrapper');
+        $this->redrawControl('resultsMapWrapper');
         $this->redrawControl('resultsTotal');
         $this->redrawControl('results');
+        $this->redrawControl('resultsMap');
     }
 
     public function renderDetail($postId)

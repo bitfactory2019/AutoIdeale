@@ -1,27 +1,95 @@
-{layout '../@layout.latte'}
+<!-- Map -->
+<script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
+<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
 
-{block header}
-    {include '../includes/header.latte'}
-{/block}
+{snippet resultsMap}
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZG9scyIsImEiOiJjazdsZzA1eGMwNnphM2VtdGl1bjd1ZGppIn0.dsThp_5T7w_YA4zxJcNnZA';
+    var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+    var map = new mapboxgl.Map({
+      container: 'posts-map',
+      style: 'mapbox://styles/mapbox/streets-v11'
+    });
 
-{block subheader}{/block}
+    // Create a popup, but don't add it to the map yet.
+    var popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false
+    });
 
-{block content}
-    <div class="container-fluid full-height">
-		{include './_list.latte', 'width' => 5}
+    map.on('mouseenter', 'places', function(e) {
+      // Change the cursor style as a UI indicator.
+      map.getCanvas().style.cursor = 'pointer';
 
-        <div class="col-lg-7 map-right">
-            <div id="map_right_listing"></div>
-            <!-- map-->
-        </div>
-    </div>
-    <!-- /container-fluid -->
-{/block}
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      var description = e.features[0].properties.description;
 
-{block scripts}
-	<!-- Map -->
-	<script src="https://maps.googleapis.com/maps/api/js"></script>
-	<script src="js/markerclusterer.js"></script>
-	<script src="js/listing_map.js"></script>
-	<script src="js/infobox.js"></script>
-{/block}
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+      // Populate the popup and set its coordinates
+      // based on the feature found.
+      popup
+        .setLngLat(coordinates)
+        .setHTML(description)
+        .addTo(map);
+    });
+
+    var bounds = [];
+    var minBound = [];
+    var maxBound = [];
+
+    {foreach $posts as $post}
+      var resultItem = document.getElementById('result-item-{$post[data]->id}').cloneNode(true);
+      resultItem.querySelector(".col-lg-8").classList.add('col-md-8');
+      var popup = new mapboxgl.Popup({ offset: 25 })
+        .setDOMContent(resultItem)
+        .setMaxWidth('450px');
+      var center = [{$post[data]->long}, {$post[data]->lat}];
+
+      var marker = new mapboxgl.Marker()
+        .setLngLat(center)
+        .setPopup(popup)
+        .addTo(map);
+
+      bounds.push(center);
+
+      minBound = [getMinBound(bounds, 0), getMinBound(bounds, 1)];
+      maxBound = [getMaxBound(bounds, 0), getMaxBound(bounds, 1)];
+
+      map.fitBounds([minBound, maxBound]);
+    {/foreach}
+
+    function getMinBound(bounds, index)
+    {
+      var min = false;
+
+      for (var i = 0; i < bounds.length; i++) {
+        if (!min || bounds[i][index] < min) {
+          min = bounds[i][index];
+        }
+      }
+
+      return min;
+    }
+
+    function getMaxBound(bounds, index)
+    {
+      var max = false;
+
+      for (var i = 0; i < bounds.length; i++) {
+        if (!max || bounds[i][index] > max) {
+          max = bounds[i][index];
+        }
+      }
+
+      return max;
+    }
+  </script>
+{/snippet}

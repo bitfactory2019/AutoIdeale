@@ -158,3 +158,9 @@
 .g-recaptcha .grecaptcha-badge {
   left: -9999px;
 }
+
+
+#posts-map {
+  height: 100%;
+  width: 100%;
+}
