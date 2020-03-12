@@ -9,7 +9,7 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZG9scyIsImEiOiJjazdsZzA1eGMwNnphM2VtdGl1bjd1ZGppIn0.dsThp_5T7w_YA4zxJcNnZA';
     var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
     var map = new mapboxgl.Map({
-      container: 'posts-map',
+      container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11'
     });
 
@@ -47,7 +47,11 @@
 
     {foreach $posts as $post}
       var resultItem = document.getElementById('result-item-{$post[data]->id}').cloneNode(true);
-      resultItem.querySelector(".col-lg-8").classList.add('col-md-8');
+
+      if (resultItem.querySelector(".col-lg-8")) {
+        resultItem.querySelector(".col-lg-8").classList.add('col-md-8');
+      }
+
       var popup = new mapboxgl.Popup({ offset: 25 })
         .setDOMContent(resultItem)
         .setMaxWidth('450px');
