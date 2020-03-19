@@ -289,8 +289,21 @@ final class PostsPresenter extends _BasePresenter
         $values->brands_models_types_id = $_POST["brands_models_types_id"];
         $values->year = $_POST["year"];
         $values->month = $_POST["month"];
-        $values->mapCoordsLat = $_POST["map_coords_lat"];
-        $values->mapCoordsLong = $_POST["map_coords_long"];
+
+        if (empty($_POST["map_coords_lat"]) || empty($_POST["map_coords_long"])) {
+          $config = $this->getConfig();
+          $mapbox = new Components\Mapbox\Mapbox($config["mapboxToken"]);
+
+        	$res = $mapbox->geocode($values->address);
+          $data = $res->getData();
+
+          $values->mapCoordsLat = $data["center"][1];
+          $values->mapCoordsLong = $data["center"][0];
+        }
+        else {
+          $values->mapCoordsLat = $_POST["map_coords_lat"];
+          $values->mapCoordsLong = $_POST["map_coords_long"];
+        }
 
         $postId = $this->dbWrapper->addNewPost($this->template->user['id'], $values);
 

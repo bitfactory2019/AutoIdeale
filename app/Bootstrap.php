@@ -30,7 +30,8 @@ class Bootstrap
 			'tempImagesDir' => '/temp/images/',
 			'postsImagesDir' => '/images/posts/',
 			'usersImagesDir' => '/images/users/',
-			'templateEmailsDir' => '%appDir%/Presenters/templates/Emails/'
+			'templateEmailsDir' => '%appDir%/Presenters/templates/Emails/',
+			'mapboxToken' => 'pk.eyJ1IjoibGFuZG9scyIsImEiOiJjazdsZzA1eGMwNnphM2VtdGl1bjd1ZGppIn0.dsThp_5T7w_YA4zxJcNnZA'
 		]);
 
 		return $configurator;
