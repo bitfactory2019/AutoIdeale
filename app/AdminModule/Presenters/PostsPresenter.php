@@ -292,13 +292,13 @@ final class PostsPresenter extends _BasePresenter
 
         if (empty($_POST["map_coords_lat"]) || empty($_POST["map_coords_long"])) {
           $config = $this->getConfig();
-          $mapbox = new Components\Mapbox\Mapbox($config["mapboxToken"]);
+          $mapbox = new \App\Components\Mapbox\Mapbox($config["mapboxToken"]);
 
         	$res = $mapbox->geocode($values->address);
           $data = $res->getData();
 
-          $values->mapCoordsLat = $data["center"][1];
-          $values->mapCoordsLong = $data["center"][0];
+          $values->mapCoordsLat = $data[0]["center"][1];
+          $values->mapCoordsLong = $data[0]["center"][0];
         }
         else {
           $values->mapCoordsLat = $_POST["map_coords_lat"];
