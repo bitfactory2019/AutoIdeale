@@ -38,9 +38,9 @@ final class PostsPresenter extends _BasePresenter
        $this->presenter->redrawControl('posts');
     }
 
-    public function handleDeletePost($id)
+    public function handleDeletePost($postId)
     {
-       $result = $this->dbWrapper->deletePost($id);
+       $result = $this->dbWrapper->deletePost($postId);
 
        if ($result === true) {
            $this->flashMessage("Post cancellato correttamente", "success");
