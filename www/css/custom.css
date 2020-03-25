@@ -189,7 +189,7 @@
     background-color: #32a067;
 }
 
-.img-fluid {
+.hero_single .wrapper .container .img-fluid {
     display: none;
 }
 
