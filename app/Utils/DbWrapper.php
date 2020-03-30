@@ -213,6 +213,58 @@ class DbWrapper
         $this->_addItemImage('post', $postId, $images);
     }
 
+    public function addNewCarDbPost($userId, $values)
+    {
+        try {
+            $car_make = $this->db->table('car_make')->get($values->car_make_id);
+            $car_model = $this->db->table('car_model')->get($values->car_model_id);
+
+            $post = $this->db->table('car_posts')->insert([
+                'users_id' => $userId,
+                'car_make_id' => $values->car_make_id,
+                'car_model_id' => $values->car_model_id,
+                'car_serie_id' => $values->car_serie_id,
+                'car_trim_id' => $values->car_trim_id,
+                'car_equipment_id' => $values->car_equipment_id,
+                'year' => $values->year,
+                'month' => $values->month,
+                'kilometers_id' => $values->kilometers_id,
+                'colors_id' => $values->colors_id,
+                'title' => $car_make->name.' '.$car_model->name,
+                'description' => $values->description,
+                'name' => $values->name,
+                'surname' => $values->surname,
+                'city' => $values->city,
+                'address' => $values->address,
+                'county' => $values->county,
+                'cap' => $values->cap,
+                'lat' => $values->mapCoordsLat,
+                'long' => $values->mapCoordsLong,
+                'telephone' => $values->telephone,
+                'website' => $values->website,
+                'email' => $values->email,
+                'facebook' => $values->facebook,
+                'twitter' => $values->twitter,
+                'instagram' => $values->instagram,
+                'price' => $values->price,
+                'approved' => true,
+                'creation_time' => \time(),
+                'ip_address' => $this->presenter->getHttpRequest()->getRemoteAddress()
+            ]);
+
+            return $post->getPrimary();
+        }
+        catch (\PDOException $e) {
+            Debugger::dump($e);
+            return false;
+        }
+    }
+
+    public function addCarDbPostImages($postId, $images)
+    {
+        $this->_addItemImage('car_post', $postId, $images);
+    }
+
     public function editPost($postId, $values)
     {
         try {
@@ -306,6 +358,15 @@ class DbWrapper
             ->fetch();
 
         return $this->utils->formatPostResult($row);
+    }
+
+    public function getCarDbPost($id)
+    {
+        $row = $this->db->table('car_posts')
+            ->where('id', $id)
+            ->fetch();
+
+        return $this->utils->formatCarDbPostResult($row);
     }
 
     public function searchPosts($page = 1, $limit = 10)

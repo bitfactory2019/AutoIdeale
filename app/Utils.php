@@ -158,6 +158,23 @@ class Utils
         ];
     }
 
+    public function formatCarDbPostResult($post)
+    {
+        $thumbnail = $this->presenter->getDbService()->table('car_posts_images')->where('car_posts_id', $post->id)->limit(1)->fetch();
+        $specifications = $this->presenter->getDbService()->table('car_specification_value')->where('car_trim_id', $post->car_trim_id)->fetchAll();
+        $options = $this->presenter->getDbService()->table('car_option_value')->where('car_equipment_id', $post->car_equipment_id)->fetchAll();
+
+        return [
+            "data" => $post,
+            "specifications" => $specifications,
+            "options" => $options,
+            "thumbnail" => $thumbnail,
+            "images" => $post->related('car_posts_images.car_posts_id'),
+            "isNew" => $post->creation_time > strtotime("3 days ago"),
+            "isNotAvailable" => !$post->approved
+        ];
+    }
+
     public function generatePassword()
     {
         $chars = "abcdefghijklmnopqrstuvwxyz1234567890";

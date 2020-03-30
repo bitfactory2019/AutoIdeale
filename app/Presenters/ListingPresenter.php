@@ -192,6 +192,22 @@ final class ListingPresenter extends _BasePresenter
         $this->template->facebookShare = $facebookShare;
     }
 
+    public function renderDetailCarDb($postId)
+    {
+        $this->template->post = $this->dbWrapper->getCarDbPost($postId);
+        //$this->statsWrapper->addImpressionDetail($postId);
+
+        $facebookShare = parent::_getFacebookShare();
+        $facebookShare->title = $this->template->post['data']->title;
+        $facebookShare->description = $this->template->post['data']->description;
+
+        if (!empty($this->template->post['thumbnail'])) {
+          $facebookShare->image = $this->template->post['thumbnail']->url;
+        }
+
+        $this->template->facebookShare = $facebookShare;
+    }
+
     public function renderRequestConfirmed($postId)
     {
         $this->template->post = $this->dbWrapper->getPost($postId);
