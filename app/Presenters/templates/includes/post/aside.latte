@@ -1,74 +1,7 @@
 <aside class="col-lg-4" id="sidebar">
-    <div n:if="$post[data]->users->groups->name === 'company'" class="box_detail booking">
-        {form requestForm}
-            <div class="price">
-                <h5 class="d-inline">Appuntamento</h5>
-                <!--
-                <div class="score"><span>Buono<em>350 Recensioni</em></span><strong>7.0</strong></div>
-                -->
-            </div>
-
-            <div class="form-group">
-                {input name}
-                <i class="icon_profile"></i>
-            </div>
-
-            <div class="form-group">
-                {input email}
-                <i class="icon_mail_alt"></i>
-            </div>
-
-            <div class="form-group">
-                {input telephone}
-                <i class="icon_phone"></i>
-            </div>
-
-            <div class="form-group" id="input-dates">
-                {input date, id => 'request-date'}
-                <i class="icon_calendar"></i>
-            </div>
-            <!-- /dropdown -->
-
-            <div class="form-group clearfix">
-                <div class="custom-select-form">
-                    {input time}
-                </div>
-            </div>
-
-            {input book, class => "add_top_30 btn_1 full-width purchase"}
-        {/form}
-
-        {snippet wishlistButton}
-          <a
-              n:if="$user"
-              n:class="
-                true ? btn_1,
-                true ? full-width,
-                true ? outline,
-                true ? wishlist,
-                true ? wish_bt,
-                true ? online,
-                !empty($userWishlist[$post[data]->id]) ? liked"
-              data-post-id="{$post[data]->id}"
-              href="#"
-          >
-            <i
-              n:class="
-                true ? icon_heart,
-                !empty($userWishlist[$post[data]->id]) ? liked
-              "
-            ></i>
-            {empty($userWishlist[$post[data]->id])
-              ? "Aggiungi alla lista desideri"
-              : "Rimuovi dalla lista desideri"
-            }
-          </a>
-          <a n:if="!$user" n:href="Account:index" class="btn_1 full_width outline wishlist">
-            <i class="icon_heart"></i> Aggiungi alla lista desideri
-          </a>
-        {/snippet}
-
-        <div class="text-center"><small>Prenotazione libera</small></div>
+  <div class="box_detail booking">
+    <div class="price">
+      <h5 class="d-inline">Contatti diretti</h5>
     </div>
 
     <ul class="share-buttons">
