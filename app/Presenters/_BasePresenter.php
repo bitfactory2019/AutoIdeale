@@ -41,7 +41,7 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         $this->template->logged = !empty($this->section_admin->user);
         $this->template->user = $this->dbWrapper->getUserById($this->section_admin->user_id);
 
-        $this->template->topBrands = $this->dbWrapper->getTopBrands(6, 4);
+        $this->template->topBrands = $this->dbWrapper->getTopCarMake(6, 4);
         $this->template->userWishlist = $this->dbWrapper->getUserWishlist($this->section_admin->user_id);
     }
 
@@ -72,24 +72,9 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         return $this->utils;
     }
 
-    public function handleLoadBrandModels($formName, $brandId)
+    public function handleLoadCarModels($formName, $makeId)
     {
-        $this->formComponent->handleLoadBrandModels($formName, $brandId);
-    }
-
-    public function handleLoadModelTypes($formName, $modelId)
-    {
-        $this->formComponent->handleLoadModelTypes($formName, $modelId);
-    }
-
-    public function handleLoadTypeYears($formName, $typeId)
-    {
-        $this->formComponent->handleLoadTypeYears($formName, $typeId);
-    }
-
-    public function handleLoadTypeYearMonths($formName, $typeId, $year)
-    {
-        $this->formComponent->handleLoadTypeYearMonths($formName, $typeId, $year);
+        $this->formComponent->handleLoadCarModels($formName, $makeId);
     }
 
     public function handleAddToWishlist($postId, $add)

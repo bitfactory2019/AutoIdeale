@@ -34,7 +34,7 @@ final class RequestsPresenter extends _BasePresenter
     {
         $requestId = $this->getHttpRequest()->getPost('requestId');
 
-        $dbo = $this->db->table("posts_requests")
+        $dbo = $this->db->table("car_posts_requests")
             ->where('id', $requestId);
 
         if ($form['approved']->isSubmittedBy()) {

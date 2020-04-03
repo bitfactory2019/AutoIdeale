@@ -159,63 +159,6 @@ class DbWrapper
     public function addNewPost($userId, $values)
     {
         try {
-            $brand = $this->db->table('brands')->get($values->brands_id);
-            $brand_model = $this->db->table('brands_models')->get($values->brands_models_id);
-
-            $post = $this->db->table('posts')->insert([
-                'users_id' => $userId,
-                'brands_id' => $values->brands_id,
-                'brands_models_id' => $values->brands_models_id,
-                'brands_models_types_id' => $values->brands_models_types_id,
-                'year' => $values->year,
-                'month' => $values->month,
-                'fuel_types_id' => $values->fuel_types_id,
-                'kilometers_id' => $values->kilometers_id,
-                'models_id' => $values->models_id,
-                'vehicle_types_id' => $values->vehicle_types_id,
-                'colors_id' => $values->colors_id,
-                'shift_types_id' => $values->shift_types_id,
-                'euro_class_id' => $values->euro_class_id,
-                'doors_id' => $values->doors_id,
-                'seats_id' => $values->seats_id,
-                'title' => $brand->name.' '.$brand_model->name,
-                'description' => $values->description,
-                'name' => $values->name,
-                'surname' => $values->surname,
-                'city' => $values->city,
-                'address' => $values->address,
-                'county' => $values->county,
-                'cap' => $values->cap,
-                'lat' => $values->mapCoordsLat,
-                'long' => $values->mapCoordsLong,
-                'telephone' => $values->telephone,
-                'website' => $values->website,
-                'email' => $values->email,
-                'facebook' => $values->facebook,
-                'twitter' => $values->twitter,
-                'instagram' => $values->instagram,
-                'price' => $values->price,
-                'approved' => true,
-                'creation_time' => \time(),
-                'ip_address' => $this->presenter->getHttpRequest()->getRemoteAddress()
-            ]);
-
-            return $post->getPrimary();
-        }
-        catch (\PDOException $e) {
-            Debugger::dump($e);
-            return false;
-        }
-    }
-
-    public function addPostImages($postId, $images)
-    {
-        $this->_addItemImage('post', $postId, $images);
-    }
-
-    public function addNewCarDbPost($userId, $values)
-    {
-        try {
             $car_make = $this->db->table('car_make')->get($values->car_make_id);
             $car_model = $this->db->table('car_model')->get($values->car_model_id);
 
@@ -229,6 +172,7 @@ class DbWrapper
                 'year' => $values->year,
                 'month' => $values->month,
                 'kilometers_id' => $values->kilometers_id,
+                'vehicle_types_id' => $values->vehicle_types_id,
                 'colors_id' => $values->colors_id,
                 'title' => $car_make->name.' '.$car_model->name,
                 'description' => $values->description,
@@ -260,7 +204,7 @@ class DbWrapper
         }
     }
 
-    public function addCarDbPostImages($postId, $images)
+    public function addPostImages($postId, $images)
     {
         $this->_addItemImage('car_post', $postId, $images);
     }
@@ -268,26 +212,22 @@ class DbWrapper
     public function editPost($postId, $values)
     {
         try {
-            $brand = $this->db->table('brands')->get($values->brands_id);
-            $brand_model = $this->db->table('brands_models')->get($values->brands_models_id);
+            $make = $this->db->table('car_make')->get($values->car_make_id);
+            $car_model = $this->db->table('car_model')->get($values->car_model_id);
 
-            $post = $this->db->table('posts')
+            $post = $this->db->table('car_posts')
                 ->where('id', $postId)
                 ->update([
-                    'brands_id' => $values->brands_id,
-                    'brands_models_id' => $values->brands_models_id,
-                    'brands_models_types_id' => $values->brands_models_types_id,
+                    'car_make_id' => $values->car_make_id,
+                    'car_model_id' => $values->car_model_id,
+                    'car_serie_id' => $values->car_serie_id,
+                    'car_trim_id' => $values->car_trim_id,
+                    'car_equipment_id' => $values->car_equipment_id,
                     'year' => $values->year,
                     'month' => $values->month,
-                    'fuel_types_id' => $values->fuel_types_id,
                     'kilometers_id' => $values->kilometers_id,
-                    'models_id' => $values->models_id,
                     'vehicle_types_id' => $values->vehicle_types_id,
                     'colors_id' => $values->colors_id,
-                    'shift_types_id' => $values->shift_types_id,
-                    'euro_class_id' => $values->euro_class_id,
-                    'doors_id' => $values->doors_id,
-                    'seats_id' => $values->seats_id,
                     'title' => $brand->name.' '.$brand_model->name,
                     'description' => $values->description,
                     'name' => $values->name,
@@ -317,7 +257,7 @@ class DbWrapper
     public function deletePost($postId)
     {
         try {
-            $this->db->table('posts')
+            $this->db->table('car_posts')
                 ->where('id', $postId)
                 ->delete();
 
@@ -332,7 +272,7 @@ class DbWrapper
     {
         $posts = [];
 
-        $dbo = $this->db->table('posts')
+        $dbo = $this->db->table('car_posts')
             ->where('users_id', $userId);
 
         switch ($sort) {
@@ -353,20 +293,11 @@ class DbWrapper
 
     public function getPost($id)
     {
-        $row = $this->db->table('posts')
-            ->where('id', $id)
-            ->fetch();
-
-        return $this->utils->formatPostResult($row);
-    }
-
-    public function getCarDbPost($id)
-    {
         $row = $this->db->table('car_posts')
             ->where('id', $id)
             ->fetch();
 
-        return $this->utils->formatCarDbPostResult($row);
+        return $this->utils->formatPostResult($row);
     }
 
     public function searchPosts($page = 1, $limit = 10)
@@ -375,7 +306,7 @@ class DbWrapper
 
         $posts = [];
 
-        $search_dbo = $this->db->table('posts');
+        $search_dbo = $this->db->table('car_posts');
 
         if (!empty($search->place)) {
           $mapbox = new \App\Components\Mapbox\Mapbox('pk.eyJ1IjoiYXV0b2lkZWFsZSIsImEiOiJjazZreGhjZHQwMzYwM2Zxc2Iza2QzenB5In0.gSyjkkYqOh8ngSMnLvz3Aw');
@@ -398,8 +329,8 @@ class DbWrapper
                 )
               )
             ) AS distance ")
-            ->where("posts.lat IS NOT NULL")
-            ->where("posts.long IS NOT NULL")
+            ->where("car_posts.lat IS NOT NULL")
+            ->where("car_posts.long IS NOT NULL")
             ->having("distance < ?", 25)
             ->order('distance ASC');
         }
@@ -407,20 +338,12 @@ class DbWrapper
           $search_dbo->order('creation_time DESC');
         }
 
-        if (!empty($search->brands_id)) {
-            $search_dbo->where('brands_id', $search->brands_id);
+        if (!empty($search->car_make_id)) {
+            $search_dbo->where('car_make_id', $search->car_make_id);
         }
 
-        if (!empty($search->brands_models_id)) {
-            $search_dbo->where('brands_models_id', $search->brands_models_id);
-        }
-
-        if (!empty($search->brands_models_types_id)) {
-            $search_dbo->where('brands_models_types_id', $search->brands_models_types_id);
-        }
-
-        if (!empty($search->models_id)) {
-            $search_dbo->where('models_id', $search->models_id);
+        if (!empty($search->car_model_id)) {
+            $search_dbo->where('car_model_id', $search->car_model_id);
         }
 
         if (!empty($search->year)) {
@@ -447,10 +370,6 @@ class DbWrapper
             $search_dbo->where('price <= ?', $search->price_to);
         }
 
-        if (!empty($search->fuel_types_id)) {
-            $search_dbo->where('fuel_types_id', $search->fuel_types_id);
-        }
-
         if (!empty($search->kilometers_from)) {
             $search_dbo->where('kilometers.from >= ?', $search->kilometers_from);
         }
@@ -459,44 +378,16 @@ class DbWrapper
             $search_dbo->where('kilometers.to <= ?', $search->kilometers_to);
         }
 
-        if (!empty($search->seats_from)) {
-            $search_dbo->where('seats.from >= ?', $search->seats_from);
-        }
-
-        if (!empty($search->seats_to)) {
-            $search_dbo->where('seats.to <= ?', $search->seats_to);
-        }
-
-        if (!empty($search->shift_types_id)) {
-            $search_dbo->where('shift_types_id', $search->shift_types_id);
-        }
-
-        if (!empty($search->power_from)) {
-            $search_dbo->where('brands_models_types.' . $search->power_type . ' >= ?', $search->power_from);
-        }
-
-        if (!empty($search->power_to)) {
-            $search_dbo->where('brands_models_types.' . $search->power_type . ' <= ?', $search->power_to);
-        }
-
         $search_dbo_page = clone $search_dbo;
 
-        $search_dbo_brands = clone $search_dbo;
-        $search_dbo_brands->select('COUNT(id) AS tot, brands_id')
-                          ->group('brands_id');
-
-        $search_dbo_fuel_types = clone $search_dbo;
-        $search_dbo_fuel_types->select('COUNT(id) AS tot, fuel_types_id')
-                              ->group('fuel_types_id');
+        $search_dbo_car_makes = clone $search_dbo;
+        $search_dbo_car_makes->select('COUNT(car_posts.id) AS tot, car_make_id')
+                          ->group('car_make_id');
 
         $filters = $this->presenter->getSession('frontend')->offsetGet('filters');
 
-        if (!empty($filters->brands_id)) {
-            $search_dbo_page->where('brands_id', $filters->brands_id);
-        }
-
-        if (!empty($filters->fuel_types_id)) {
-            $search_dbo_page->where('fuel_types_id', $filters->fuel_types_id);
+        if (!empty($filters->car_make_id)) {
+            $search_dbo_page->where('car_make_id', $filters->car_make_id);
         }
 
         if (!empty($filters->price)) {
@@ -512,8 +403,7 @@ class DbWrapper
         return [
             'tot' => $tot,
             'posts' => $search_dbo_page->page($page, $limit),
-            'brands' => $search_dbo_brands,
-            'fuel_types' => $search_dbo_fuel_types,
+            'car_makes' => $search_dbo_car_makes,
             'page' => [],
             'pagination' => [
               'current' => $page,
@@ -533,8 +423,8 @@ class DbWrapper
         $dateTime = DateTime::createFromFormat("l d/m/Y h:i", $values->date." ".$values->time);
 
         try {
-            $request = $this->db->table('posts_requests')->insert([
-                'posts_id' => $values->postId,
+            $request = $this->db->table('car_posts_requests')->insert([
+                'car_posts_id' => $values->postId,
                 'status' => 'pending',
                 'name' => $values->name,
                 'email' => $values->email,
@@ -554,8 +444,8 @@ class DbWrapper
     public function sendPostMessage($values)
     {
       try {
-        $thread = $this->db->table('posts_threads')->insert([
-          'posts_id' => $values->postId,
+        $thread = $this->db->table('car_posts_threads')->insert([
+          'car_posts_id' => $values->postId,
           'hash' => Random::generate(45),
           'name' => $values->name,
           'email' => $values->email,
@@ -565,8 +455,8 @@ class DbWrapper
 
         $threadId = $thread->getPrimary();
 
-        $message = $this->db->table('posts_threads_messages')->insert([
-          'posts_threads_id' => $threadId,
+        $message = $this->db->table('car_posts_threads_messages')->insert([
+          'car_posts_threads_id' => $threadId,
           'new' => true,
           'from' => 'visitor',
           'message' => $values->message,
@@ -584,8 +474,8 @@ class DbWrapper
     public function addThreadMessage($values)
     {
       try {
-        $message = $this->db->table('posts_threads_messages')->insert([
-          'posts_threads_id' => $values->threadId,
+        $message = $this->db->table('car_posts_threads_messages')->insert([
+          'car_posts_threads_id' => $values->threadId,
           'new' => $values->new,
           'from' => $values->from,
           'message' => $values->message,
@@ -600,40 +490,40 @@ class DbWrapper
       }
     }
 
-    public function getBrands($brandsNo = false, $modelsNo = false)
+    public function getCarMake($carMakeNo = false, $carModelsNo = false)
     {
-      return $this->_getBrands($brandsNo, $modelsNo);
+      return $this->_getCarMake($carMakeNo, $carModelsNo);
     }
 
-    public function getTopBrands($brandsNo = false, $modelsNo = false)
+    public function getTopCarMake($carMakeNo = false, $modelsNo = false)
     {
-      return $this->_getBrands($brandsNo, $modelsNo, true);
+      return $this->_getCarMake($carMakeNo, $modelsNo, true);
     }
 
-    public function getRandomBrands($brandsNo = false, $modelsNo = false)
+    public function getRandomCarMake($carMakeNo = false, $modelsNo = false)
     {
-        return $this->_getBrands($brandsNo, $modelsNo, false, true);
+        return $this->_getCarMake($carMakeNo, $modelsNo, false, true);
     }
 
-    private function _getBrands($brandsNo = false, $modelsNo = false, $top = false, $random = false)
+    private function _getCarMake($carMakeNo = false, $modelsNo = false, $top = false, $random = false)
     {
-      $brands = [];
+      $car_make = [];
 
-      $brands_dbo = $this->db->table('brands')
+      $car_make_dbo = $this->db->table('car_make')
         ->order($random !== false ? 'RAND()' : 'name');
 
       if ($top !== false) {
-        $brands_dbo->where('top', true);
+        $car_make_dbo->where('top', true);
       }
 
-      if ($brandsNo !== false) {
-        $brands_dbo->limit($brandsNo);
+      if ($car_make_dbo !== false) {
+        $car_make_dbo->limit($carMakeNo);
       }
 
-      $rows = $brands_dbo->fetchPairs('id');
+      $rows = $car_make_dbo->fetchPairs('id');
 
       foreach ($rows as $row) {
-        $models = $row->related('brands_models')
+        $models = $row->related('car_model')
           ->order('RAND()');
 
         if ($top !== false) {
@@ -644,20 +534,20 @@ class DbWrapper
           $models->limit($modelsNo);
         }
 
-        $brands[] = [
+        $car_make[] = [
           "data" => $row,
           "models" => $models->fetchPairs('id')
         ];
       }
 
-      return $brands;
+      return $car_make;
     }
 
     public function getShowcase($postsNo = false)
     {
         $posts = [];
 
-        $rows_dbo = $this->db->table('posts')
+        $rows_dbo = $this->db->table('car_posts')
             ->order('creation_time DESC');
 
         if ($postsNo !== false) {
@@ -675,31 +565,31 @@ class DbWrapper
 
     public function getThreads($userId, $only_new = false)
     {
-      return $this->db->table("posts_threads")
-        ->where("posts.users_id", $userId);
+      return $this->db->table("car_posts_threads")
+        ->where("car_posts.users_id", $userId);
     }
 
     public function getThread($threadId)
     {
-      return $this->db->table("posts_threads")->get($threadId);
+      return $this->db->table("car_posts_threads")->get($threadId);
     }
 
     public function getThreadMessages($threadId)
     {
-      return $this->db->table("posts_threads_messages")
-        ->where("posts_threads_id", $threadId);
+      return $this->db->table("car_posts_threads_messages")
+        ->where("car_posts_threads_id", $threadId);
     }
 
     public function getMessages($userId)
     {
-      return $this->db->table('posts_threads_messages')
-        ->group('posts_threads.posts.users_id');
+      return $this->db->table('car_posts_threads_messages')
+        ->group('car_posts_threads.posts.users_id');
     }
 
     public function saveAllRead($threadId)
     {
-      $this->db->table('posts_threads_messages')
-        ->where('posts_threads_id', $threadId)
+      $this->db->table('car_posts_threads_messages')
+        ->where('car_posts_threads_id', $threadId)
         ->update(['new' => false]);
     }
 
@@ -707,8 +597,8 @@ class DbWrapper
     {
         $messages = [];
 
-        $rows = $this->db->table('posts_requests')
-            ->where('posts.users_id', $userId)
+        $rows = $this->db->table('car_posts_requests')
+            ->where('car_posts.users_id', $userId)
             ->order('creation_time DESC');
 
         if ($status !== 'all') {
@@ -720,7 +610,7 @@ class DbWrapper
         foreach ($rows as $row) {
             $messages[] = [
                 "data" => $row,
-                "post" => $this->utils->formatPostResult($row->posts)
+                "post" => $this->utils->formatPostResult($row->car_posts)
             ];
         }
 
@@ -729,12 +619,12 @@ class DbWrapper
 
     public function getRequest($requestId)
     {
-        $row = $this->db->table('posts_requests')
+        $row = $this->db->table('car_posts_requests')
             ->get($requestId);
 
         return [
             "data" => $row,
-            "post" => $this->utils->formatPostResult($row->posts)
+            "post" => $this->utils->formatPostResult($row->car_posts)
         ];
     }
 
@@ -742,7 +632,7 @@ class DbWrapper
     {
       $this->db->table('users_wishlists')
         ->insert([
-          'posts_id' => $postId,
+          'car_posts_id' => $postId,
           'users_id' => $userId,
           'creation_time' => \time()
         ]);
@@ -752,7 +642,7 @@ class DbWrapper
     {
       $this->db->table('users_wishlists')
         ->where([
-          'posts_id' => $postId,
+          'car_posts_id' => $postId,
           'users_id' => $userId
         ])
         ->delete();
@@ -764,10 +654,10 @@ class DbWrapper
 
       $rows = $this->db->table('users_wishlists')
         ->where('users_id', $userId)
-        ->fetchPairs('posts_id');
+        ->fetchPairs('car_posts_id');
 
       foreach ($rows as $row) {
-          $posts[$row->posts_id] = $this->utils->formatPostResult($row->posts);
+          $posts[$row->car_posts_id] = $this->utils->formatPostResult($row->car_posts);
       }
 
       return $posts;

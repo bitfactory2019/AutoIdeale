@@ -3,7 +3,7 @@
     <div class="card mb-3 p-2">
       <div class="row no-gutters">
         <div class="col-md-4">
-          <img src="{$item->related('posts_images.posts_id')->fetch()->url}" class="card-img" alt="...">
+          <img src="{$item->related('car_posts_images.car_posts_id')->fetch()->url}" class="card-img" alt="...">
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -14,34 +14,23 @@
             <p class="card-text">{$item->description|noescape|trim}</p>
 
             <div class="row add_bottom_30">
-                <div class="col-md-6">
-                    <ul class="bullets">
-                        <li><strong>Marca</strong> {$item->brands->name}</li>
-                        <li><strong>Modello</strong> {$item->brands_models->name}</li>
-                        <li>
-                            <strong>Motorizzazione</strong>
-                            {$item->brands_models_types->type} -
-                            {$item->brands_models_types->cc}cc -
-                            {$item->brands_models_types->cv}cv ({$item->brands_models_types->kw}kw)
-                        </li>
-                        <li><strong>Immatricolazione</strong> {$item->month|month} {$item->year}</li>
-                        <li><strong>Carburante</strong> {$item->fuel_types->name}</li>
-                        <li>
-                            <strong>Chilometri</strong>
-                            {$item->kilometers->from|number:0:'':'.'} km -
-                            {$item->kilometers->to|number:0:'':'.'} km
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <ul class="bullets">
-                        <li><strong>Tipo di veicolo</strong> {$item->models->name}</li>
-                        <li><strong>Cambio</strong> {$item->shift_types->name}</li>
-                        <li><strong>Porte</strong> {$item->doors->name} porte</li>
-                        <li><strong>Posti</strong> {$item->seats->seats_no}{if $item->seats->more}+{/if} posti</li>
-                        <li><strong>Classe</strong> {$item->euro_class->name}</li>
-                    </ul>
-                </div>
+              <div class="col-md-6">
+                <ul class="bullets">
+                  <li data-icon="&#x64;">{$post[data]->car_make->name}</li>
+                  <li data-icon="&#x64;">{$post[data]->car_model->name}</li>
+                  <li data-icon="&#x65;">{$post[data]->vehicle_types->name}</li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul class="bullets">
+                  <li data-icon="&#x64;">{$post[data]->month|month} {$post[data]->year}</li>
+                  <li data-icon="&#xe01c;">
+                      {$post[data]->kilometers->from|number:0:'':'.'} km -
+                      {$post[data]->kilometers->to|number:0:'':'.'} km
+                  </li>
+                  <li data-icon="&#x65;">{$post[data]->colors->name}</li>
+                </ul>
+              </div>
             </div>
             <p class="card-text">
               <small class="text-muted">

@@ -10,7 +10,7 @@ final class ThreadPresenter extends _BasePresenter
 {
   public function renderIndex($hash)
   {
-    $this->template->thread = $this->db->table("posts_threads")
+    $this->template->thread = $this->db->table("car_posts_threads")
       ->where("hash", $hash);
   }
 }

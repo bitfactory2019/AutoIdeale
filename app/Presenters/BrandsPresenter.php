@@ -10,6 +10,6 @@ final class BrandsPresenter extends _BasePresenter
 {
   public function renderIndex()
   {
-    $this->template->allBrands = $this->dbWrapper->getBrands(false, false);
+    $this->template->allBrands = $this->dbWrapper->getCarMake(false, false);
   }
 }

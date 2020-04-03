@@ -21,19 +21,19 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {label brands_id /}
+                                    {label car_make_id /}
 
                                     <div class="input-group">
-                                        {input brands_id}
+                                        {input car_make_id}
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {snippet brands_models}
-                                        {label brands_models_id /}
+                                    {snippet car_model}
+                                        {label car_model_id /}
                                         <div class="input-group">
-                                            {input brands_models_id}
+                                            {input car_model_id}
                                             <span id="brands-models-loading" class="input-group-addon" style="display:none">
                                                 <i class="fa fa-refresh fa-spin"></i>
                                             </span>
@@ -42,6 +42,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
+                              {*
                                 <div class="form-group">
                                     {snippet brands_models_types}
                                         {label brands_models_types_id /}
@@ -53,18 +54,11 @@
                                         </div>
                                     {/snippet}
                                 </div>
+                                *}
                             </div>
                         </div>
                         <!-- row -->
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    {label models_id /}
-                                    <div class="input-group">
-                                        {input models_id}
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-md-4">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -113,14 +107,6 @@
                         <div class="dropdown-divider"></div>
 
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    {label fuel_types_id /}
-                                    <div class="input-group">
-                                        {input fuel_types_id}
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     {label kilometers_from /}
@@ -139,73 +125,9 @@
                                     {/snippet}
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    {label seats_from /}
-                                    <div class="input-group">
-                                        {input seats_from}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    {snippet seats_to}
-                                        {label seats_to /}
-                                        <div class="input-group">
-                                            {input seats_to}
-                                        </div>
-                                    {/snippet}
-                                </div>
-                            </div>
                         </div>
                         <div class="dropdown-divider"></div>
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    {label shift_types_id /}
-                                    <div class="input-group">
-                                        {input shift_types_id}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            {label power_type /}
-                                            <div class="input-group">
-                                                {input power_type}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            {label power_from /}
-                                            <div class="input-group">
-                                                {input power_from}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            {label power_to /}
-                                            <div class="input-group">
-                                                {input power_to}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    {label doors_id, class => 'doors_label' /}
-                                      <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                          {input doors_id}
-                                      </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row justify-content-center">
                             {input search}
                         </div>
@@ -218,89 +140,15 @@
 
 {block scripts}
     <script>
-        $('#' + {$control['advancedSearchForm']['brands_id']->htmlId}).off('change').on('change', function () {
-            $("#brands-models-loading").show();
+        $('#' + {$control['advancedSearchForm']['car_make_id']->htmlId}).off('change').on('change', function () {
+            $("#car-model-loading").show();
 
             $.nette.ajax({
                 type: 'GET',
-                url: {link LoadBrandModels!},
+                url: {link LoadCarModels!},
                 data: {
                     'formName': 'advancedSearchForm',
-                    'brandId': $(this).val(),
-                }
-            });
-        });
-
-        $('#advancedSearchForm').on('change', '#' + {$control['advancedSearchForm']['brands_models_id']->htmlId}, function () {
-            $("#brands-models-types-loading").show();
-
-            $.nette.ajax({
-                type: 'GET',
-                url: {link LoadModelTypes!},
-                data: {
-                    'formName': 'advancedSearchForm',
-                    'modelId': $(this).val(),
-                }
-            });
-        });
-
-        $('#advancedSearchForm').on('change', '#' + {$control['advancedSearchForm']['brands_models_types_id']->htmlId}, function () {
-            $("#brands-models-types-year-loading").show();
-
-            $.nette.ajax({
-                type: 'GET',
-                url: {link LoadTypeYears!},
-                data: {
-                    'formName': 'advancedSearchForm',
-                    'typeId': $(this).val(),
-                }
-            });
-        });
-
-        $('#advancedSearchForm').on('change', '#' + {$control['advancedSearchForm']['year_from']->htmlId}, function () {
-            $("#brands-models-types-year-loading").show();
-
-            $.nette.ajax({
-                type: 'GET',
-                url: {link ChangeYear!},
-                data: {
-                    'year': $(this).val(),
-                }
-            });
-        });
-
-        $('#advancedSearchForm').on('change', '#' + {$control['advancedSearchForm']['price_from']->htmlId}, function () {
-            $("#brands-models-types-year-loading").show();
-
-            $.nette.ajax({
-                type: 'GET',
-                url: {link ChangePrice!},
-                data: {
-                    'price': $(this).val(),
-                }
-            });
-        });
-
-        $('#advancedSearchForm').on('change', '#' + {$control['advancedSearchForm']['kilometers_from']->htmlId}, function () {
-            $("#brands-models-types-year-loading").show();
-
-            $.nette.ajax({
-                type: 'GET',
-                url: {link ChangeKilometers!},
-                data: {
-                    'kilometers': $(this).val(),
-                }
-            });
-        });
-
-        $('#advancedSearchForm').on('change', '#' + {$control['advancedSearchForm']['seats_from']->htmlId}, function () {
-            $("#brands-models-types-year-loading").show();
-
-            $.nette.ajax({
-                type: 'GET',
-                url: {link ChangeSeats!},
-                data: {
-                    'seats': $(this).val(),
+                    'makeId': $(this).val(),
                 }
             });
         });

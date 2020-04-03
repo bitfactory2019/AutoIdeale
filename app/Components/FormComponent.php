@@ -26,20 +26,20 @@ class FormComponent extends UI\Component
             ->setHtmlAttribute('class', 'form-control')
             ->setDefaultValue($sessionSearch->place ?? null);
 
-        $form->addSelect('brands_id', 'Marca auto')
-            ->setItems($this->presenter->getUtils()->getDbOptions('brands'))
+        $form->addSelect('car_make_id', 'Marca auto')
+            ->setItems($this->presenter->getUtils()->getDbOptions('car_make'))
             ->setPrompt('-- Marca --')
             ->setHtmlAttribute('class', 'form-control wide')
-            ->setDefaultValue($sessionSearch->brands_id ?? null);
+            ->setDefaultValue($sessionSearch->car_make_id ?? null);
 
-        $form->addSelect('brands_models_id', 'Modello auto')
+        $form->addSelect('car_model_id', 'Modello auto')
             ->setPrompt('-- Modello --')
             ->setItems($this->presenter->getUtils()->getDbOptions(
-                 'brands_models',
-                 !empty($sessionSearch->brands_id) ? ["brands_id" => $sessionSearch->brands_id] : []
+                 'car_model',
+                 !empty($sessionSearch->car_make_id) ? ["car_make_id" => $sessionSearch->car_make_id] : []
             ))
             ->setHtmlAttribute('class', 'form-control wide')
-            ->setDefaultValue(!empty($sessionSearch->brands_models_id) ? $sessionSearch->brands_models_id : null);
+            ->setDefaultValue(!empty($sessionSearch->car_model_id) ? $sessionSearch->car_model_id : null);
 
         $form->addSelect('year', 'Anno')
             ->setPrompt('Anno da')
@@ -72,29 +72,17 @@ class FormComponent extends UI\Component
     {
         $form = new UI\Form;
 
-        $form->addSelect('brands_id', 'Marca auto')
+        $form->addSelect('car_make_id', 'Marca auto')
              //->setRequired('Scegli la casa automobilistica')
-             ->setItems($this->presenter->getUtils()->getDbOptions('brands'))
+             ->setItems($this->presenter->getUtils()->getDbOptions('car_make'))
              ->setPrompt('-- Casa Automobilistica --')
              ->setHtmlAttribute('class', 'form-control wide');
 
-        $form->addSelect('brands_models_id', 'Modello auto')
+        $form->addSelect('car_model_id', 'Modello auto')
              //->setRequired('Scegli il modello di auto')
              ->setPrompt('-- Scegli prima la Casa Automobilistica --')
              ->setItems([])
              ->setHtmlAttribute('class', 'form-control wide');
-
-        $form->addSelect('brands_models_types_id', 'Configurazione')
-             //->setRequired('Scegli il modello di auto')
-             ->setPrompt('-- Scegli prima il modello --')
-             ->setItems([])
-             ->setHtmlAttribute('class', 'form-control wide');
-
-         $form->addSelect('models_id', 'Tipo di auto')
-              //->setRequired('Scegli la casa automobilistica')
-              ->setItems($this->presenter->getUtils()->getDbOptions('models'))
-              ->setPrompt('-- Tutti --')
-              ->setHtmlAttribute('class', 'form-control wide');
 
         $form->addSelect('year_from', 'Anno')
              ->setPrompt('dal')
@@ -116,11 +104,6 @@ class FormComponent extends UI\Component
             ->setItems($this->getPriceRanges(), false)
             ->setHtmlAttribute('class', 'form-control wide');
 
-        $form->addSelect('fuel_types_id', 'Carburante')
-             ->setItems($this->presenter->getUtils()->getDbOptions('fuel_types'))
-             ->setPrompt('-- Tutto --')
-             ->setHtmlAttribute('class', 'form-control wide');
-
         $form->addSelect('kilometers_from', 'Chilometraggio')
              ->setItems($this->getKilometersRanges(), false)
              ->setPrompt('da')
@@ -131,35 +114,10 @@ class FormComponent extends UI\Component
              ->setPrompt('a')
              ->setHtmlAttribute('class', 'form-control wide');
 
-        $form->addSelect('seats_from', 'N. di posti')
-             ->setItems(\range(1, 12), false)
-             ->setPrompt('da')
-             ->setHtmlAttribute('class', 'form-control wide');
-
-        $form->addSelect('seats_to')
-             ->setItems(\range(1, 12), false)
-             ->setPrompt('a')
-             ->setHtmlAttribute('class', 'form-control wide');
-
-        $form->addSelect('shift_types_id', 'Cambio')
-             ->setItems($this->presenter->getUtils()->getDbOptions('shift_types'))
-             ->setPrompt('-- Tutto --')
-             ->setHtmlAttribute('class', 'form-control wide');
-
-        $form->addSelect('power_type', 'Potenza')
-             ->setItems(['cv' => 'CV', 'kw' => 'kW'])
-             ->setHtmlAttribute('class', 'form-control wide');
-
-        $form->addText('power_from', 'da')
-             ->setHtmlAttribute('class', 'form-control');
-
-        $form->addText('power_to', 'a')
-             ->setHtmlAttribute('class', 'form-control');
-
         $form->addRadioList(
             'doors_id',
             'N. di porte',
-            ['' => 'Tutto'] + $this->presenter->getUtils()->getDbOptions('doors')
+            ['' => 'Tutto']
         )
         ->getItemLabelPrototype()
         ->addClass("btn btn-secondary");
@@ -198,7 +156,7 @@ class FormComponent extends UI\Component
     public function submitSearchPost(UI\Form $form, \stdClass $values): void
     {
         // hack necessario per select dinamico
-        $values->brands_models_id = $_POST["brands_models_id"];
+        $values->car_model_id = $_POST["car_model_id"];
 
         $this->presenter->getSession('frontend')->remove();
         $this->presenter->getSession('frontend')->offsetSet('search', $values);
@@ -209,10 +167,9 @@ class FormComponent extends UI\Component
     public function submitAdvancedSearchPost(UI\Form $form, \stdClass $values): void
     {
         // hack necessario per select dinamico
-        $values->brands_models_id = $_POST["brands_models_id"];
-        $values->brands_models_types_id = $_POST["brands_models_types_id"];
-        $values->year_to = $_POST["year_to"];
-        $values->price_to = $_POST["price_to"];
+        $values->car_model_id = $_POST["car_model_id"];
+        //$values->year_to = $_POST["year_to"];
+        //$values->price_to = $_POST["price_to"];
 
         $this->presenter->getSession('frontend')->remove();
         $this->presenter->getSession('frontend')->offsetSet('search', $values);
@@ -220,55 +177,21 @@ class FormComponent extends UI\Component
         $this->presenter->redirect('Listing:searchResults');
     }
 
-    public function handleLoadBrands($brandId)
+    public function handleLoadCarModels($formName, $makeId)
     {
-        if ($brandId) {
-            $this['searchForm']['brands_models_id']
-                ->setPrompt('-- Modello --')
-                ->setItems($this->presenter->getUtils()->getDbOptions("brands_models", ["brands_id" => $brandId]));
-        }
-        else {
-            $this['searchForm']['brands_models_id']
-                ->setPrompt('-- Modello --')
-                ->setItems([]);
-        }
-
-        $this->presenter->redrawControl('searchWrapper');
-        $this->presenter->redrawControl('brands_models');
-    }
-
-    public function handleLoadBrandModels($formName, $brandId)
-    {
-         if ($brandId) {
-              $this->presenter[$formName]['brands_models_id']
+         if ($makeId) {
+              $this->presenter[$formName]['car_model_id']
                    ->setPrompt("-- Scegli un modello --")
-                   ->setItems($this->presenter->getUtils()->getDbOptions("brands_models", ["brands_id" => $brandId]));
+                   ->setItems($this->presenter->getUtils()->getDbOptions("car_model", ["car_make_id" => $makeId]));
          }
          else {
-              $this->presenter[$formName]['brands_models_id']
+              $this->presenter[$formName]['car_model_id']
                    ->setPrompt('-- Scegli prima la Casa Automobilistica --')
                    ->setItems([]);
          }
 
          $this->presenter->redrawControl('wrapper');
-         $this->presenter->redrawControl('brands_models');
-    }
-
-    public function handleLoadModelTypes($formName, $modelId)
-    {
-         if ($modelId) {
-              $this->presenter[$formName]['brands_models_types_id']
-                   ->setPrompt("-- Scegli una configurazione --")
-                   ->setItems($this->presenter->getUtils()->getModelTypesOptions($modelId));
-         }
-         else {
-              $this->presenter[$formName]['brands_models_types_id']
-                   ->setPrompt('-- Scegli prima il modello --')
-                   ->setItems([]);
-         }
-
-         $this->presenter->redrawControl('wrapper');
-         $this->presenter->redrawControl('brands_models_types');
+         $this->presenter->redrawControl('car_model');
     }
 
     public function handleLoadTypeYears($formName, $typeId)

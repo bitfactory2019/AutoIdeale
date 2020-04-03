@@ -1,15 +1,15 @@
 {default $collapse = false}
 
 <div n:class="true ? collapse, true ? map_view, !$collapse ? show" id="collapseFilters">
-  <div id="filters-brands" class="filter_type">
+  <div id="filters-car-make" class="filter_type">
     <h6>Case automobilistiche</h6>
     <ul>
-      {foreach $searchResults['brands'] as $row}
+      {foreach $searchResults['car_makes'] as $row}
         <li>
           <label class="container_check">
-            {$row->brands->name}
+            {$row->car_make->name}
             <small>{$row->tot}</small>
-            <input type="checkbox" name="brands_id" value="{$row->brands_id}">
+            <input type="checkbox" name="car_make_id" value="{$row->car_make_id}">
             <span class="checkmark"></span>
           </label>
         </li>
@@ -23,6 +23,7 @@
     <input type="range" name="price" min="0" max="20000" step="1000" value="20000" data-orientation="horizontal">
   </div>
 
+  {*
   <div id="filters-fuel-types" class="filter_type">
     <h6>Carburante</h6>
     <ul>
@@ -38,18 +39,19 @@
       {/foreach}
     </ul>
   </div>
+  *}
 </div>
 <!--/collapse -->
 
 <script>
-  $('#filters-brands input').on('click', function (e) {
+  $('#filters-car-make input').on('click', function (e) {
     $('#search-results-wrapper .loading').addClass('active');
 
     $.nette.ajax({
       type: 'GET',
-      url: {link filterBrandsResults!},
+      url: {link filterCarMakeResults!},
       data: {
-        'brands_id': e.target.value,
+        'car_make_id': e.target.value,
         'checked': e.target.checked ? 1 : 0
       },
       success: function(data) {

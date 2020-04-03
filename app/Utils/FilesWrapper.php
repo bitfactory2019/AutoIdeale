@@ -25,12 +25,12 @@ class FilesWrapper
 
   public function deletePostImage($id)
   {
-    $file = $this->db->table('posts_images')
+    $file = $this->db->table('car_posts_images')
       ->get($id);
 
     FileSystem::delete($file->path);
 
-    $this->db->table('posts_images')
+    $this->db->table('car_posts_images')
       ->where('id', $id)
       ->delete();
   }

@@ -40,18 +40,18 @@ class PostsGrid extends DataGrid
 
     $this->addFilterText('title', 'Titolo: ');
     $this->addFilterSelect(
-      'brands',
+      'car_make',
       'Marca: ',
-      $presenter->getUtils()->getDbOptions('brands', [], true),
-      'brands_id'
+      $presenter->getUtils()->getDbOptions('car_make', [], true),
+      'car_make_id'
     );
 
-    if (!empty($this->filter['brands'])) {
+    if (!empty($this->filter['car_make'])) {
       $this->addFilterSelect(
-        'brands_models',
+        'car_model',
         'Modello: ',
-        $presenter->getUtils()->getDbOptions('brands_models', ['brands_id' => $grid->filter['brands']], true),
-        'brands_models_id'
+        $presenter->getUtils()->getDbOptions('car_model', ['car_make_id' => $grid->filter['car_make']], true),
+        'car_model_id'
       );
     }
 
@@ -74,9 +74,9 @@ class PostsGrid extends DataGrid
     $this->addFilterText('ip_address', 'IP inserimento: ');
 
     $this->addColumnText('title', 'Titolo');
-    $this->addColumnText('brands', 'Marca', 'brands.name')
+    $this->addColumnText('car_make', 'Marca', 'car_make.name')
       ->setSortable();
-    $this->addColumnText('brands_models', 'Modello', 'brands_models.name')
+    $this->addColumnText('car_model', 'Modello', 'car_model.name')
       ->setSortable();
 
     $this->addColumnText('user', 'Utente')

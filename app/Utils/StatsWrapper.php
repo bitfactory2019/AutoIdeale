@@ -18,9 +18,9 @@ class StatsWrapper
 
   private function _addPostStat($postId, $event)
   {
-    $this->db->table("posts_stats")
+    $this->db->table("car_posts_stats")
       ->insert([
-        "posts_id" => $postId,
+        "car_posts_id" => $postId,
         "event" => $event,
         "datetime" => \time(),
         "ip_address" => $this->presenter->getHttpRequest()->getRemoteAddress()

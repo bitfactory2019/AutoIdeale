@@ -11,35 +11,84 @@
     <p>{$post[data]->description|noescape|trim}</p>
 
     <h5 class="add_bottom_15">Informazioni</h5>
-
     <div class="row add_bottom_30">
-        <div class="col-md-6">
-            <ul class="bullets">
-                <li data-icon="&#x64;">{$post[data]->brands->name}</li>
-                <li data-icon="&#x64;">{$post[data]->brands_models->name}</li>
-                <li data-icon="&#x64;">
-                    {$post[data]->brands_models_types->type} -
-                    {$post[data]->brands_models_types->cc}cc -
-                    {$post[data]->brands_models_types->cv}cv ({$post[data]->brands_models_types->kw}kw)
-                </li>
-                <li data-icon="&#x64;">{$post[data]->month|month} {$post[data]->year}</li>
-                <li data-icon="&#xe007;">{$post[data]->fuel_types->name}</li>
-                <li data-icon="&#xe01c;">
-                    {$post[data]->kilometers->from|number:0:'':'.'} km -
-                    {$post[data]->kilometers->to|number:0:'':'.'} km
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <ul class="bullets">
-                <li data-icon="&#x65;">{$post[data]->models->name}</li>
-                <li data-icon="&#x5f;">{$post[data]->shift_types->name}</li>
-                <li data-icon="&#x64;">{$post[data]->doors->name} porte</li>
-                <li data-icon="&#x37;">{$post[data]->seats->seats_no}{if $post[data]->seats->more}+{/if} posti</li>
-                <li data-icon="&#x73;">{$post[data]->euro_class->name}</li>
-            </ul>
-        </div>
+      <div class="col-md-6">
+        <ul class="bullets">
+          <li data-icon="&#x64;">{$post[data]->car_make->name}</li>
+          <li data-icon="&#x64;">{$post[data]->car_model->name}</li>
+          <li data-icon="&#x65;">{$post[data]->vehicle_types->name}</li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <ul class="bullets">
+          <li data-icon="&#x64;">{$post[data]->month|month} {$post[data]->year}</li>
+          <li data-icon="&#xe01c;">
+              {$post[data]->kilometers->from|number:0:'':'.'} km -
+              {$post[data]->kilometers->to|number:0:'':'.'} km
+          </li>
+          <li data-icon="&#x65;">{$post[data]->colors->name}</li>
+        </ul>
+      </div>
     </div>
+
+    <h5 class="add_bottom_15">Motorizzazione</h5>
+    <div class="row add_bottom_30">
+      <div class="col">
+        <div class="row">
+          {var $title = ''}
+
+          {foreach $post[specifications] as $specification_value}
+            {var $specification_parent = $specification_value->car_specification->car_specification}
+
+            {if $specification_parent->car_specification_id == null && $specification_parent->name != $title}
+              </div>
+              <div class="row add_bottom_30">
+                <div class="col-md-12"><h6>{$specification_parent->name}</h6></div>
+              {var $title = $specification_parent->name}
+            {/if}
+
+            <div class="col-md-6">
+              <ul class="bullets">
+                <li data-icon="&#x64;">
+                  {$specification_value->car_specification->name}
+                  <strong>{$specification_value->value} {$specification_value->unit}</strong>
+                </li>
+              </ul>
+            </div>
+          {/foreach}
+        </div>
+      </div>
+    </div>
+
+    {if $post[options]}
+      <h5 class="add_bottom_15">Optionals</h5>
+      <div class="row add_bottom_30">
+        <div class="col">
+          <div class="row">
+            {var $title = ''}
+
+            {foreach $post[options] as $option_value}
+              {var $option_parent = $option_value->car_option->car_option}
+
+              {if $option_parent->car_option_id == null && $option_parent->name != $title}
+                </div>
+                <div class="row add_bottom_30">
+                  <div class="col-md-12"><h6>{$option_parent->name}</h6></div>
+                {var $title = $option_parent->name}
+              {/if}
+
+              <div class="col-md-6">
+                <ul class="bullets">
+                  <li data-icon="&#x64;">
+                    {$option_value->car_option->name}
+                  </li>
+                </ul>
+              </div>
+            {/foreach}
+          </div>
+        </div>
+      </div>
+    {/if}
     <!-- /row -->
     {*
     <div class="opening">

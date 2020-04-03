@@ -38,7 +38,7 @@
                 <td>{$_user->name} {$_user->surname}</td>
                 <td>{$_user->email}</td>
                 <td>{$_user->creation_time|date:'d/m/Y'}</td>
-                <td>{$_user->related('posts.users_id')->count()}</td>
+                <td>{$_user->related('car_posts.users_id')->count()}</td>
                 <td>{$_user->ip_address}</td>
                 <td>
                   <i n:if="$_user->enabled" class="fa fa-fw fa-check"></i>

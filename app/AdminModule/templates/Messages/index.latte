@@ -14,14 +14,14 @@
 			<div class="list_general">
 				<ul>
           {foreach $threads as $thread}
-            {var $lastMessage = $thread->related('posts_threads_messages')->order('datetime DESC')->limit(1)->fetch()}
+            {var $lastMessage = $thread->related('car_posts_threads_messages')->order('datetime DESC')->limit(1)->fetch()}
   					<li>
   						<span>{$lastMessage->datetime|date:'%d/%m/%Y alle %H:%M'}</span>
-  						<figure><img src="{$thread->posts->related('posts_images')->limit(1)->fetch()->url}" alt=""></figure>
+  						<figure><img src="{$thread->car_posts->related('car_posts_images')->limit(1)->fetch()->url}" alt=""></figure>
   						<h4>
                 {$thread->name}
                 per
-                <a n:href=":Listing:detail $thread->posts->id" target="_blank">{$thread->posts->title} <i class="fa fa-external-link"></i></a>
+                <a n:href=":Listing:detail $thread->car_posts->id" target="_blank">{$thread->car_posts->title} <i class="fa fa-external-link"></i></a>
                 <i n:if="$lastMessage->new" class="unread">Nuovo</i>
               </h4>
               <p class="message-request">

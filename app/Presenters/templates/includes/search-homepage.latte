@@ -19,13 +19,13 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    {input brands_id}
+                    {input car_make_id}
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    {snippet brands_models}
-                      {input brands_models_id}
+                    {snippet car_model}
+                      {input car_model_id}
                     {/snippet}
                   </div>
                 </div>
@@ -70,15 +70,15 @@
 <!-- /hero_single -->
 
 <script>
-  $('#' + {$control['searchForm']['brands_id']->htmlId}).off('change').on('change', function () {
-    $("#brands-models-loading").show();
+  $('#' + {$control['searchForm']['car_make_id']->htmlId}).off('change').on('change', function () {
+    $("#car-model-loading").show();
 
     $.nette.ajax({
       type: 'GET',
-      url: {link LoadBrandModels!},
+      url: {link LoadCarModels!},
       data: {
         'formName': 'searchForm',
-        'brandId': $(this).val(),
+        'makeId': $(this).val(),
       }
     });
   });

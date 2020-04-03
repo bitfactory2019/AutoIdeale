@@ -13,7 +13,7 @@
 		<h4>Conversazione con {$thread->name}</h4>
     <p>
       per
-      <a n:href=":Listing:detail $thread->posts->id" target="_blank">{$thread->posts->title} <i class="fa fa-external-link"></i></a>
+      <a n:href=":Listing:detail $thread->car_posts->id" target="_blank">{$thread->car_posts->title} <i class="fa fa-external-link"></i></a>
     </p>
 		<div class="list_general">
 			<section id="messages">
@@ -23,7 +23,7 @@
   						<div class="rev-content">
   							<div class="rev-info">
                   {if $message->from == 'visitor'}
-                    {$message->posts_threads->name}
+                    {$message->car_posts_threads->name}
                   {else}
                     Tu
                   {/if}

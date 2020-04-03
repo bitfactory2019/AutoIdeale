@@ -17,9 +17,9 @@ final class DashboardPresenter extends _BasePresenter
   {
     parent::startup();
 
-    $todayStats = $this->db->table('posts_stats')
+    $todayStats = $this->db->table('car_posts_stats')
       ->select('COUNT(*) AS tot, event, MAX(FROM_UNIXTIME(datetime, ?)) AS creation_date', '%Y-%m-%d')
-      ->where('posts.users_id', $this->section->user_id)
+      ->where('car_posts.users_id', $this->section->user_id)
       ->having('creation_date = ?', \date("Y-m-d"))
       ->group('event')
       ->fetchPairs('event');
@@ -141,7 +141,7 @@ final class DashboardPresenter extends _BasePresenter
       ->group('creation_date')
       ->fetchAssoc('creation_date');
 
-    $newPosts = $this->db->table('posts')
+    $newPosts = $this->db->table('car_posts')
       ->select('COUNT(*) AS tot, FROM_UNIXTIME(creation_time, ?) AS creation_date', '%Y-%m-%d')
       ->where('creation_time > ?', \strtotime("-".$days." days"))
       ->order('creation_time')
@@ -211,7 +211,7 @@ final class DashboardPresenter extends _BasePresenter
 
   private function _loadPostsStats($event, $days, $checkUser = true)
   {
-    $postsDbo = $this->db->table('posts_stats')
+    $postsDbo = $this->db->table('car_posts_stats')
       ->select('COUNT(*) AS tot, datetime, FROM_UNIXTIME(datetime, ?) AS datetime_formatted', '%Y-%m-%d')
       ->where('event', $event)
       ->where('datetime >= ?', \strtotime("-".$days." days"))
@@ -219,7 +219,7 @@ final class DashboardPresenter extends _BasePresenter
       ->group('datetime_formatted');
 
     if ($checkUser) {
-      $postsDbo->where('posts.users_id', $this->section->user_id);
+      $postsDbo->where('car_posts.users_id', $this->section->user_id);
     }
 
     return $postsDbo->fetchAssoc('datetime_formatted');

@@ -94,8 +94,8 @@ class EmailWrapper
 
     public function sendNewMessageUser($threadId)
     {
-      $thread = $this->db->table("posts_threads")->get($threadId);
-      $lastMessage = $thread->related('posts_threads_messages')
+      $thread = $this->db->table("car_posts_threads")->get($threadId);
+      $lastMessage = $thread->related('car_posts_threads_messages')
         ->where('from', 'visitor')
         ->where('new', true)
         ->order('datetime DESC')
@@ -105,16 +105,16 @@ class EmailWrapper
       $template = new \Latte\Engine;
       $mail = new Mail\Message;
       $config = $this->presenter->context->getParameters();
-      $user = $this->db->table('users')->get($thread->posts->users->id);
+      $user = $this->db->table('users')->get($thread->car_posts->users->id);
 
       $mail->setFrom('AutoIdeale <noreply@autoideale.it>')
         ->addTo($user->email)
         ->setHtmlBody(
           $template->renderToString($config['templateEmailsDir'].'newMessageUser.latte', [
-            "user" => $thread->posts->users,
+            "user" => $thread->car_posts->users,
             "thread" => $thread,
             "message" => $lastMessage,
-            "postLink" => $this->presenter->link("//Listing:detail", ["postId" => $thread->posts_id]),
+            "postLink" => $this->presenter->link("//Listing:detail", ["postId" => $thread->car_posts_id]),
             "messagesLink" => $this->presenter->link("//Admin:Messages:detail", $threadId)
           ])
         );
@@ -130,8 +130,8 @@ class EmailWrapper
 
     public function sendNewMessageVisitor($threadId)
     {
-      $thread = $this->db->table("posts_threads")->get($threadId);
-      $lastMessage = $thread->related('posts_threads_messages')
+      $thread = $this->db->table("car_posts_threads")->get($threadId);
+      $lastMessage = $thread->related('car_posts_threads_messages')
         ->where('from', 'visitor')
         ->where('new', true)
         ->order('datetime DESC')
@@ -141,16 +141,16 @@ class EmailWrapper
       $template = new \Latte\Engine;
       $mail = new Mail\Message;
       $config = $this->presenter->context->getParameters();
-      $user = $this->db->table('users')->get($thread->posts->users->id);
+      $user = $this->db->table('users')->get($thread->car_posts->users->id);
 
       $mail->setFrom('AutoIdeale <noreply@autoideale.it>')
         ->addTo($user->email)
         ->setHtmlBody(
           $template->renderToString($config['templateEmailsDir'].'newMessageVisitor.latte', [
-            "user" => $thread->posts->users,
+            "user" => $thread->car_posts->users,
             "thread" => $thread,
             "message" => $lastMessage,
-            "postLink" => $this->presenter->link("//Listing:detail", ["postId" => $thread->posts_id]),
+            "postLink" => $this->presenter->link("//Listing:detail", ["postId" => $thread->car_posts_id]),
             "messagesLink" => $this->presenter->link("//Thread:detail", ["hash" => $hash])
           ])
         );

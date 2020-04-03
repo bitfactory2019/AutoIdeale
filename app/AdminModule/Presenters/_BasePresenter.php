@@ -54,14 +54,14 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
         if ($this->authWrapper->isAdmin()) {
           $administrator = new \StdClass();
           $administrator->usersNo = $this->db->table('users')->count('*');
-          $administrator->postsNo = $this->db->table('posts')->count('*');
+          $administrator->postsNo = $this->db->table('car_posts')->count('*');
 
           $administrator->newUsers = $this->db->table('users')
             ->where('enabled = 1')
             ->where('creation_time > ?', $this->template->user->last_login)
             ->count('*');
 
-          $administrator->newPosts = $this->db->table('posts')
+          $administrator->newPosts = $this->db->table('car_posts')
             ->where('approved = 1')
             ->where('creation_time > ?', $this->template->user->last_login)
             ->count('*');
@@ -106,9 +106,9 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
 
     public function handleApprovePost($postId)
     {
-      $post = $this->db->table('posts')->get($postId);
+      $post = $this->db->table('car_posts')->get($postId);
 
-      $this->db->table('posts')
+      $this->db->table('car_posts')
         ->where('id', $postId)
         ->update(['approved' => !$post->approved]);
 
@@ -128,15 +128,15 @@ abstract class _BasePresenter extends Nette\Application\UI\Presenter
 
     protected function _getPostsToApprove()
     {
-      return $this->db->table("posts")
+      return $this->db->table("car_posts")
         ->where("approved", false);
     }
 
     public function handleDeletePost($postId)
     {
-      $post = $this->db->table('posts')->get($postId);
+      $post = $this->db->table('car_posts')->get($postId);
 
-      $this->db->table('posts')
+      $this->db->table('car_posts')
         ->where('id', $postId)
         ->delete();
 

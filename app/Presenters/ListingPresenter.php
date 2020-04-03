@@ -84,14 +84,14 @@ final class ListingPresenter extends _BasePresenter
         $request = $this->getHttpRequest();
         $search = new \stdClass();
 
-        if (!empty($request->getQuery('brands_id'))) {
-            $search->brands_id = $request->getQuery('brands_id');
+        if (!empty($request->getQuery('car_make_id'))) {
+            $search->car_make_id = $request->getQuery('car_make_id');
         }
-        if (!empty($request->getQuery('brands_models_id'))) {
-            $search->brands_models_id = $request->getQuery('brands_models_id');
+        if (!empty($request->getQuery('car_model_id'))) {
+            $search->car_model_id = $request->getQuery('car_model_id');
         }
 
-        if (!empty($search->brands_id) || !empty($search->brands_models_id)) {
+        if (!empty($search->car_make_id) || !empty($search->car_model_id)) {
             $this->section_frontend->search = $search;
         }
 
@@ -120,9 +120,9 @@ final class ListingPresenter extends _BasePresenter
         $this->redrawControl('results');
     }
 
-    public function handleFilterBrandsResults($brands_id, $checked)
+    public function handleFilterCarMakeResults($car_make_id, $checked)
     {
-        $this->_filterResults('brands_id', $brands_id, $checked);
+        $this->_filterResults('car_make_id', $car_make_id, $checked);
     }
 
     public function handleFilterFuelTypesResults($fuel_types_id, $checked)
@@ -180,22 +180,6 @@ final class ListingPresenter extends _BasePresenter
     {
         $this->template->post = $this->dbWrapper->getPost($postId);
         $this->statsWrapper->addImpressionDetail($postId);
-
-        $facebookShare = parent::_getFacebookShare();
-        $facebookShare->title = $this->template->post['data']->title;
-        $facebookShare->description = $this->template->post['data']->description;
-
-        if (!empty($this->template->post['thumbnail'])) {
-          $facebookShare->image = $this->template->post['thumbnail']->url;
-        }
-
-        $this->template->facebookShare = $facebookShare;
-    }
-
-    public function renderDetailCarDb($postId)
-    {
-        $this->template->post = $this->dbWrapper->getCarDbPost($postId);
-        //$this->statsWrapper->addImpressionDetail($postId);
 
         $facebookShare = parent::_getFacebookShare();
         $facebookShare->title = $this->template->post['data']->title;

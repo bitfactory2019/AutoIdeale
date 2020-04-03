@@ -48,8 +48,8 @@
                                     <li><strong>Data richiesta</strong> {$request[data]->date_time|date:'%d/%m/%Y alle %H:%M'}</li>
                                     <li>
                                         <strong>Annuncio</strong>
-                                        <a n:href=":Listing:detail $request[data]->posts->id" target="_blank">
-                                            {$request[data]->posts->title}
+                                        <a n:href=":Listing:detail $request[data]->car_posts->id" target="_blank">
+                                            {$request[data]->car_posts->title}
                                             <i class="fa fa-external-link"></i>
                                         </a>
                                     </li>
