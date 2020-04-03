@@ -319,13 +319,13 @@ class DbWrapper
                 cos(
                   radians(".$res[0]['center'][0].")
                 ) * cos(
-                  radians(posts.lat)
+                  radians(car_posts.lat)
                 ) * cos(
-                  radians(posts.long) - radians(".$res[0]['center'][1].")
+                  radians(car_posts.long) - radians(".$res[0]['center'][1].")
                 ) + sin(
                   radians(".$res[0]['center'][0].")
                 ) * sin(
-                  radians(posts.lat)
+                  radians(car_posts.lat)
                 )
               )
             ) AS distance ")
