@@ -1,4 +1,4 @@
-var dataGridRegisterExtension, dataGridRegisterAjaxCall, dataGridLoad;
+var dataGridRegisterExtension, dataGridRegisterAjaxCall, dataGridLoad, dataGridSubmitForm;
 
 if (typeof naja !== "undefined") {
 	dataGridRegisterExtension = function (name, extension) {
@@ -23,9 +23,16 @@ if (typeof naja !== "undefined") {
 				});
 			}
 
+			naja.addEventListener('interaction', function (params) {
+				params.options.nette = {
+					el: $(params.element)
+				}
+			});
+
 			if(before) {
 				naja.addEventListener('before', function (params) {
-					before(params.xhr, params.options);
+					if (!before(params.xhr, params.options))
+						params.preventDefault();
 				});
 			}
 
@@ -54,6 +61,10 @@ if (typeof naja !== "undefined") {
 	dataGridLoad = function () {
 		naja.load();
 	};
+
+	dataGridSubmitForm = function (form) {
+		return naja.uiHandler.submitForm(form.get(0));
+	};	
 } else if ($.nette) {
 	dataGridRegisterExtension = function (name, extension) {
 		$.nette.ext(name, extension);
@@ -63,6 +74,9 @@ if (typeof naja !== "undefined") {
 	};
 	dataGridLoad = function () {
 		$.nette.load();
+	};
+	dataGridSubmitForm = function (form) {
+		return form.submit();
 	};
 } else {
 	throw new Error("Include Naja.js or nette.ajax for datagrids to work!")
@@ -88,6 +102,7 @@ dataGridRegisterExtension('datagrid.confirm', {
 				return confirm(confirm_message);
 			}
 		}
+		return true;
 	}
 });
 
@@ -99,7 +114,7 @@ $(document).on('change', 'select[data-autosubmit-per-page]', function() {
 	}
 	return button.click();
 }).on('change', 'select[data-autosubmit]', function() {
-	return $(this).closest('form').first().submit();
+	return dataGridSubmitForm($(this).closest('form').first());
 }).on('change', 'input[data-autosubmit][data-autosubmit-change]', function(e) {
 	var $this, code;
 	code = e.which || e.keyCode || 0;
@@ -107,7 +122,7 @@ $(document).on('change', 'select[data-autosubmit-per-page]', function() {
 	$this = $(this);
 	return window.datagrid_autosubmit_timer = setTimeout((function(_this) {
 		return function() {
-			return $this.closest('form').first().submit();
+			return dataGridSubmitForm($this.closest('form').first());
 		};
 	})(this), 200);
 }).on('keyup', 'input[data-autosubmit]', function(e) {
@@ -120,7 +135,7 @@ $(document).on('change', 'select[data-autosubmit-per-page]', function() {
 	$this = $(this);
 	return window.datagrid_autosubmit_timer = setTimeout((function(_this) {
 		return function() {
-			return $this.closest('form').first().submit();
+			return dataGridSubmitForm($this.closest('form').first());
 		};
 	})(this), 200);
 }).on('keydown', '.datagrid-inline-edit input', function(e) {
@@ -139,7 +154,7 @@ $(document).on('keydown', 'input[data-datagrid-manualsubmit]', function(e) {
 	if (code === 13) {
 		e.stopPropagation();
 		e.preventDefault();
-		return $(this).closest('form').first().submit();
+		return dataGridSubmitForm($(this).closest('form').first());
 	}
 });
 
@@ -547,6 +562,7 @@ dataGridRegisterExtension('datargid.item_detail', {
 				return row_detail.addClass('loaded');
 			}
 		}
+		return true;
 	},
 	success: function(payload) {
 		var id, row_detail, grid_fullname;

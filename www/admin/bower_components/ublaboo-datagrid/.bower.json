@@ -31,12 +31,12 @@
     "jquery-ui-sortable": "https://github.com/ryantbrown/jquery-ui-sortable.git",
     "bootstrap": ">= 3.3.0"
   },
-  "version": "6.2.9",
-  "_release": "6.2.9",
+  "version": "6.2.11",
+  "_release": "6.2.11",
   "_resolution": {
     "type": "version",
-    "tag": "v6.2.9",
-    "commit": "a6a9c348e87598ea940ac64f6f47dc1fb9d7b91b"
+    "tag": "v6.2.11",
+    "commit": "59bfa46ca9e79c990d8e55b6de1d7fa8d4e36807"
   },
   "_source": "https://github.com/ublaboo/datagrid.git",
   "_target": "^6.2.8",
