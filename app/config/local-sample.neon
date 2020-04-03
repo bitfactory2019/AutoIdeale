@@ -1,8 +1,8 @@
 parameters:
 
 database:
-	dsn: 'mysql:host=autoideale.it;dbname=autoideale_develop'
-	user: 'autoideale_dev'
+	dsn: 'mysql:host=autoideale.it;dbname=autoideale_cardb'
+	user: 'autoideale_cardb'
 	password: 'MEQSj2yQBf'
 
 session:
