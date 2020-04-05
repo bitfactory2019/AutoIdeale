@@ -490,9 +490,9 @@ class DbWrapper
       }
     }
 
-    public function getCarMake($carMakeNo = false, $carModelsNo = false)
+    public function getAllCarMake()
     {
-      return $this->_getCarMake($carMakeNo, $carModelsNo);
+      return $this->_getCarMake();
     }
 
     public function getTopCarMake($carMakeNo = false, $modelsNo = false)
@@ -516,7 +516,7 @@ class DbWrapper
         $car_make_dbo->where('top', true);
       }
 
-      if ($car_make_dbo !== false) {
+      if ($modelsNo !== false) {
         $car_make_dbo->limit($carMakeNo);
       }
 
