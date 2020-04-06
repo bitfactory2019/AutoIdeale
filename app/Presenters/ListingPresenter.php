@@ -11,14 +11,10 @@ final class ListingPresenter extends _BasePresenter
 {
   public function renderIndex()
   {
-    $this->renderSearchResults();
-  }
-
-  public function renderShowcase()
-  {
     $this->renderSearchResults(1, 5);
     $this->template->showcase = $this->dbWrapper->getShowcase(5);
   }
+
     public function createComponentSearchForm(): UI\Form
     {
         return $this->formComponent->createComponentSearchForm();
