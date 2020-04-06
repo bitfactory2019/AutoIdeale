@@ -8,7 +8,7 @@
 					{/snippet}
 				</div>
 				<div class="col-2">
-					<a href="#0" class="search_mob btn_search_mobile map_view"></a> <!-- /open search panel -->
+					{*<a href="#0" class="search_mob btn_search_mobile map_view"></a> <!-- /open search panel -->*}
 				</div>
 			</div>
 			<!-- /row -->
@@ -68,8 +68,42 @@
 			{foreach $searchResults['page'] as $post}
 				{include '../includes/search/resultItem.latte', 'post' => $post, 'view' => 'map'}
 			{/foreach}
-		{/snippet}
 
-		<p class="text-center add_top_30"><a href="#0" class="btn_1 rounded"><strong>Carica</strong></a></p>
+			{if $searchResults["pagination"]["current"] < $searchResults["pagination"]["tot"]}
+				<p class="text-center add_top_30"><a id="load-next-page-button" href="#0" class="btn_1 rounded"><strong>Carica</strong></a></p>
+			{else}
+				<p class="text-center add_top_30"><a id="load-first-page-button" href="#0" class="btn_1 rounded"><strong>Torna all'inizio</strong></a></p>
+			{/if}
+
+			<script>
+				function _loadPage(page) {
+					$('#search-results-wrapper .loading').addClass('active');
+
+			    $.nette.ajax({
+			      type: 'GET',
+			      url: {link loadResultsPage!},
+						data: {
+							'page': page
+						},
+			      success: function(data) {
+			        $('#search-results-wrapper .loading').removeClass('active');
+							$("#load-next-page-button").off("click");
+			      }
+			    });
+				}
+
+				$("#load-next-page-button").on("click", function (e) {
+					e.preventDefault();
+
+					_loadPage({$searchResults["pagination"]["next"]});
+				});
+
+				$("#load-first-page-button").on("click", function (e) {
+					e.preventDefault();
+
+					_loadPage(1);
+				});
+			</script>
+		{/snippet}
 	</div>
 	<!-- /content-left-->

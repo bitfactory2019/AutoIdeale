@@ -186,14 +186,14 @@
 	});
 
 	// Collapse filters
-	$(window).on('load', function () {
+	/*$(window).on('load', function () {
 		var width = $(window).width();
 		if ($(this).width() < 991) {
 			$('.collapse#collapseFilters').removeClass('show');
 		} else {
 			$('.collapse#collapseFilters').addClass('show');
 		};
-	});
+	});*/
 
 	// Range slider
 	$('input[type="range"]').rangeslider({
@@ -283,7 +283,7 @@
 	});
 
 	// Sticky results map view
-	$(window).on('load resize', function () {
+	/*$(window).on('load resize', function () {
 		var width = $(window).width();
 		if (width <= 991) {
 			$('#results_map_view').stick_in_parent({
@@ -294,7 +294,7 @@
 				offset_top: 58
 			});
 		}
-	});
+	});*/
 
 	// Secondary nav scroll
 	var $sticky_nav= $('.secondary_nav');

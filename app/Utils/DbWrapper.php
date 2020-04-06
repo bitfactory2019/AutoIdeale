@@ -395,7 +395,7 @@ class DbWrapper
         }
 
         $tot = \count($search_dbo_page);
-        $page_tot = \ceil($tot / $limit);
+        $page_tot = \intval(\ceil($tot / $limit));
         $page_count = 5;
         $page_from = \max(1, $page - $page_count);
         $page_to = \min($page + $page_count, $page_tot);
@@ -490,9 +490,9 @@ class DbWrapper
       }
     }
 
-    public function getCarMake($carMakeNo = false, $carModelsNo = false)
+    public function getAllCarMake()
     {
-      return $this->_getCarMake($carMakeNo, $carModelsNo);
+      return $this->_getCarMake();
     }
 
     public function getTopCarMake($carMakeNo = false, $modelsNo = false)
@@ -516,7 +516,7 @@ class DbWrapper
         $car_make_dbo->where('top', true);
       }
 
-      if ($car_make_dbo !== false) {
+      if ($modelsNo !== false) {
         $car_make_dbo->limit($carMakeNo);
       }
 

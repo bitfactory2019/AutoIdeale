@@ -36,30 +36,9 @@
                   </div>
                   <!-- /row -->
 
-                  <div class="pagination__wrapper add_bottom_30">
-        						<ul class="pagination">
-        							<li n:if="$searchResults[pagination][current] > $searchResults[pagination][from]">
-                        <a n:href="Listing:searchResults $searchResults[pagination][prev]" class="prev" title="pagina precedente">&#10094;</a>
-                      </li>
-                      <li n:if="$searchResults[pagination][current] == $searchResults[pagination][from]">
-                        <span class="prev">&#10094;</span>
-                      </li>
-
-                      {for $i = $searchResults['pagination']['from']; $i <= $searchResults['pagination']['to']; $i++}
-                        <li>
-                          <a n:href="Listing:searchResults $i" n:class="$i == $searchResults[pagination][current] ? active">{$i}</a>
-                        </li>
-                      {/for}
-
-                      <li n:if="$searchResults[pagination][current] < $searchResults[pagination][to]">
-                        <a n:href="Listing:searchResults $searchResults[pagination][next]" class="next" title="prossima pagina">&#10095;</a>
-                      </li>
-                      <li n:if="$searchResults[pagination][current] == $searchResults[pagination][to]">
-                        <span class="prev">&#10095;</span>
-                      </li>
-        						</ul>
-        					</div>
-        					<!-- /pagination -->
+                  {if $searchResults['pagination']['tot'] > 1}
+                    {include '../includes/search/pagination.latte', 'pagination' => $searchResults['pagination']}
+                  {/if}
                 {/snippet}
             </div>
             <!-- /col -->
