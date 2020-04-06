@@ -395,7 +395,7 @@ class DbWrapper
         }
 
         $tot = \count($search_dbo_page);
-        $page_tot = \ceil($tot / $limit);
+        $page_tot = \intval(\ceil($tot / $limit));
         $page_count = 5;
         $page_from = \max(1, $page - $page_count);
         $page_to = \min($page + $page_count, $page_tot);

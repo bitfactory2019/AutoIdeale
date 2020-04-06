@@ -13,6 +13,12 @@ final class ListingPresenter extends _BasePresenter
   {
     $this->renderSearchResults();
   }
+
+  public function renderShowcase()
+  {
+    $this->renderSearchResults(1, 5);
+    $this->template->showcase = $this->dbWrapper->getShowcase(5);
+  }
     public function createComponentSearchForm(): UI\Form
     {
         return $this->formComponent->createComponentSearchForm();
@@ -69,6 +75,21 @@ final class ListingPresenter extends _BasePresenter
 
         $this->redrawControl('wrapper');
         $this->redrawControl('seats_to');
+    }
+
+    public function handleLoadResultsPage($page = 1, $limit = 10)
+    {
+      $results = $this->dbWrapper->searchPosts($page, $limit);
+
+      foreach ($results['posts'] as $i => $post) {
+          $results['page'][] = $this->utils->formatPostResult($post);
+          $this->statsWrapper->addImpressionSearch($post->id);
+      }
+
+      $this->template->searchResults = $results;
+
+      $this->redrawControl('resultsWrapper');
+      $this->redrawControl('results');
     }
 
     public function renderSearchResults($page = 1, $limit = 10)
