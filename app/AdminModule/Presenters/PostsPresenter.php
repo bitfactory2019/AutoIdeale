@@ -71,7 +71,7 @@ final class PostsPresenter extends _BasePresenter
            ->setDefaultValue($this->template->post["data"]->car_make_id ?? null);
 
       $form->addSelect('car_model_id', 'Modello auto')
-           //->setRequired('Scegli il modello di auto')
+           ->setRequired('Scegli il modello di auto')
            ->setPrompt('---')
            ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
@@ -82,7 +82,7 @@ final class PostsPresenter extends _BasePresenter
            ->setDefaultValue($this->template->post["data"]->car_model_id ?? null);
 
       $form->addSelect('car_serie_id', 'Serie')
-           //->setRequired('Scegli il modello di auto')
+           ->setRequired('Scegli la serie')
            ->setPrompt('---')
            ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
@@ -93,7 +93,7 @@ final class PostsPresenter extends _BasePresenter
            ->setDefaultValue($this->template->post["data"]->car_serie_id ?? null);
 
       $form->addSelect('car_generation_id', 'Generazione')
-           //->setRequired('Scegli il modello di auto')
+           ->setRequired('Scegli la generazione')
            ->setPrompt('---')
            ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
@@ -104,7 +104,7 @@ final class PostsPresenter extends _BasePresenter
            ->setDefaultValue($this->template->post["data"]->car_generation_id ?? null);
 
       $form->addSelect('car_trim_id', 'Motorizzazione')
-           //->setRequired('Scegli il modello di auto')
+           ->setRequired('Scegli la motorizzazione')
            ->setPrompt('---')
            ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
@@ -118,7 +118,7 @@ final class PostsPresenter extends _BasePresenter
            ->setDefaultValue($this->template->post["data"]->car_trim_id ?? null);
 
       $form->addSelect('car_equipment_id', 'Equipaggiamento')
-           //->setRequired('Scegli il modello di auto')
+           ->setRequired('Scegli l\'equipaggiamento')
            ->setPrompt('---')
            ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
