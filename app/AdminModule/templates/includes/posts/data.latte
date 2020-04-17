@@ -101,7 +101,7 @@
           </div>
         </div>
       {/snippet}
-      <small class="form-text text-muted">Scegli la Serie.</small>
+      {*<small class="form-text text-muted">Scegli la Serie.</small>*}
     </div>
   </div>
   <div class="col-md-2">
@@ -118,7 +118,7 @@
           </div>
         </div>
       {/snippet}
-      <small class="form-text text-muted">Scegli prima l'anno.</small>
+      {*<small class="form-text text-muted">Scegli prima l'anno.</small>*}
     </div>
   </div>
   <div class="col-md-4">
@@ -209,7 +209,7 @@
 
   $('#addForm').on('change', '#' + {$control['addForm']['car_serie_id']->htmlId}, function () {
     $("#car-trim-loading").show();
-    $("#car-generation-year-loading").show();
+    //$("#car-generation-year-loading").show();
 
     $.nette.ajax({
       type: 'GET',
@@ -221,14 +221,14 @@
       }
     });
 
-    $.nette.ajax({
+    /*$.nette.ajax({
       type: 'GET',
       url: {link LoadSerieGenerationYears!},
       off: ['unique'],
       data: {
         'serieId': $(this).val(),
       }
-    });
+  });*/
   });
 
   $('#addForm').on('change', '#' + {$control['addForm']['car_trim_id']->htmlId}, function () {
@@ -243,7 +243,7 @@
     });
   });
 
-  $('#addForm').on('change', '#' + {$control['addForm']['year']->htmlId}, function () {
+  /*$('#addForm').on('change', '#' + {$control['addForm']['year']->htmlId}, function () {
     $("#car-generation-month-loading").show();
 
     $.nette.ajax({
@@ -254,5 +254,5 @@
         'year': $(this).val(),
       }
     });
-  });
+});*/
 </script>

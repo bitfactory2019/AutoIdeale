@@ -82,7 +82,7 @@ final class PostsPresenter extends _BasePresenter
            ->setDefaultValue($this->template->post["data"]->car_model_id ?? null);
 
       $form->addSelect('car_serie_id', 'Serie')
-           ->setRequired('Scegli la serie')
+           //->setRequired('Scegli la serie')
            ->setPrompt('---')
            ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
@@ -93,7 +93,7 @@ final class PostsPresenter extends _BasePresenter
            ->setDefaultValue($this->template->post["data"]->car_serie_id ?? null);
 
       $form->addSelect('car_generation_id', 'Generazione')
-           ->setRequired('Scegli la generazione')
+           //->setRequired('Scegli la generazione')
            ->setPrompt('---')
            ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
@@ -104,7 +104,7 @@ final class PostsPresenter extends _BasePresenter
            ->setDefaultValue($this->template->post["data"]->car_generation_id ?? null);
 
       $form->addSelect('car_trim_id', 'Motorizzazione')
-           ->setRequired('Scegli la motorizzazione')
+           //->setRequired('Scegli la motorizzazione')
            ->setPrompt('---')
            ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
@@ -118,7 +118,7 @@ final class PostsPresenter extends _BasePresenter
            ->setDefaultValue($this->template->post["data"]->car_trim_id ?? null);
 
       $form->addSelect('car_equipment_id', 'Equipaggiamento')
-           ->setRequired('Scegli l\'equipaggiamento')
+           //->setRequired('Scegli l\'equipaggiamento')
            ->setPrompt('---')
            ->setDisabled(empty($this->template->post))
            ->setItems(!empty($this->template->post)
@@ -135,30 +135,29 @@ final class PostsPresenter extends _BasePresenter
       }
       else {
         $year_from = 1950;
-        $yer_to = 2020;
+        $year_to = 2020;
       }
 
       $form->addSelect('year', 'Anno')
            ->setRequired('Scegli l\'anno')
            ->setPrompt('---')
-           ->setDisabled(empty($this->template->post))
-           ->setItems(!empty($this->template->post) ? $this->utils->getSequentialKeyValues($year_from, $year_to) : [])
+           //->setDisabled(empty($this->template->post))
+           //->setItems(!empty($this->template->post) ? $this->utils->getSequentialKeyValues($year_from, $year_to) : [])
+           ->setItems($this->utils->getSequentialKeyValues($year_from, $year_to))
            ->setHtmlAttribute('class', 'wide')
            ->setDefaultValue($this->template->post["data"]->year ?? null);
 
       $months = $this->utils->getSequentialKeyValues(1, 12);
       foreach ($months as $i => $num) {
-       $months[$i] = \App\Library::MONTHS[$num];
+          $months[$i] = \App\Library::MONTHS[$num];
       }
 
       $form->addSelect('month', 'Mese')
            ->setRequired('Scegli il mese')
            ->setPrompt('----')
-           ->setDisabled(empty($this->template->post))
-           ->setItems(!empty($this->template->post)
-              ? $months
-              : []
-           )
+           //->setDisabled(empty($this->template->post))
+           //->setItems(!empty($this->template->post) ? $months : [])
+           ->setItems($months)
            ->setHtmlAttribute('class', 'wide')
            ->setDefaultValue($this->template->post["data"]->month ?? null);
 
@@ -479,7 +478,7 @@ final class PostsPresenter extends _BasePresenter
         }
 
         $this->redrawControl('wrapper');
-        $this->redrawControl('generation_years');
+        //$this->redrawControl('generation_years');
     }
 
     public function handleLoadSerieGenerationMonths($serieId, $year)
@@ -505,7 +504,7 @@ final class PostsPresenter extends _BasePresenter
         }
 
         $this->redrawControl('wrapper');
-        $this->redrawControl('generation_months');
+        //$this->redrawControl('generation_months');
     }
 
     public function createComponentPostsGrid($name)
