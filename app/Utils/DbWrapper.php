@@ -166,7 +166,7 @@ class DbWrapper
                 'users_id' => $userId,
                 'car_make_id' => $values->car_make_id,
                 'car_model_id' => $values->car_model_id,
-                'car_serie_id' => $values->car_serie_id,
+                'car_serie_id' => $values->car_serie_id ?? null,
                 'car_trim_id' => $values->car_trim_id,
                 'car_equipment_id' => $values->car_equipment_id,
                 'year' => $values->year,

@@ -287,7 +287,7 @@ final class PostsPresenter extends _BasePresenter
 
         // hack necessario per select dinamico
         $values->car_model_id = $_POST["car_model_id"];
-        $values->car_serie_id = $_POST["car_serie_id"];
+        $values->car_serie_id = $_POST["car_serie_id"] ?? null;
         $values->car_trim_id = $_POST["car_trim_id"] ?? null;
         $values->car_equipment_id = $_POST["car_equipment_id"] ?? null;
         $values->year = $_POST["year"];

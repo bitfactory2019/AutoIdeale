@@ -30,18 +30,20 @@
   <div class="col-md-4">
     <div class="form-group">
       {snippet car_serie}
-        {label car_serie_id /}
-        <div class="styled-select">
-          <div class="input-group">
-            <span class="input-group-addon input-group-addon-elegant">&#x66;</span>
-            {input car_serie_id}
-            <span id="car-serie-loading" class="input-group-addon" style="display:none">
-              <i class="fa fa-refresh fa-spin"></i>
-            </span>
+        {if $control['addForm']['car_serie_id']->getItems()}
+          {label car_serie_id /}
+          <div class="styled-select">
+            <div class="input-group">
+              <span class="input-group-addon input-group-addon-elegant">&#x66;</span>
+              {input car_serie_id}
+              <span id="car-serie-loading" class="input-group-addon" style="display:none">
+                <i class="fa fa-refresh fa-spin"></i>
+              </span>
+            </div>
           </div>
-        </div>
+          <small class="form-text text-muted">Scegli prima il Modello.</small>
+        {/if}
       {/snippet}
-      <small class="form-text text-muted">Scegli prima il Modello.</small>
     </div>
   </div>
 </div>
