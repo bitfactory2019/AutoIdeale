@@ -110,7 +110,7 @@ final class PostsPresenter extends _BasePresenter
            ->setItems(!empty($this->template->post)
               ? $this->utils->getDbOptions('car_trim', [
                   "car_model_id" => $this->template->post["data"]->car_model_id,
-                  "card_serie_id" => $this->template->post["data"]->car_serie_id
+                  "car_serie_id" => $this->template->post["data"]->car_serie_id
                 ])
               : []
            )
