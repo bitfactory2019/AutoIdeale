@@ -227,7 +227,7 @@ final class ListingPresenter extends _BasePresenter
             ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('email', 'Indirizzo e-mail')
-            ->setRequired('Campo obbligatorio')
+            //->setRequired('Campo obbligatorio')
             ->addRule(UI\Form::EMAIL, 'Inserisci un indirizzo email valido')
             ->setHtmlAttribute('placeholder', 'La tua email...')
             ->setHtmlAttribute('class', 'form-control');
@@ -288,7 +288,7 @@ final class ListingPresenter extends _BasePresenter
             ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('email', 'Indirizzo e-mail')
-            ->setRequired('Campo obbligatorio')
+            //->setRequired('Campo obbligatorio')
             ->addRule(UI\Form::EMAIL, 'Inserisci un indirizzo email valido')
             ->setHtmlAttribute('placeholder', 'La tua email...')
             ->setHtmlAttribute('class', 'form-control');
