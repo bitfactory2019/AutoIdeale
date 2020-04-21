@@ -228,7 +228,7 @@ class DbWrapper
                     'kilometers_id' => $values->kilometers_id,
                     'vehicle_types_id' => $values->vehicle_types_id,
                     'colors_id' => $values->colors_id,
-                    'title' => $brand->name.' '.$brand_model->name,
+                    'title' => $car_make->name.' '.$car_model->name,
                     'description' => $values->description,
                     'name' => $values->name,
                     'surname' => $values->surname,
