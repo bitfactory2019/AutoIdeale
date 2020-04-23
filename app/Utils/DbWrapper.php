@@ -212,7 +212,7 @@ class DbWrapper
     public function editPost($postId, $values)
     {
         try {
-            $make = $this->db->table('car_make')->get($values->car_make_id);
+            $car_make = $this->db->table('car_make')->get($values->car_make_id);
             $car_model = $this->db->table('car_model')->get($values->car_model_id);
 
             $post = $this->db->table('car_posts')
