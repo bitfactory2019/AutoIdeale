@@ -50,7 +50,7 @@ class PostsGrid extends DataGrid
       $this->addFilterSelect(
         'car_model',
         'Modello: ',
-        $presenter->getUtils()->getDbOptions('car_model', ['car_make_id' => $grid->filter['car_make']], true),
+        $presenter->getUtils()->getDbOptions('car_model', ['car_make_id' => $this->filter['car_make']], true),
         'car_model_id'
       );
     }
