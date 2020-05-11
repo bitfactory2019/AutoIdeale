@@ -17,7 +17,7 @@
                 {if $iterator->getCounter() == 5}
                   <div class="collapse multi-collapse" id="collapseBrand{$brand[data]->id}">
                 {/if}
-                  <a n:href="Listing:SearchResults brands_id => $brand[data]->id, brands_models_id => $model->id">
+                  <a n:href="Listing:SearchResults car_make_id => $brand[data]->id, car_model_id => $model->id">
                       {$model->name}
                   </a><br>
                 {if $iterator->isLast() && $iterator->getCounter() > 5}
