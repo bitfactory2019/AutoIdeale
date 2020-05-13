@@ -35,7 +35,7 @@
               <tr>
                 <th scope="row">{$_user->id}</th>
                 <td>{$_user->groups->name|firstUpper}</td>
-                <td>{$_user->name} {$_user->surname}</td>
+                <td>{$_user->groups->name == 'company' ? $_user->company_name : $_user->name.' '.$_user->surname}</td>
                 <td>{$_user->email}</td>
                 <td>{$_user->creation_time|date:'d/m/Y'}</td>
                 <td>{$_user->related('car_posts.users_id')->count()}</td>
@@ -104,6 +104,7 @@
         { 'orderable': false, 'targets': 7 }
       ],
       'orderCellsTop': true,
+      'bSort': false
     });
     console.log(table);
 

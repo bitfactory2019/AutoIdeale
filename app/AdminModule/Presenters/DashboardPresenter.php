@@ -48,8 +48,7 @@ final class DashboardPresenter extends _BasePresenter
   {
     return $this->db->table("users")
       ->where("last_login", null)
-      ->where("enabled", true)
-      ->where("approved", false);
+      ->whereOr(["enabled" => false, "approved" => false]);
   }
 
   public function createComponentNewUsersGrid($name)
@@ -121,7 +120,10 @@ final class DashboardPresenter extends _BasePresenter
   {
     $this->db->table('users')
       ->where('id', $userId)
-      ->update(['approved' => true]);
+      ->update([
+          'enabled' => true,
+          'approved' => true
+      ]);
 
     $this->flashMessage('Utente abilitato con successo', 'success');
 

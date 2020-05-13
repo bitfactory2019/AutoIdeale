@@ -12,7 +12,9 @@ final class UsersPresenter extends _BasePresenter
 {
     public function renderIndex(): void
     {
-        $this->template->users = $this->db->table('users')->fetchAll();
+        $this->template->users = $this->db->table('users')
+            ->order("creation_time DESC")
+            ->fetchAll();
     }
 
     public function renderDetail($userId): void
