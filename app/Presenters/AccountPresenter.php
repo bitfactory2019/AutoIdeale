@@ -93,7 +93,7 @@ final class AccountPresenter extends _BasePresenter
       $form->addSelect('country', 'Paese')
         ->setItems(['Europa', 'Stati Uniti', 'Asia'], false);
 
-      $form->addText('telephone', 'Telefono')->setRequired();
+      $form->addText('telephone', 'Telefono');
       $form->addText('mobile', 'Cellulare')->setRequired();
 
       $form->addEmail('email', 'Email')->setRequired();
