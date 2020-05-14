@@ -3,7 +3,10 @@
     <div class="card mb-3 p-2">
       <div class="row no-gutters">
         <div class="col-md-4">
-          <img src="{$item->related('car_posts_images.car_posts_id')->fetch()->url}" class="card-img" alt="...">
+          {if $item->related('car_posts_images.car_posts_id')->fetch()}
+            <img src="{$item->related('car_posts_images.car_posts_id')->fetch()->url}" class="card-img" alt="...">
+          {/if}
+          {dump $item}
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -16,19 +19,19 @@
             <div class="row add_bottom_30">
               <div class="col-md-6">
                 <ul class="bullets">
-                  <li data-icon="&#x64;">{$post[data]->car_make->name}</li>
-                  <li data-icon="&#x64;">{$post[data]->car_model->name}</li>
-                  <li data-icon="&#x65;">{$post[data]->vehicle_types->name}</li>
+                  <li data-icon="&#x64;">{$item->car_make->name}</li>
+                  <li data-icon="&#x64;">{$item->car_model->name}</li>
+                  <li data-icon="&#x65;">{$item->vehicle_types->name}</li>
                 </ul>
               </div>
               <div class="col-md-6">
                 <ul class="bullets">
-                  <li data-icon="&#x64;">{$post[data]->month|month} {$post[data]->year}</li>
+                  <li data-icon="&#x64;">{$item->month|month} {$item->year}</li>
                   <li data-icon="&#xe01c;">
-                      {$post[data]->kilometers->from|number:0:'':'.'} km -
-                      {$post[data]->kilometers->to|number:0:'':'.'} km
+                      {$item->kilometers->from|number:0:'':'.'} km -
+                      {$item->kilometers->to|number:0:'':'.'} km
                   </li>
-                  <li data-icon="&#x65;">{$post[data]->colors->name}</li>
+                  <li data-icon="&#x65;">{$item->colors->name}</li>
                 </ul>
               </div>
             </div>
