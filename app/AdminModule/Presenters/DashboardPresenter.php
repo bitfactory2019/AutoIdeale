@@ -47,7 +47,6 @@ final class DashboardPresenter extends _BasePresenter
   private function _getUsersToApprove()
   {
     return $this->db->table("users")
-      ->where("last_login", null)
       ->whereOr(["enabled" => false, "approved" => false]);
   }
 
